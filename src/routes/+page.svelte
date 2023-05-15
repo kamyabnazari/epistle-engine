@@ -1,15 +1,8 @@
 <script>
-	import TodoForm from '../lib/components/todo-form.svelte';
-	import Todo from '../lib/components/todo.svelte';
-	import { todoList } from '../stores/todo-stores';
 </script>
 
 <div class="grid h-screen place-content-center">
 	<h1 class="text-center text-8xl">Auto Student Assistant</h1>
-	<TodoForm />
-	{#each $todoList as todo (todo.id)}
-		<Todo {todo} />
-	{/each}
 </div>
 
 <style lang="postcss">
