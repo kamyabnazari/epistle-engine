@@ -24,7 +24,6 @@ export const removeTodo = (pTodo: Todo) => {
 export const toggleTodo = (pTodo: Todo) => {
 	todoList.update((pTodoList: Todo[]) => {
 		const todoItem = pTodoList.find((t: Todo) => t.id === pTodo.id)!;
-		todoItem.completed = !todoItem.completed.valueOf();
 		return pTodoList;
 	});
 };

@@ -8,7 +8,7 @@
 	<h1 class="text-center text-8xl">Auto Student Assistant</h1>
 	<TodoForm />
 	{#each $todoList as todo (todo.id)}
-		| <Todo {todo} />
+		<Todo {todo} />
 	{/each}
 </div>
 
