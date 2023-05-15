@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { removeTodo, toggleTodo, type Todo } from '../../stores/todo-stores';
+	import { removeTodo, type Todo } from '../../stores/todo-stores';
 
 	export let todo: Todo;
 </script>
@@ -9,7 +9,6 @@
 		name="completed"
 		type="checkbox"
 		bind:checked={todo.completed}
-		on:change={() => toggleTodo(todo)}
 		class="form-checkbox mr-2 h-5 w-5 text-gray-600"
 	/>
 	<span class={`flex-1 text-gray-800 ${todo.completed ? 'line-through' : ''}`}>{todo.text}</span>

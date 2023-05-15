@@ -20,10 +20,3 @@ export function addTodo(pText: string) {
 export const removeTodo = (pTodo: Todo) => {
 	todoList.update((pTodoList: Todo[]) => pTodoList.filter((t: Todo) => t.id !== pTodo.id));
 };
-
-export const toggleTodo = (pTodo: Todo) => {
-	todoList.update((pTodoList: Todo[]) => {
-		const todoItem = pTodoList.find((t: Todo) => t.id === pTodo.id)!;
-		return pTodoList;
-	});
-};
