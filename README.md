@@ -28,6 +28,7 @@ Branch Example: `kn-feature-name-example`
 - Nodejs
 - NPM
 - Git
+- Docker Engine
 
 ### Development
 
@@ -51,5 +52,13 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+### Docker
+
+To create a full local environment, use the docker compose to create all services localy and the production application:
+
+```bash
+docker-compose up
+```
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
