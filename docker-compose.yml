@@ -2,6 +2,7 @@ version: '3.8'
 services:
   db:
     image: asa-db
+    container_name: asa-db
     build:
       context: .
       dockerfile: Dockerfile.database
@@ -11,6 +12,7 @@ services:
       - '5432:5432'
   pgadmin:
     image: asa-db-pgadmin
+    container_name: asa-db-pgadmin
     build:
       context: .
       dockerfile: Dockerfile.database
@@ -22,6 +24,7 @@ services:
       - 5050:80
   web:
     image: asa-application
+    container_name: asa-application
     build:
       context: .
       dockerfile: Dockerfile.application
