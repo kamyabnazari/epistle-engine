@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: asa-db
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy-db
+    restart: always
+    ports:
+      - '5432:5432'
+  pgadmin:
+    image: asa-db-pgadmin
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy-db-pgadmin
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 5050:80
+  web:
+    image: asa-application
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy-node
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
