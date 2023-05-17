@@ -1,11 +1,11 @@
 .git
-node_modules/
+.git*
 .svelte-kit/
+node_modules/*
 public/
+build
 .eslint*
 .prettier*
-.git*
 .vscode
 README.md
 docker-compose.yml
-build

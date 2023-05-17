@@ -4,7 +4,7 @@ services:
     image: asa-db
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.database
       target: deploy-db
     restart: always
     ports:
@@ -13,7 +13,7 @@ services:
     image: asa-db-pgadmin
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.database
       target: deploy-db-pgadmin
     depends_on:
       - db
@@ -24,8 +24,7 @@ services:
     image: asa-application
     build:
       context: .
-      dockerfile: Dockerfile
-      target: deploy-node
+      dockerfile: Dockerfile.application
     depends_on:
       - db
     ports:
