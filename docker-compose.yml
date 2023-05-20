@@ -1,35 +1,45 @@
-version: '3.8'
-name: asa-stack
+version: "3.8"
+name: adm-stack
 services:
-  db:
-    image: asa-db
-    container_name: asa-db
+  pocketbase:
+    image: adm-pocketbase
+    container_name: adm-pocketbase
+    restart: unless-stopped
     build:
-      context: .
-      dockerfile: Dockerfile.database
-      target: deploy-db
-    restart: always
+      context: ./pocketbase
+      dockerfile: Dockerfile.pocketbase
     ports:
-      - '5432:5432'
-  pgadmin:
-    image: asa-db-pgadmin
-    container_name: asa-db-pgadmin
+      - "8090:8090"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  backend:
+    image: adm-backend
+    container_name: adm-backend
+    restart: unless-stopped
     build:
-      context: .
-      dockerfile: Dockerfile.database
-      target: deploy-db-pgadmin
+      context: ./backend
+      dockerfile: Dockerfile.backend
     depends_on:
-      - db
-    restart: always
+      - pocketbase
     ports:
-      - 5050:80
-  web:
-    image: asa-application
-    container_name: asa-application
+      - "5003:5003"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8081/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  frontend:
+    image: adm-frontend
+    container_name: adm-frontend
+    restart: unless-stopped
     build:
-      context: .
-      dockerfile: Dockerfile.application
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
     depends_on:
-      - db
+      - pocketbase
+      - backend
     ports:
-      - '8080:3000'
+      - "8080:3000"

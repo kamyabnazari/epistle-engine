@@ -1,6 +1,6 @@
-# ASA Application
+# ADM - Auto Document Manager
 
-This is the Repository for the unified backend and frontend for the ASA Project.
+This is the Repository for the unified backend and frontend for the ADM Project.
 
 ## Conventions
 
@@ -10,22 +10,44 @@ Branch Example: `kn-feature-name-example`
 
 ## Tech-Stack
 
+### General
+
+- Git [Version Control]
+- Docker [Containerization]
+- GitHub [Code Hosting]
+- GitHub Actions [CI/CD] - Work In Progress
+
+### Frontend
+
+- Typescript [Programming Language]
 - NodeJs [Javascript runtime]
 - SvelteKit [Full-Stack Framework]
 - Svelte [Frontend Framework]
 - Prisma [ORM]
-- PostgreSQL [Database]
+- PockerBase [SaaS - Database/File-Storage/Authentication]
 - TailwindCSS [CSS Framework]
-- HeadlessUI [Behavior Framework]
-- GitHub Actions [CI/CD]
+- DaisyUI [Tailwind Component Library]
 - Capacitor [Mobile App Framework]
 - Electron [Desktiop App Framework]
+
+### Backend
+
+- Python [Programming Language]
+- FastApi [Backend Framework]
+- ChatGPT Plugin Files [Chatbot Plugin Files]
+
+### PocketBase
+
+- SQLite [Database]
+- Authentification
+- File Storage
 
 ## Getting Started
 
 ### Prerequisites
 
 - Nodejs
+- Python
 - NPM
 - Git
 - Docker Engine
@@ -62,3 +84,25 @@ docker-compose up
 ```
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+### ChatGPT Plugin
+
+To install the required packages for this plugin, run the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+To run the plugin, enter the following command:
+
+```bash
+python main.py
+```
+
+Once the local server is running:
+
+1. Navigate to https://chat.openai.com.
+2. In the Model drop down, select "Plugins" (note, if you don't see it there, you don't have access yet).
+3. Select "Plugin store"
+4. Select "Develop your own plugin"
+5. Enter in `localhost:5003` since this is the URL the server is running on locally, then select "Find manifest file".

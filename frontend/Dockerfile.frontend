@@ -1,4 +1,4 @@
-# Dockerfile for ASA Application
+# Dockerfile for ADM Application
 
 # Build Stage
 FROM node:18-alpine AS deploy-app-builder
@@ -14,4 +14,5 @@ COPY --from=deploy-app-builder /app/package.json /app/package.json
 COPY --from=deploy-app-builder /app/package-lock.json /app/package-lock.json
 RUN cd /app && npm install --production
 WORKDIR /app
+EXPOSE 3000
 CMD [ "node", "./build" ]
