@@ -1,4 +1,4 @@
-# Dockerfile for ASA Application
+# Dockerfile for ADM Application
 
 # Build Stage
 FROM node:18-alpine AS deploy-app-builder

@@ -1,13 +1,28 @@
 version: "3.8"
 name: adm-stack
 services:
-  web:
+  pocketbase:
+    image: adm-pocketbase
+    container_name: adm-pocketbase
+    restart: unless-stopped
+    build:
+      context: ./pocketbase
+      dockerfile: Dockerfile.pocketbase
+    ports:
+      - "8090:8090"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  frontend:
     image: adm-frontend
     container_name: adm-frontend
+    restart: unless-stopped
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
     depends_on:
-      - db
+      - pocketbase
     ports:
       - "8080:3000"

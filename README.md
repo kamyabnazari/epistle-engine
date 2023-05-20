@@ -1,4 +1,4 @@
-# ADM
+# ADM - Auto Document Manager
 
 This is the Repository for the unified backend and frontend for the ADM Project.
 
@@ -10,22 +10,38 @@ Branch Example: `kn-feature-name-example`
 
 ## Tech-Stack
 
+### General
+
+- Git [Version Control]
+- Docker [Containerization]
+- GitHub [Code Hosting]
+- GitHub Actions [CI/CD]
+
+### Frontend
+
+- Typescript [Programming Language]
 - NodeJs [Javascript runtime]
 - SvelteKit [Full-Stack Framework]
 - Svelte [Frontend Framework]
 - Prisma [ORM]
-- PostgreSQL [Database]
+- PockerBase [SaaS - Database/File-Storage/Authentication]
 - TailwindCSS [CSS Framework]
-- HeadlessUI [Behavior Framework]
-- GitHub Actions [CI/CD]
+- DaisyUI [Tailwind Component Library]
 - Capacitor [Mobile App Framework]
 - Electron [Desktiop App Framework]
+
+### Backend
+
+- Python [Programming Language]
+- FastApi [Backend Framework]
+- ChatGPT Plugin Files [Chatbot Plugin Files]
 
 ## Getting Started
 
 ### Prerequisites
 
 - Nodejs
+- Python
 - NPM
 - Git
 - Docker Engine
