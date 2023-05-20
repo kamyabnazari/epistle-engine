@@ -9,6 +9,7 @@ package
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vscode
+pb_data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
