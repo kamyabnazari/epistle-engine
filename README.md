@@ -15,7 +15,7 @@ Branch Example: `kn-feature-name-example`
 - Git [Version Control]
 - Docker [Containerization]
 - GitHub [Code Hosting]
-- GitHub Actions [CI/CD]
+- GitHub Actions [CI/CD] - Work In Progress
 
 ### Frontend
 
@@ -35,6 +35,12 @@ Branch Example: `kn-feature-name-example`
 - Python [Programming Language]
 - FastApi [Backend Framework]
 - ChatGPT Plugin Files [Chatbot Plugin Files]
+
+### PocketBase
+
+- SQLite [Database]
+- Authentification
+- File Storage
 
 ## Getting Started
 
