@@ -1,6 +1,6 @@
-# ASA Application
+# ADM
 
-This is the Repository for the unified backend and frontend for the ASA Project.
+This is the Repository for the unified backend and frontend for the ADM Project.
 
 ## Conventions
 

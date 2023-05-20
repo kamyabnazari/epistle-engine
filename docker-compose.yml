@@ -1,35 +1,13 @@
-version: '3.8'
-name: asa-stack
+version: "3.8"
+name: adm-stack
 services:
-  db:
-    image: asa-db
-    container_name: asa-db
-    build:
-      context: .
-      dockerfile: Dockerfile.database
-      target: deploy-db
-    restart: always
-    ports:
-      - '5432:5432'
-  pgadmin:
-    image: asa-db-pgadmin
-    container_name: asa-db-pgadmin
-    build:
-      context: .
-      dockerfile: Dockerfile.database
-      target: deploy-db-pgadmin
-    depends_on:
-      - db
-    restart: always
-    ports:
-      - 5050:80
   web:
-    image: asa-application
-    container_name: asa-application
+    image: adm-frontend
+    container_name: adm-frontend
     build:
-      context: .
-      dockerfile: Dockerfile.application
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
     depends_on:
       - db
     ports:
-      - '8080:3000'
+      - "8080:3000"
