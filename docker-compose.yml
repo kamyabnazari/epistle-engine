@@ -15,6 +15,22 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  backend:
+    image: adm-backend
+    container_name: adm-backend
+    restart: unless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    depends_on:
+      - pocketbase
+    ports:
+      - "5003:5003"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8081/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
   frontend:
     image: adm-frontend
     container_name: adm-frontend
@@ -24,5 +40,6 @@ services:
       dockerfile: Dockerfile.frontend
     depends_on:
       - pocketbase
+      - backend
     ports:
       - "8080:3000"

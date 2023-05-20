@@ -1,0 +1,7 @@
+# Dockerfile for the backend service
+FROM python:3.8-slim-buster
+WORKDIR /app
+ADD . /app
+RUN pip install --no-cache-dir fastapi uvicorn
+EXPOSE 5003
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5003"]
