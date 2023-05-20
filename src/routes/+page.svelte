@@ -1,8 +1,9 @@
 <script>
 </script>
 
-<div class="grid h-screen place-content-center">
-	<h1 class="text-center text-8xl">Auto Student Assistant</h1>
+<div class="navbar bg-base-100">
+	<a class="btn-ghost btn text-xl normal-case" href="/">ADG - Auto Document Generator</a>
+	<a class="btn-ghost btn text-xl normal-case" href="/">About</a>
 </div>
 
 <style lang="postcss">

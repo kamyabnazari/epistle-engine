@@ -4,5 +4,16 @@ export default {
 	theme: {
 		extend: {}
 	},
-	plugins: []
+	plugins: [require('@tailwindcss/typography'), require('daisyui')],
+	daisyui: {
+		themes: ['lofi', 'black'],
+		styled: true,
+		themes: true,
+		base: true,
+		utils: true,
+		logs: false,
+		rtl: false,
+		prefix: '',
+		darkTheme: 'lofi'
+	}
 };
