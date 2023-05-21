@@ -1,13 +1,2 @@
-<script>
-</script>
-
-<div class="navbar bg-base-100">
-	<a class="btn-ghost btn text-xl normal-case" href="/">ADM - Auto Document Manager</a>
-	<a class="btn-ghost btn text-xl normal-case" href="/">About</a>
-</div>
-
-<style lang="postcss">
-	:global(html) {
-		background-color: theme(colors.gray.100);
-	}
-</style>
+<h1 class="text-xl">Welcome to Auto Document Manger</h1>
+<h2 class="text-lg">Never touch a software for writing text again!</h2>
