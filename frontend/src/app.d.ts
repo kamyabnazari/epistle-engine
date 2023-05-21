@@ -2,6 +2,9 @@
 
 import type { PocketBase } from '$lib/pocketbase';
 
+/// <reference types="@sveltejs/kit" />
+/// <reference types="unplugin-icons/types/svelte" />
+
 // for information about these interfaces
 declare global {
 	namespace App {

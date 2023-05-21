@@ -12,6 +12,7 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
+		"@iconify/json": "^2.2.67",
 		"@sveltejs/adapter-node": "^1.2.4",
 		"@sveltejs/kit": "^1.5.0",
 		"@tailwindcss/forms": "^0.5.3",
@@ -31,6 +32,7 @@
 		"tailwindcss": "^3.3.2",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
+		"unplugin-icons": "^0.16.1",
 		"vite": "^4.3.7",
 		"vitest": "^0.31.1"
 	},
