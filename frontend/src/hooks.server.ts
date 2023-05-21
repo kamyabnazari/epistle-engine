@@ -1,15 +1,9 @@
-/*
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { pb } from '$lib/pocketbase';
 import type { Handle } from '@sveltejs/kit';
-import PocketBase from 'pocketbase';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-	event.locals.pb = pb;
-
-	const cookies = event.request.headers.get('cookie') || '';
-	pb.authStore.loadFromCookie(cookies);
-
+	// before the route is rendered by the server,
+	pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 	if (pb.authStore.isValid) {
 		try {
 			await pb.collection('users').authRefresh();
@@ -18,9 +12,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
+	event.locals.pb = pb;
+	event.locals.user = structuredClone(pb.authStore.model);
+
+	// the `resolve` function runs the actual route handler
 	const response = await resolve(event);
-	response.headers.append('set-cookie', pb.authStore.exportToCookie());
+
+	// after the route has been rendered by the server,
+	response.headers.append('set-cookie', pb.authStore.exportToCookie({ httpOnly: false }));
 
 	return response;
 };
-*/

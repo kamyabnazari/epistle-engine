@@ -23,7 +23,6 @@ Branch Example: `kn-feature-name-example`
 - NodeJs [Javascript runtime]
 - SvelteKit [Full-Stack Framework]
 - Svelte [Frontend Framework]
-- Prisma [ORM]
 - PockerBase [SaaS - Database/File-Storage/Authentication]
 - TailwindCSS [CSS Framework]
 - DaisyUI [Tailwind Component Library]
