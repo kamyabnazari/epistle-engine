@@ -13,9 +13,8 @@
 	<div class="flex-1">
 		<a class="btn-ghost btn text-xl normal-case" href="/">ADM</a>
 	</div>
-	<div class="navbar-end">
-		<ul class="menu-horizontal menu">
-			{#if $currentUser}
+	<div class="flex-none">
+					{#if $currentUser}
             <div class="dropdown dropdown-end">
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 			<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -33,7 +32,6 @@
 				<li>
 					<a href="/" class="justify-between">
 						Profile
-						<span class="badge">New</span>
 					</a>
 				</li>
 				<li><a href="/">Settings</a></li>
@@ -54,8 +52,7 @@
 			</ul>
 		</div>
 			{:else}
-				<li><a href="/login">Login</a></li>
+				<a href="/login"><button class="btn btn-ghost">Login</button></a>
 			{/if}
-		</ul>
 	</div>
 </div>
