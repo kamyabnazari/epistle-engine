@@ -13,16 +13,40 @@
 		};
 	}}
 >
-	<h1 class="mb-8 text-2xl">Register</h1>
-	<div class="form-control mb-4 gap-2">
+
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="text-center lg:text-left">
+      <h1 class="text-5xl font-bold">Register now!</h1>
+      <p class="py-6">Let us get started creating documents with openAI's GPT 4.0 and chatGPT.</p>
+    </div>
+    <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <div class="card-body">
+        <div class="form-control gap-2">
+		<label class="label">
+            <span class="label-text">Email</span>
+        </label>
 		<input type="email" name="email" placeholder="Email" class="input-bordered input" />
+		<label class="label">
+            <span class="label-text">Password</span>
+        </label>
 		<input type="password" name="password" placeholder="Password" class="input-bordered input" />
+		<label class="label">
+            <span class="label-text">Confirm Password</span>
+        </label>
 		<input
 			type="password"
 			name="passwordConfirm"
 			placeholder="Confirm Password"
 			class="input-bordered input"
 		/>
-		<button class="btn-primary btn">Register</button>
+		<div class="form-control mt-6">
+			<button class="btn-primary btn">Register</button>
+		</div>
 	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </form>

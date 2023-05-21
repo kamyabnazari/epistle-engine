@@ -1,20 +1,22 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
 	import { currentUser, pb } from '$lib/pocketbase';
-    import RoundMenu from '~icons/ic/round-menu'
+    import IconMenu from '~icons/solar/hamburger-menu-outline';
+	import IconMoon from '~icons/solar/moon-outline';
+	import IconSun from '~icons/solar/sun-2-outline';
 </script>
 
 <div class="sticky top-0 left-0 navbar text-base-content bg-base-300">
 	<div class="flex-none">
 		<button class="btn btn-square btn-ghost">
-            <RoundMenu style="font-size: 1.5em" />
+            <IconMenu style="font-size: 1.5em" />
 		</button>
 	</div>
 	<div class="flex-1">
 		<a class="btn-ghost btn text-xl normal-case" href="/">ADM</a>
 	</div>
 	<div class="flex-none">
-					{#if $currentUser}
+			{#if $currentUser}
             <div class="dropdown dropdown-end">
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 			<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -54,5 +56,11 @@
 			{:else}
 				<a href="/login"><button class="btn btn-ghost">Login</button></a>
 			{/if}
-	</div>
+	
+		</div>
+		<label class="swap swap-rotate px-4">
+			<input type="checkbox" />
+			<IconSun class="swap-on fill-current" style="font-size: 1.5em" />
+			<IconMoon class="swap-off fill-current" style="font-size: 1.5em" />
+		</label>
 </div>
