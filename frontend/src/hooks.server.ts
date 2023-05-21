@@ -19,7 +19,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 
 	// after the route has been rendered by the server,
-	response.headers.append('set-cookie', pb.authStore.exportToCookie({ httpOnly: false }));
+	response.headers.set('set-cookie', pb.authStore.exportToCookie({ httpOnly: false }));
 
 	return response;
 };
