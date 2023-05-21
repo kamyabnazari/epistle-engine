@@ -1,8 +1,10 @@
+/*
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import type { Handle } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const pb = new PocketBase('http://127.0.0.1:8090');
+	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 	event.locals.pb = pb;
 
 	const cookies = event.request.headers.get('cookie') || '';
@@ -21,3 +23,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return response;
 };
+*/
