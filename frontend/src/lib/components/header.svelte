@@ -8,9 +8,9 @@
 
 <div class="navbar text-base-content bg-base-300 sticky left-0 top-0">
 	<div class="flex-none">
-		<button class="btn btn-square btn-ghost">
-			<IconMenu style="font-size: 1.5em" />
-		</button>
+		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
+			<IconMenu style="font-size: 1.5em" /></label
+		>
 	</div>
 	<div class="flex-1">
 		<a class="btn-ghost btn text-xl normal-case" href="/">ADM</a>
