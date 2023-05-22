@@ -17,16 +17,18 @@
 		<div class="hero-content flex-col lg:flex-row-reverse">
 			<div class="text-center lg:text-left">
 				<h1 class="text-5xl font-bold">Register now!</h1>
-				<p class="py-6">Let us get started creating documents with openAI's GPT 4.0 and chatGPT.</p>
+				<p class="py-6">
+					Join Us and Transform Your Ideas into Beautifully Crafted PDFs with Ease!
+				</p>
 			</div>
 			<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
 				<div class="card-body">
 					<div class="form-control gap-2">
-						<label class="label">
+						<label for="email" class="label">
 							<span class="label-text">Email</span>
 						</label>
 						<input type="email" name="email" placeholder="Email" class="input-bordered input" />
-						<label class="label">
+						<label for="password" class="label">
 							<span class="label-text">Password</span>
 						</label>
 						<input
@@ -35,7 +37,8 @@
 							placeholder="Password"
 							class="input-bordered input"
 						/>
-						<label class="label">
+						<!-- svelte-ignore a11y-label-has-associated-control -->
+						<label for="passwordConfirm" class="label">
 							<span class="label-text">Confirm Password</span>
 						</label>
 						<input
