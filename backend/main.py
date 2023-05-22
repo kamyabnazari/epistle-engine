@@ -20,6 +20,10 @@ app.add_middleware(
 
 _TODOS = {}
 
+@app.get("/")
+async def read_root():
+    return {"message": "Hello!"}
+
 @app.post("/todos/{username}", response_model=Todo)
 async def add_todo(username: str, todo: Todo):
     _TODOS.setdefault(username, []).append(todo.todo)
