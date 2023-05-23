@@ -42,7 +42,7 @@
 						/>
 						<a href="/" class="label-text-alt link link-hover">Forgot password?</a>
 						<div class="form-control mt-6">
-							<button class="btn btn-primary">Log in</button>
+							<button class="btn btn-primary">Login</button>
 						</div>
 					</div>
 				</div>
