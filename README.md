@@ -32,6 +32,7 @@ Branch Example: `kn-feature-name-example`
 - Python [Programming Language]
 - FastApi [Backend Framework]
 - LangChain [Language Processing]
+- GPT4All [Language Processing]
 - ChatGPT Plugin Files [Chatbot Plugin Files]
 
 ### PocketBase
