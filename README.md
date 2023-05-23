@@ -26,8 +26,6 @@ Branch Example: `kn-feature-name-example`
 - PocketBase [SaaS - Database/File-Storage/Authentication]
 - TailwindCSS [CSS Framework]
 - DaisyUI [Tailwind Component Library] it should be changed!
-- Capacitor [Mobile App Framework]
-- Electron [Desktiop App Framework]
 
 ### Backend
 
