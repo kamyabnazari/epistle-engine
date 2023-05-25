@@ -25,17 +25,13 @@ chat_prompt_value = chat_prompt.format_prompt(subject="soccer")
 llm_chain = LLMChain(  
     prompt = chat_prompt,
     llm = openai_model  
-) 
-
-# joke question   
-question = "Tell me a joke"
-response = llm_chain.run(question)
+)
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chat.openai.com"],
+    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -49,8 +45,11 @@ async def read_root():
 async def read_api_root():
     return {"message": "Welcome to the ADM Backend!"}
 
-@app.get("/api/ai")
+@app.get("/api/joke")
 async def read_():
+    # joke question   
+    question = "Tell me a joke"
+    response = llm_chain.run(question)
     return {"message": response}
 
 @app.get("/logo.png")

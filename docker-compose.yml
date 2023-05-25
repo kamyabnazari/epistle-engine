@@ -25,7 +25,7 @@ services:
     depends_on:
       - pocketbase
     ports:
-      - "8000:8000"
+      - "5003:5003"
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8081/api/health || exit 1
       interval: 5s
