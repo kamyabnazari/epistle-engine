@@ -1,12 +1,22 @@
+import os
+
+# Importing fastAPI
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List
 import uvicorn
 
-class Todo(BaseModel):
-    todo: str
+# Importing langchain
+from langchain.llms import OpenAI
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+apikey = os.getenv("OPENAI_API_KEY")
+
+llm = OpenAI(openai_api_key=apikey)
+respose = llm("Tell me a joke")
 
 app = FastAPI()
 
@@ -18,27 +28,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-_TODOS = {}
-
-@app.get("/")
+@app.get("/api")
 async def read_root():
-    return {"message": "Hello!"}
+    return {"message": "Welcome to the ADM Backend!"}
 
-@app.post("/todos/{username}", response_model=Todo)
-async def add_todo(username: str, todo: Todo):
-    _TODOS.setdefault(username, []).append(todo.todo)
-    return todo
-
-@app.get("/todos/{username}", response_model=List[str])
-async def get_todos(username: str):
-    return _TODOS.get(username, [])
-
-@app.delete("/todos/{username}")
-async def delete_todo(username: str, todo: Todo):
-    if username in _TODOS and todo.todo in _TODOS[username]:
-        _TODOS[username].remove(todo.todo)
-        return JSONResponse(content='OK', status_code=200)
-    raise HTTPException(status_code=404, detail="Todo not found")
+@app.get("/api/ai")
+async def read_ai():
+    return {"message": respose}
 
 @app.get("/logo.png")
 async def logo():

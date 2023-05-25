@@ -8,7 +8,6 @@ export default {
 	daisyui: {
 		themes: ['lofi'],
 		styled: true,
-		themes: true,
 		base: true,
 		utils: true,
 		logs: false,
