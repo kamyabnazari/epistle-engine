@@ -7,7 +7,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { get, writable } from 'svelte/store';
 
-	const theme = writable('dark');
+	const theme = writable('light');
 
 	const toggleTheme = () => {
 		theme.update((currentTheme) => {
@@ -37,7 +37,7 @@
 	}
 </script>
 
-<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 shadow-sm">
+<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 p-4 shadow-sm">
 	<div class="flex-none">
 		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
 			<IconMenu style="font-size: 1.5em" />
