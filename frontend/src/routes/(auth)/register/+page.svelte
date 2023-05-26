@@ -3,26 +3,24 @@
 	import { pb } from '$lib/pocketbase';
 </script>
 
-<form
-	method="POST"
-	class="card"
-	use:enhance={() => {
-		return async ({ result }) => {
-			pb.authStore.loadFromCookie(document.cookie);
-			await applyAction(result);
-		};
-	}}
->
-	<div class="hero bg-base-200 min-h-screen">
-		<div class="hero-content flex-col lg:flex-row-reverse">
-			<div class="text-center lg:text-left">
-				<h1 class="text-5xl font-bold">Register now!</h1>
-				<p class="py-6">
-					Join Us and Transform Your Ideas into Beautifully Crafted PDFs with Ease!
-				</p>
-			</div>
-			<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
-				<div class="card-body">
+<div class="hero bg-base-200 min-h-screen">
+	<div class="hero-content flex-col lg:flex-row-reverse">
+		<div class="text-center lg:text-left">
+			<h1 class="text-5xl font-bold">Register now!</h1>
+			<p class="py-6">Join Us and Transform Your Ideas into Beautifully Crafted PDFs with Ease!</p>
+		</div>
+		<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
+			<div class="card-body">
+				<form
+					method="POST"
+					class="card"
+					use:enhance={() => {
+						return async ({ result }) => {
+							pb.authStore.loadFromCookie(document.cookie);
+							await applyAction(result);
+						};
+					}}
+				>
 					<div class="form-control gap-2">
 						<label for="email" class="label">
 							<span class="label-text">Email</span>
@@ -37,7 +35,6 @@
 							placeholder="Password"
 							class="input-bordered input"
 						/>
-						<!-- svelte-ignore a11y-label-has-associated-control -->
 						<label for="passwordConfirm" class="label">
 							<span class="label-text">Confirm Password</span>
 						</label>
@@ -51,8 +48,8 @@
 							<button class="btn-primary btn">Register</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
-</form>
+</div>

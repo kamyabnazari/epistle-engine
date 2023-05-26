@@ -3,23 +3,23 @@
 	import { pb } from '$lib/pocketbase';
 </script>
 
-<form
-	method="POST"
-	class="card"
-	use:enhance={() => {
-		return async ({ result }) => {
-			pb.authStore.loadFromCookie(document.cookie);
-			await applyAction(result);
-		};
-	}}
->
-	<div class="hero bg-base-200 min-h-screen">
-		<div class="hero-content flex-col lg:flex-row-reverse">
-			<div class="text-center lg:text-left">
-				<h1 class="text-5xl font-bold">Login</h1>
-				<p class="py-6">Welcome Back! Log In and Continue Crafting Your Stunning PDFs with Ease!</p>
-			</div>
-			<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
+<div class="hero bg-base-200 min-h-screen">
+	<div class="hero-content flex-col lg:flex-row-reverse">
+		<div class="text-center lg:text-left">
+			<h1 class="text-5xl font-bold">Login</h1>
+			<p class="py-6">Welcome Back! Log In and Continue Crafting Your Stunning PDFs with Ease!</p>
+		</div>
+		<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
+			<form
+				method="POST"
+				class="card"
+				use:enhance={() => {
+					return async ({ result }) => {
+						pb.authStore.loadFromCookie(document.cookie);
+						await applyAction(result);
+					};
+				}}
+			>
 				<div class="card-body">
 					<div class="form-control gap-2">
 						<label for="email" class="label">
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
-</form>
+</div>
