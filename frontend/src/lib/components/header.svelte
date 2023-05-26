@@ -7,11 +7,11 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { get, writable } from 'svelte/store';
 
-	const theme = writable('light');
+	const theme = writable('lofi');
 
 	const toggleTheme = () => {
 		theme.update((currentTheme) => {
-			const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+			const newTheme = currentTheme === 'black' ? 'lofi' : 'black';
 			document.documentElement.setAttribute('data-theme', newTheme);
 			localStorage.setItem('theme', newTheme);
 			return newTheme;
@@ -26,10 +26,10 @@
 	});
 
 	onDestroy(() => {
-		theme.set('dark'); // Reset the theme to default on component destruction
+		theme.set('black'); // Reset the theme to default on component destruction
 	});
 
-	$: isChecked = $theme === 'dark'; // Computed property for checkbox state
+	$: isChecked = $theme === 'black'; // Computed property for checkbox state
 
 	function handleCheckboxChange() {
 		isChecked;
