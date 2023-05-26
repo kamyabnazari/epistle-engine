@@ -52,10 +52,8 @@
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label tabindex="0" class="btn btn-link btn-square avatar">
-						<div
-							class="ring-primary ring-offset-base-100 w-8 rounded-md ring-offset-2 hover:ring-2"
-						>
+					<label tabindex="0" class="btn btn-ghost btn-square avatar">
+						<div class="ring-primary ring-offset-base-100 w-8 rounded-md ring-2 ring-offset-2">
 							<img src="/example-avatar-image.jpeg" alt="Example Avatar" />
 						</div>
 					</label>
@@ -64,8 +62,8 @@
 						tabindex="0"
 						class="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
 					>
-						<li><a href="/">Profile</a></li>
-						<li><a href="/">Settings</a></li>
+						<li><a href="/profile">Profile</a></li>
+						<li><a href="/settings">Settings</a></li>
 						<li>
 							<form
 								method="POST"
