@@ -17,6 +17,6 @@ export const actions: Actions = {
 			throw err;
 		}
 
-		throw redirect(303, '/');
+		throw redirect(303, '/dashboard');
 	}
 };
