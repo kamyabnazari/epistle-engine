@@ -39,6 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"daisyui": "^2.51.6",
-		"pocketbase": "^0.15.0"
+		"pocketbase": "^0.15.0",
+		"zod": "^3.21.4"
 	}
 }
