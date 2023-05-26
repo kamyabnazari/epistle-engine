@@ -10,11 +10,29 @@ export default {
 			{
 				lofi: {
 					...require('daisyui/src/colors/themes')['[data-theme=lofi]'],
-					'--btn-text-case': 'uppercase'
+					'--rounded-box': '0.25rem',
+					'--rounded-btn': '0.25rem',
+					'--rounded-badge': '0.25rem',
+					'--animation-btn': '0.25s',
+					'--animation-input': '0.2s',
+					'--btn-text-case': 'uppercase',
+					'--btn-focus-scale': '0.95',
+					'--border-btn': '1px',
+					'--tab-border': '1px',
+					'--tab-radius': '0.5rem'
 				},
 				black: {
 					...require('daisyui/src/colors/themes')['[data-theme=black]'],
-					'--btn-text-case': 'uppercase'
+					'--rounded-box': '0.25rem',
+					'--rounded-btn': '0.25rem',
+					'--rounded-badge': '0.25rem',
+					'--animation-btn': '0.25s',
+					'--animation-input': '0.2s',
+					'--btn-text-case': 'uppercase',
+					'--btn-focus-scale': '0.95',
+					'--border-btn': '1px',
+					'--tab-border': '1px',
+					'--tab-radius': '0.5rem'
 				}
 			}
 		],
