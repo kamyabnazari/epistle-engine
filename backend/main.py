@@ -1,44 +1,56 @@
+import os
+
+# Importing fastAPI
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List
 import uvicorn
 
-class Todo(BaseModel):
-    todo: str
+# Importing langchain
+from langchain import LLMChain
+from langchain.chat_models import ChatOpenAI  
+from langchain.prompts import PromptTemplate, ChatPromptTemplate
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+apikey = os.getenv("OPENAI_API_KEY")
+# use the gpt-3.5-turbo LLM   
+openai_model = ChatOpenAI(openai_api_key=apikey, model_name = 'gpt-3.5-turbo')  
+
+chat_prompt = ChatPromptTemplate.from_template("tell me a joke about {subject}")
+chat_prompt_value = chat_prompt.format_prompt(subject="soccer")
+
+llm_chain = LLMChain(  
+    prompt = chat_prompt,
+    llm = openai_model  
+)
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chat.openai.com"],
+    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-_TODOS = {}
-
 @app.get("/")
 async def read_root():
-    return {"message": "Hello!"}
+    return {"message": "This is the backend for ADM Project!"}
 
-@app.post("/todos/{username}", response_model=Todo)
-async def add_todo(username: str, todo: Todo):
-    _TODOS.setdefault(username, []).append(todo.todo)
-    return todo
+@app.get("/api")
+async def read_api_root():
+    return {"message": "Welcome to the ADM Backend!"}
 
-@app.get("/todos/{username}", response_model=List[str])
-async def get_todos(username: str):
-    return _TODOS.get(username, [])
-
-@app.delete("/todos/{username}")
-async def delete_todo(username: str, todo: Todo):
-    if username in _TODOS and todo.todo in _TODOS[username]:
-        _TODOS[username].remove(todo.todo)
-        return JSONResponse(content='OK', status_code=200)
-    raise HTTPException(status_code=404, detail="Todo not found")
+@app.get("/api/joke")
+async def read_():
+    # joke question   
+    question = "Tell me a joke"
+    response = llm_chain.run(question)
+    return {"message": response}
 
 @app.get("/logo.png")
 async def logo():

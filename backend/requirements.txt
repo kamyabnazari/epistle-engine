@@ -1,2 +1,7 @@
 quart
 quart-cors
+langchain
+fastapi
+uvicorn
+openai
+python-dotenv

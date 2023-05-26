@@ -1,8 +1,19 @@
 import { redirect } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
+		/*
+		const { formData, errors } = await validateData(await request.formData(), loginUserSchema);
+
+		if (errors) {
+			return invalid(400, {
+				data: formData,
+				errors: errors.fieldErrors
+			});
+		}
+		*/
+
 		const data = Object.fromEntries(await request.formData()) as {
 			email: string;
 			password: string;
@@ -15,6 +26,12 @@ export const actions: Actions = {
 			throw e;
 		}
 
-		throw redirect(303, '/');
+		throw redirect(303, '/dashboard');
+	}
+};
+
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.user) {
+		throw redirect(303, '/dashboard');
 	}
 };
