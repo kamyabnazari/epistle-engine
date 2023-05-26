@@ -21,11 +21,11 @@
 	<div class="hero-content text-center">
 		<div>
 			<div class="my-20 max-w-md">
-				<h1 class="text-5xl font-bold">AI Jokes!</h1>
+				<h1 class="text-5xl font-bold">Dashboard</h1>
 				{#if joke}
 					<p class="py-6 text-xl">{joke.message}</p>
 				{:else}
-					<p class="py-6 text-xl">Click to generate.</p>
+					<p class="py-6 text-xl">Click to generate a joke.</p>
 				{/if}
 				<button class="btn btn-primary" on:click={fetchData}>New Joke</button>
 			</div>
