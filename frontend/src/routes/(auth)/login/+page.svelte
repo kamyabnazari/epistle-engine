@@ -10,17 +10,17 @@
 			<p class="py-6">Welcome Back! Log In and Continue Crafting Your Stunning PDFs with Ease!</p>
 		</div>
 		<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
-			<form
-				method="POST"
-				class="card"
-				use:enhance={() => {
-					return async ({ result }) => {
-						pb.authStore.loadFromCookie(document.cookie);
-						await applyAction(result);
-					};
-				}}
-			>
-				<div class="card-body">
+			<div class="card-body">
+				<form
+					method="POST"
+					class="card"
+					use:enhance={() => {
+						return async ({ result }) => {
+							pb.authStore.loadFromCookie(document.cookie);
+							await applyAction(result);
+						};
+					}}
+				>
 					<div class="form-control gap-2">
 						<label for="email" class="label">
 							<span class="label-text">Email</span>
@@ -45,8 +45,8 @@
 							<button class="btn btn-primary">Login</button>
 						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

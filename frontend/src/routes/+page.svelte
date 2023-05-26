@@ -6,7 +6,7 @@
 				<p class="py-6 text-xl">
 					Unleash the Power of AI: Creating Beautiful, Structured PDFs Has Never Been Easier!
 				</p>
-				<a href="/register"><button class="btn btn-primary">Register now</button></a>
+				<a href="/about-us"><button class="btn btn-primary">About Us</button></a>
 			</div>
 		</div>
 	</div>

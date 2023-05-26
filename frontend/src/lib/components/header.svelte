@@ -30,10 +30,7 @@
 					tabindex="0"
 					class="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
 				>
-					<li><a href="/">{$currentUser.email}</a></li>
-					<li>
-						<a href="/" class="justify-between"> Profile </a>
-					</li>
+					<li><a href="/">Profile</a></li>
 					<li><a href="/">Settings</a></li>
 					<li>
 						<form
@@ -53,6 +50,7 @@
 			</div>
 		{:else}
 			<a href="/login"><button class="btn btn-ghost">Login</button></a>
+			<a href="/register"><button class="btn btn-ghost">Register</button></a>
 		{/if}
 	</div>
 	<label class="swap swap-rotate px-4">
