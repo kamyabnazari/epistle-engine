@@ -2,6 +2,7 @@
 	import '../app.css';
 	import Header from '$lib/components/header.svelte';
 	import Footer from '$lib/components/footer.svelte';
+	import { page } from '$app/stores';
 </script>
 
 <div class="drawer drawer-mobile">
@@ -17,10 +18,14 @@
 	<div class="drawer-side">
 		<label for="application-drawer" class="drawer-overlay" />
 		<ul class="menu bg-base-200 text-base-content w-80 p-4">
-			<li><a href="/dashboard">Dashboard</a></li>
-			<li><a href="/documentation">Documentation</a></li>
-			<li><a href="/about-us">About us</a></li>
-			<li><a href="/contact">Contact</a></li>
+			<li><a href="/dashboard" class:active={$page.url.pathname === '/dashboard'}>Dashboard</a></li>
+			<li>
+				<a href="/documentation" class:active={$page.url.pathname === '/documentation'}
+					>Documentation</a
+				>
+			</li>
+			<li><a href="/about-us" class:active={$page.url.pathname === '/about-us'}>About us</a></li>
+			<li><a href="/contact" class:active={$page.url.pathname === '/contact'}>Contact</a></li>
 		</ul>
 	</div>
 </div>
