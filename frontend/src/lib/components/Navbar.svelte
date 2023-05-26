@@ -38,8 +38,8 @@
 </script>
 
 <div class="navbar text-base-content bg-base-100 sticky left-0 top-0 px-6 py-4 shadow-sm">
-	<div class="flex-none">
-		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
+	<div class="me-4 flex-none lg:hidden">
+		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
 			<IconMenu style="font-size: 1.5em" />
 		</label>
 	</div>

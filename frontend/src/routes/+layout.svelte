@@ -9,7 +9,7 @@
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
 		<Navbar />
-		<div class="flex-grow p-4">
+		<div class="flex-grow p-4 py-8">
 			<slot />
 		</div>
 		<Footer />

@@ -22,7 +22,7 @@
 </script>
 
 <div class="bg-base-100 flex flex-col gap-12">
-	<div>
+	<div class="flex flex-row justify-center">
 		<h1 class="text-2xl font-bold">Dashboard</h1>
 	</div>
 	<div class="flex flex-row">
