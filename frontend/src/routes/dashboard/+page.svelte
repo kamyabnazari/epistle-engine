@@ -21,7 +21,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-12">
+<div class="bg-base-100 flex flex-col gap-12">
 	<div>
 		<h1 class="text-2xl font-bold">Dashboard</h1>
 	</div>
@@ -36,7 +36,7 @@
 			<div class="card-body">
 				<h2 class="card-title">Generate a joke!</h2>
 				{#if joke}
-					<p class="py-6 text-xl">{joke.message}</p>
+					<p class="text-success">{joke.message}</p>
 				{:else}
 					<p>Click to generate a joke.</p>
 				{/if}
@@ -45,10 +45,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="my-20 max-w-md" />
 	</div>
 	<div class="flex flex-row">
 		<FileTable />
-		<div />
 	</div>
 </div>

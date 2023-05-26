@@ -7,12 +7,11 @@
 
 <div class="drawer drawer-mobile">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content flex min-h-screen flex-col overflow-hidden">
+	<div class="drawer-content flex flex-col">
 		<Header />
-		<div class="flex-grow p-8">
+		<div class="flex-grow p-4">
 			<slot />
 		</div>
-
 		<Footer />
 	</div>
 	<div class="drawer-side">

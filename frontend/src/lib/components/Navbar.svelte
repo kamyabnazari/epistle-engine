@@ -37,14 +37,14 @@
 	}
 </script>
 
-<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 p-4 shadow-sm">
+<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 px-6 py-4 shadow-sm">
 	<div class="flex-none">
 		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
 			<IconMenu style="font-size: 1.5em" />
 		</label>
 	</div>
 	<div class="flex-1">
-		<a class="btn-ghost btn text-xl normal-case" href="/">ADM</a>
+		<a class="btn-link text-left text-xl font-bold normal-case" href="/">ADM</a>
 	</div>
 	<div class="flex-none">
 		{#await $currentUser then user}
@@ -60,7 +60,7 @@
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul
 						tabindex="0"
-						class="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
+						class="menu menu-compact dropdown-content bg-base-100 rounded-box mt-2 w-52 p-2 shadow-md"
 					>
 						<li><a href="/profile">Profile</a></li>
 						<li><a href="/settings">Settings</a></li>

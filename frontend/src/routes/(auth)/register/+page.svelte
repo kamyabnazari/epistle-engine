@@ -3,7 +3,7 @@
 	import { pb } from '$lib/pocketbase';
 </script>
 
-<div class="hero bg-base-200 min-h-screen">
+<div class="hero bg-base-100 min-h-full">
 	<div class="hero-content flex-col lg:flex-row-reverse">
 		<div class="text-center lg:text-left">
 			<h1 class="text-5xl font-bold">Register now!</h1>
