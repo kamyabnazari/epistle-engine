@@ -52,8 +52,10 @@
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label tabindex="0" class="btn btn-ghost btn-circle avatar">
-						<div class="w-8 rounded-full">
+					<label tabindex="0" class="btn btn-link btn-square avatar">
+						<div
+							class="ring-primary ring-offset-base-100 w-8 rounded-md ring-offset-2 hover:ring-2"
+						>
 							<img src="/example-avatar-image.jpeg" alt="Example Avatar" />
 						</div>
 					</label>

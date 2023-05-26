@@ -1,13 +1,11 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { validateData } from '$lib/utils';
-import { loginUserSchema } from '$lib/schemas';
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
+		/*
 		const { formData, errors } = await validateData(await request.formData(), loginUserSchema);
 
-		/*
 		if (errors) {
 			return invalid(400, {
 				data: formData,
@@ -22,7 +20,7 @@ export const actions: Actions = {
 		};
 
 		try {
-			await locals.pb.collection('users').authWithPassword(formData.email, formData.password);
+			await locals.pb.collection('users').authWithPassword(data.email, data.password);
 		} catch (e) {
 			console.error(e);
 			throw e;
