@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import Header from '$lib/components/Navbar.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { page } from '$app/stores';
 </script>
@@ -8,7 +8,7 @@
 <div class="drawer drawer-mobile">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
-		<Header />
+		<Navbar />
 		<div class="flex-grow p-4">
 			<slot />
 		</div>
