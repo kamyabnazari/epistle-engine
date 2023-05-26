@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-	import Header from '$lib/components/header.svelte';
-	import Footer from '$lib/components/footer.svelte';
+	import Header from '$lib/components/Navbar.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import { page } from '$app/stores';
 </script>
 
@@ -9,7 +9,7 @@
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex min-h-screen flex-col overflow-hidden">
 		<Header />
-		<div class="flex-grow px-4 py-4">
+		<div class="flex-grow p-8">
 			<slot />
 		</div>
 
@@ -17,7 +17,7 @@
 	</div>
 	<div class="drawer-side">
 		<label for="application-drawer" class="drawer-overlay" />
-		<ul class="menu bg-base-200 text-base-content w-80 p-4">
+		<ul class="menu bg-base-200 text-base-content w-80 gap-2 p-4">
 			<li><a href="/dashboard" class:active={$page.url.pathname === '/dashboard'}>Dashboard</a></li>
 			<li>
 				<a href="/documentation" class:active={$page.url.pathname === '/documentation'}
