@@ -6,8 +6,11 @@
 <div class="hero bg-base-200 min-h-screen">
 	<div class="hero-content flex-col lg:flex-row-reverse">
 		<div class="text-center lg:text-left">
-			<h1 class="text-5xl font-bold">Login</h1>
-			<p class="py-6">Welcome Back! Log In and Continue Crafting Your Stunning PDFs with Ease!</p>
+			<h1 class="text-5xl font-bold">Password Reset</h1>
+			<p class="py-6">
+				Forgot your password? No problem! <br />
+				Enter your email address below, and we'll send you instructions on how to reset your password.
+			</p>
 		</div>
 		<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
 			<div class="card-body">
@@ -30,18 +33,8 @@
 							placeholder="your@email.com"
 							class="input input-bordered"
 						/>
-						<label for="password" class="label">
-							<span class="label-text">Password</span>
-						</label>
-						<input
-							type="password"
-							name="password"
-							placeholder="password"
-							class="input input-bordered"
-						/>
-						<a href="/forgot-password" class="label-text-alt link link-hover">Forgot password?</a>
 						<div class="form-control mt-6">
-							<button class="btn btn-primary">Login</button>
+							<button class="btn btn-primary">Send email</button>
 						</div>
 					</div>
 				</form>

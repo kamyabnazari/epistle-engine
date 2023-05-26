@@ -13,7 +13,6 @@
 			<div class="card-body">
 				<form
 					method="POST"
-					class="card"
 					use:enhance={() => {
 						return async ({ result }) => {
 							pb.authStore.loadFromCookie(document.cookie);
@@ -44,6 +43,7 @@
 							placeholder="Confirm Password"
 							class="input-bordered input"
 						/>
+						<a href="/login" class="label-text-alt link link-hover">Already an account?</a>
 						<div class="form-control mt-6">
 							<button class="btn-primary btn">Register</button>
 						</div>

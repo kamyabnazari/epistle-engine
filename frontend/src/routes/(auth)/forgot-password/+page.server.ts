@@ -5,16 +5,13 @@ export const actions: Actions = {
 	default: async ({ locals, request }) => {
 		const data = Object.fromEntries(await request.formData()) as {
 			email: string;
-			password: string;
-			passwordConfirm: string;
 		};
 
 		try {
-			await locals.pb.collection('users').create(data);
-			await locals.pb.collection('users').requestVerification(data.email);
-		} catch (err) {
-			console.error(err);
-			throw err;
+			await locals.pb.collection('users').requestPasswordReset(data.email);
+		} catch (e) {
+			console.error(e);
+			throw e;
 		}
 
 		throw redirect(303, '/login');
