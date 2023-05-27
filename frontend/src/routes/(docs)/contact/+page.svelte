@@ -32,10 +32,6 @@
 			<p class="py-6 text-justify text-base">
 				Thank you for your support and interest in our journey.
 			</p>
-			<p class="py-6 text-justify text-base">Best regards,</p>
-			<p class="py-6 text-justify text-base">
-				Kamyab Nazari & Mohammad Khezri <br /> Co-Founders
-			</p>
 		</div>
 	</div>
 </div>
