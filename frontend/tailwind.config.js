@@ -23,9 +23,9 @@ export default {
 				},
 				black: {
 					...require('daisyui/src/colors/themes')['[data-theme=black]'],
-					'--rounded-box': '1rem',
-					'--rounded-btn': '0.5rem',
-					'--rounded-badge': '0.5rem',
+					'--rounded-box': '0.25rem',
+					'--rounded-btn': '0.25rem',
+					'--rounded-badge': '0.25rem',
 					'--animation-btn': '0.25s',
 					'--animation-input': '0.25s',
 					'--btn-text-case': 'uppercase',

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconUpload from '~icons/solar/upload-outline';
+	import IconFile from '~icons/solar/file-text-outline';
 	import IconCreate from '~icons/solar/clipboard-add-outline';
 </script>
 
@@ -10,7 +10,7 @@
 		<div class="card-actions justify-end py-4">
 			<a href="/dashboard/file-read">
 				<button class="btn btn-primary gap-4">
-					<IconUpload style="font-size: x-large" />
+					<IconFile style="font-size: x-large" />
 					Read
 				</button></a
 			>

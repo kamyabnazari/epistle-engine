@@ -3,7 +3,7 @@
 		<div class="card p-16 shadow-lg">
 			<div class="flex flex-col gap-8">
 				<div class="flex justify-center">
-					<h1 class="text-2xl font-bold">Your profile</h1>
+					<h1 class="text-2xl font-bold">Profile</h1>
 				</div>
 				<div class="flex justify-center">
 					<div class="avatar">

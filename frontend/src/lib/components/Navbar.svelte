@@ -75,7 +75,7 @@
 									};
 								}}
 							>
-								<button>Log out</button>
+								<button class="w-full text-left">Log out</button>
 							</form>
 						</li>
 					</ul>

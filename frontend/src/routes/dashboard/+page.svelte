@@ -21,17 +21,17 @@
 	}
 </script>
 
-<div class="bg-base-100 flex flex-col gap-12">
-	<div class="flex flex-row justify-center">
+<div class="flex flex-col gap-12">
+	<div class="flex justify-center">
 		<h1 class="text-2xl font-bold">Dashboard</h1>
 	</div>
-	<div class="flex flex-row">
+	<div class="flex">
 		<Stats />
 	</div>
-	<div class="flex flex-row gap-4">
+	<div class="flex gap-4">
 		<ActionCards />
 	</div>
-	<div class="flex flex-row">
+	<div class="flex">
 		<div class="card bg-base-100 w-96 flex-1 shadow-md">
 			<div class="card-body">
 				<h2 class="card-title">Generate a joke!</h2>
@@ -46,7 +46,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="flex flex-row">
+	<div class="flex flex-grow">
 		<FileTable />
 	</div>
 </div>

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import IconPDF from '~icons/bxs/file-pdf';
-	import IconMore from '~icons/solar/menu-dots-bold';
 </script>
 
-<div class="w-full overflow-x-auto shadow-md">
+<div class="w-full overflow-x-auto">
 	<table class="table w-full">
 		<!-- head -->
 		<thead>
@@ -20,7 +19,6 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- rows -->
 			<tr>
 				<th>
 					<label>
@@ -43,9 +41,7 @@
 				</td>
 				<td>13.05.2023</td>
 				<th>
-					<button class="btn btn-ghost btn-xs">
-						<IconMore style="font-size: x-large" />
-					</button>
+					<button class="btn btn-sm btn-ghost">Actions</button>
 				</th>
 			</tr>
 		</tbody>
