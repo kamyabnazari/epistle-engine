@@ -6,6 +6,7 @@
 	import IconSun from '~icons/solar/sun-2-outline';
 	import { onMount, onDestroy } from 'svelte';
 	import { get, writable } from 'svelte/store';
+	import { getImageURL } from '$lib/utils';
 
 	const theme = writable('lofi');
 
@@ -54,7 +55,13 @@
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label tabindex="0" class="btn btn-ghost btn-square avatar">
 						<div class="ring-primary ring-offset-base-100 w-8 rounded-md ring-2 ring-offset-2">
-							<img src="/example-avatar-image.jpeg" alt="Example Avatar" />
+							<img
+								src={$currentUser?.avatar
+									? getImageURL($currentUser?.collectionId, $currentUser?.id, $currentUser?.avatar)
+									: `https://ui-avatars.com/api/?name=${$currentUser?.name}`}
+								alt="user avatar"
+								id="avatar-preview-navbar"
+							/>
 						</div>
 					</label>
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
