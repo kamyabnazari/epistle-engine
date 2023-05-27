@@ -8,11 +8,15 @@
 <div class="drawer drawer-mobile">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
-		<Navbar />
+		<div class="flex-none">
+			<Navbar />
+		</div>
 		<div class="flex-grow p-4 py-8">
 			<slot />
 		</div>
-		<Footer />
+		<div class="flex-none">
+			<Footer />
+		</div>
 	</div>
 	<div class="drawer-side">
 		<label for="application-drawer" class="drawer-overlay" />
