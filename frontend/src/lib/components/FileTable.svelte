@@ -30,7 +30,7 @@
 				<td>
 					<div class="flex items-center space-x-3">
 						<div class="mask mask-square flex h-10 w-10 items-center justify-center">
-							<IconPDF style="font-size: 1.5em" />
+							<IconPDF style="font-size: x-large" />
 						</div>
 						<div>
 							<div class="font-bold">file-23.pdf</div>
@@ -44,7 +44,7 @@
 				<td>13.05.2023</td>
 				<th>
 					<button class="btn btn-ghost btn-xs">
-						<IconMore style="font-size: 1.5em" />
+						<IconMore style="font-size: x-large" />
 					</button>
 				</th>
 			</tr>
