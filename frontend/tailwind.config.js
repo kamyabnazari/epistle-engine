@@ -10,8 +10,8 @@ export default {
 			{
 				lofi: {
 					...require('daisyui/src/colors/themes')['[data-theme=lofi]'],
-					'--rounded-box': '1rem',
-					'--rounded-btn': '0.5rem',
+					'--rounded-box': '0.25rem',
+					'--rounded-btn': '0.25rem',
 					'--rounded-badge': '0.5rem',
 					'--animation-btn': '0.25s',
 					'--animation-input': '0.25s',
