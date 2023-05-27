@@ -1,4 +1,8 @@
 <script lang="ts">
+	import ActionCards from '$lib/components/ActionCards.svelte';
+	import FileTable from '$lib/components/FileTable.svelte';
+	import Stats from '$lib/components/Stats.svelte';
+
 	let joke: { message: string } | null = null;
 
 	async function fetchData() {
@@ -17,18 +21,32 @@
 	}
 </script>
 
-<div class="hero bg-base-200 text-base-content min-h-screen p-16">
-	<div class="hero-content text-center">
-		<div>
-			<div class="my-20 max-w-md">
-				<h1 class="text-5xl font-bold">Dashboard</h1>
+<div class="flex flex-col gap-12">
+	<div class="flex justify-center">
+		<h1 class="text-2xl font-bold">Dashboard</h1>
+	</div>
+	<div class="flex">
+		<Stats />
+	</div>
+	<div class="flex gap-4">
+		<ActionCards />
+	</div>
+	<div class="flex">
+		<div class="card bg-base-100 w-96 flex-1 shadow-md">
+			<div class="card-body">
+				<h2 class="card-title">Generate a joke!</h2>
 				{#if joke}
-					<p class="py-6 text-xl">{joke.message}</p>
+					<p class="text-success">{joke.message}</p>
 				{:else}
-					<p class="py-6 text-xl">Click to generate a joke.</p>
+					<p>Click to generate a joke.</p>
 				{/if}
-				<button class="btn btn-primary" on:click={fetchData}>New Joke</button>
+				<div class="card-actions justify-end">
+					<button class="btn btn-primary" on:click={fetchData}>New Joke</button>
+				</div>
 			</div>
 		</div>
+	</div>
+	<div class="flex flex-grow">
+		<FileTable />
 	</div>
 </div>

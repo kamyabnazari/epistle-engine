@@ -37,14 +37,14 @@
 	}
 </script>
 
-<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 p-4 shadow-sm">
-	<div class="flex-none">
-		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
-			<IconMenu style="font-size: 1.5em" />
+<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 px-6 py-4 shadow-sm">
+	<div class="me-4 flex-none lg:hidden">
+		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
+			<IconMenu style="font-size: x-large" />
 		</label>
 	</div>
 	<div class="flex-1">
-		<a class="btn-ghost btn text-xl normal-case" href="/">ADM</a>
+		<a class="btn-link text-left text-xl font-bold normal-case" href="/">ADM</a>
 	</div>
 	<div class="flex-none">
 		{#await $currentUser then user}
@@ -60,7 +60,7 @@
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul
 						tabindex="0"
-						class="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
+						class="menu dropdown-content bg-base-100 rounded-box mt-2 w-52 p-2 shadow-lg"
 					>
 						<li><a href="/profile">Profile</a></li>
 						<li><a href="/settings">Settings</a></li>
@@ -75,7 +75,7 @@
 									};
 								}}
 							>
-								<button>Log out</button>
+								<button class="w-full text-left">Log out</button>
 							</form>
 						</li>
 					</ul>
@@ -90,7 +90,7 @@
 	</div>
 	<label class="swap swap-rotate px-4">
 		<input type="checkbox" bind:checked={isChecked} on:change={handleCheckboxChange} />
-		<IconSun class="swap-off fill-current" style="font-size: 1.5em" />
-		<IconMoon class="swap-on fill-current" style="font-size: 1.5em" />
+		<IconSun class="swap-off fill-current" style="font-size: x-large" />
+		<IconMoon class="swap-on fill-current" style="font-size: x-large" />
 	</label>
 </div>
