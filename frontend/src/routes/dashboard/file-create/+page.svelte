@@ -15,12 +15,12 @@
 					</div>
 				</div>
 				<div class="flex justify-center">
-					<div class="form-control">
+					<div class="form-control w-96">
 						<label for="" class="label">
 							<span class="label-text">What do you want to generate?</span>
 						</label>
 						<textarea
-							class="textarea textarea-bordered h-48 w-96"
+							class="textarea textarea-bordered h-48 w-full"
 							placeholder="I want an essay about birds..."
 						/>
 					</div>

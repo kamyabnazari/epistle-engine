@@ -15,11 +15,11 @@
 					</div>
 				</div>
 				<div class="flex flex-row justify-center">
-					<div class="form-control w-full max-w-xs">
+					<div class="form-control w-96">
 						<label for="file" class="label">
 							<span class="label-text">Pick a file</span>
 						</label>
-						<input type="file" class="file-input file-input-bordered w-full max-w-xs" />
+						<input type="file" class="file-input file-input-bordered w-full" />
 					</div>
 				</div>
 				<div class="flex flex-row justify-center">
