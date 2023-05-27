@@ -11,7 +11,6 @@
 							<img src="/example-avatar-image.jpeg" alt="Example Avatar" />
 						</div>
 					</div>
-					<div class="" />
 				</div>
 				<div class="form-control w-96">
 					<label for="text" class="label">

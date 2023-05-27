@@ -5,10 +5,10 @@
 				<div class="flex justify-center">
 					<h1 class="text-2xl font-bold">Settings</h1>
 				</div>
-				<div class="form-control w-96">
+				<div class="form-control">
 					<label class="label cursor-pointer">
 						<span class="label-text">Cloud integration</span>
-						<input type="checkbox" class="checkbox" />
+						<input type="checkbox" class="toggle" checked />
 					</label>
 				</div>
 				<div class="form-control w-96 gap-2">
