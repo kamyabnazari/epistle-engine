@@ -10,7 +10,7 @@ export default {
 			{
 				lofi: {
 					...require('daisyui/src/colors/themes')['[data-theme=lofi]'],
-					'--rounded-box': '1.5rem',
+					'--rounded-box': '1rem',
 					'--rounded-btn': '0.5rem',
 					'--rounded-badge': '0.5rem',
 					'--animation-btn': '0.25s',
@@ -23,7 +23,7 @@ export default {
 				},
 				black: {
 					...require('daisyui/src/colors/themes')['[data-theme=black]'],
-					'--rounded-box': '1.5rem',
+					'--rounded-box': '1rem',
 					'--rounded-btn': '0.5rem',
 					'--rounded-badge': '0.5rem',
 					'--animation-btn': '0.25s',
