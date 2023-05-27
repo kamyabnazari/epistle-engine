@@ -10,7 +10,7 @@
 		<div class="card-actions justify-end py-4">
 			<a href="/dashboard/file-read">
 				<button class="btn btn-primary gap-4">
-					<IconFile style="font-size: x-large" />
+					<IconFile style="font-size: x-large" class="text-primary-content" />
 					Read
 				</button></a
 			>
@@ -24,7 +24,7 @@
 		<div class="card-actions justify-end py-4">
 			<a href="/dashboard/file-create">
 				<button class="btn btn-primary gap-4">
-					<IconCreate style="font-size: x-large" />
+					<IconCreate style="font-size: x-large" class="text-primary-content" />
 					Create
 				</button>
 			</a>

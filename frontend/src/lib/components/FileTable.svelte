@@ -28,7 +28,7 @@
 				<td>
 					<div class="flex items-center space-x-3">
 						<div class="mask mask-square flex h-10 w-10 items-center justify-center">
-							<IconPDF style="font-size: x-large" />
+							<IconPDF style="font-size: x-large" class="text-primary" />
 						</div>
 						<div>
 							<div class="font-bold">file-23.pdf</div>
