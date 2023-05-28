@@ -14,7 +14,8 @@ export const actions: Actions = {
 		}
 
 		try {
-			await locals.pb.collection('documents').create(data);
+			const createdDocument = await locals.pb.collection('documents').create(data);
+			locals.session = { ...locals.session, createDocumentID: createdDocument.id };
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');

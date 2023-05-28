@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PdfViewer from '$lib/components/PDFViewer.svelte';
+	import { pb } from '$lib/pocketbase';
+	//import { session } from '$app/stores';
 
 	function goBack() {
 		goto('/dashboard/file-upload');
@@ -8,6 +10,21 @@
 
 	function goForward() {
 		goto('/dashboard/file-upload/done');
+	}
+
+	let createDocumentID: string;
+
+	/*
+	$session.subscribe((value: string) => {
+		createDocumentID = value.createDocumentID;
+	});
+*/
+	async function deleteDocument() {
+		try {
+			await pb.collection('documents').delete(createDocumentID);
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
 	}
 </script>
 
@@ -33,9 +50,7 @@
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">
-							<button class="btn btn-warning btn-outline" on:click|preventDefault={goBack}
-								>Delete</button
-							>
+							<button class="btn btn-warning btn-outline" on:click={deleteDocument}>Delete</button>
 						</div>
 						<div>
 							<button class="btn btn-primary" on:click|preventDefault={goForward}>Next</button>
