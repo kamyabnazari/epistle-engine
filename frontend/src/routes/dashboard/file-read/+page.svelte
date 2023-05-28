@@ -19,7 +19,7 @@
 		<div class="mb-4 flex-1 rounded-lg bg-white p-8 shadow-lg md:mb-0">
 			<PdfViewer />
 		</div>
-		<div class="flex-1 rounded-lg bg-white p-8 shadow-md">
+		<div class="flex-1 rounded-lg bg-white p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between">
 				<div class="form-control flex-grow">
 					<textarea

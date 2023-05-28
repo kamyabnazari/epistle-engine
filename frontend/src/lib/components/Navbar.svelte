@@ -5,7 +5,7 @@
 	import IconMoon from '~icons/solar/moon-outline';
 	import IconSun from '~icons/solar/sun-2-outline';
 	import { onMount, onDestroy } from 'svelte';
-	import { get, writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 	import { getImageURL } from '$lib/utils';
 
 	const theme = writable('lofi');

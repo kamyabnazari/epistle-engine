@@ -7,7 +7,7 @@
 	import IconPage from '~icons/solar/documents-outline';
 </script>
 
-<div class="stats flex-auto flex-nowrap shadow-md">
+<div class="stats flex-auto flex-nowrap shadow-lg">
 	<div class="stat">
 		<div class="stat-figure text-secondary">
 			<IconFile style="font-size: x-large;" class="text-primary" />

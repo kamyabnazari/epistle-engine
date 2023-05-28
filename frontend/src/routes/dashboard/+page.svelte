@@ -32,7 +32,7 @@
 		<ActionCards />
 	</div>
 	<div class="flex">
-		<div class="card bg-base-100 w-96 flex-1 shadow-md">
+		<div class="card bg-base-100 w-96 flex-1 shadow-lg">
 			<div class="card-body">
 				<h2 class="card-title">Generate a joke!</h2>
 				{#if joke}

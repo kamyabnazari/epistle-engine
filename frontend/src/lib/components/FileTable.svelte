@@ -9,10 +9,6 @@
 	const urlPDF =
 		'https://raw.githubusercontent.com/vinodnimbalkar/svelte-pdf/369db2f9edbf5ab8c87184193e1404340729bb3a/public/sample.pdf';
 
-	const downloadPdf = () => {
-		window.open(urlPDF);
-	};
-
 	onMount(async () => {
 		await fetchDocuments();
 	});
@@ -21,11 +17,6 @@
 
 	async function fetchDocuments() {
 		try {
-			/*
-			const response = await pb.collection('documents').getFullList({
-				filter: `owner=${$currentUser?.id}`
-			});
-			*/
 			const response = await pb.collection('documents').getFullList({
 				sort: '-created',
 				filter: `owner='${$currentUser?.id}'`
@@ -36,9 +27,13 @@
 			console.error('Fetch error:', error);
 		}
 	}
+
+	const downloadPdf = () => {
+		window.open(urlPDF);
+	};
 </script>
 
-<div class="w-full overflow-x-auto">
+<div class="w-full overflow-x-auto rounded-lg shadow-lg">
 	<table class="table w-full">
 		<!-- head -->
 		<thead>
@@ -74,18 +69,20 @@
 						<span class="badge badge-ghost badge-sm">PDF</span>
 					</td>
 					<td>13.05.2023</td>
-					<th>
-						<a href="/dashboard/file-read"
-							><button class="btn btn-square btn-primary"
-								><IconRead style="font-size: x-large;" /></button
-							></a
-						>
-						<button class="btn btn-square btn-info" on:click={downloadPdf}
-							><IconDownload style="font-size: x-large;" />
-						</button>
-						<button class="btn btn-square btn-warning"
-							><IconBin style="font-size: x-large;" /></button
-						>
+					<th
+						><div class="flex flex-row gap-4">
+							<a href="/dashboard/file-read"
+								><button class="btn btn-square btn-primary"
+									><IconRead style="font-size: x-large;" /></button
+								></a
+							>
+							<button class="btn btn-square btn-info" on:click={downloadPdf}
+								><IconDownload style="font-size: x-large;" />
+							</button>
+							<button class="btn btn-square btn-warning"
+								><IconBin style="font-size: x-large;" /></button
+							>
+						</div>
 					</th>
 				</tr>
 			{/each}

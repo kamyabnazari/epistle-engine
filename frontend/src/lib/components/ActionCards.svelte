@@ -3,7 +3,7 @@
 	import IconCreate from '~icons/solar/clipboard-add-outline';
 </script>
 
-<div class="card bg-base-100 w-96 flex-1 shadow-md">
+<div class="card bg-base-100 w-96 flex-1 shadow-lg">
 	<div class="card-body">
 		<h2 class="card-title">Read a new file</h2>
 		<p>Upload a new file and ask it your questions!</p>
@@ -17,7 +17,7 @@
 		</div>
 	</div>
 </div>
-<div class="card bg-base-100 w-96 flex-1 shadow-md">
+<div class="card bg-base-100 w-96 flex-1 shadow-lg">
 	<div class="card-body">
 		<h2 class="card-title">Create a new file</h2>
 		<p>Tell us what you want and create your file!</p>
