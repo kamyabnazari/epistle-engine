@@ -28,6 +28,15 @@
 		}
 	}
 
+	async function deleteDocument(documentID: string) {
+		try {
+			await pb.collection('documents').delete(documentID);
+			documentList = documentList.filter((document) => document.id !== documentID);
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
+
 	const downloadPdf = () => {
 		window.open(urlPDF);
 	};
@@ -79,8 +88,11 @@
 							<button class="btn btn-square btn-info" on:click={downloadPdf}
 								><IconDownload style="font-size: x-large;" />
 							</button>
-							<button class="btn btn-square btn-warning"
-								><IconBin style="font-size: x-large;" /></button
+							<button
+								class="btn btn-square btn-warning"
+								on:click={() => deleteDocument(document.id)}
+							>
+								<IconBin style="font-size: x-large;" /></button
 							>
 						</div>
 					</th>

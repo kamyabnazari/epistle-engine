@@ -13,7 +13,7 @@
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
 	<div class="text-center">
-		<h1 class="mb-8 text-5xl font-bold">Read</h1>
+		<h1 class="mb-8 text-5xl font-bold">Reading Assistant</h1>
 	</div>
 	<div class="flex flex-col justify-center gap-8 md:flex-row">
 		<div class="mb-4 flex-1 rounded-lg bg-white p-8 shadow-lg md:mb-0">
