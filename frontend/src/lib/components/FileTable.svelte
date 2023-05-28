@@ -1,5 +1,16 @@
 <script lang="ts">
 	import IconPDF from '~icons/bxs/file-pdf';
+
+	import IconDownload from '~icons/solar/download-square-outline';
+	import IconBin from '~icons/solar/trash-bin-trash-outline';
+	import IconRead from '~icons/solar/chat-unread-outline';
+
+	const urlPDF =
+		'https://raw.githubusercontent.com/vinodnimbalkar/svelte-pdf/369db2f9edbf5ab8c87184193e1404340729bb3a/public/sample.pdf';
+
+	const downloadPdf = () => {
+		window.open(urlPDF);
+	};
 </script>
 
 <div class="w-full overflow-x-auto">
@@ -41,7 +52,16 @@
 				</td>
 				<td>13.05.2023</td>
 				<th>
-					<button class="btn btn-sm btn-ghost">Actions</button>
+					<a href="/dashboard/file-read"
+						><button class="btn btn-square btn-primary"
+							><IconRead style="font-size: x-large;" /></button
+						></a
+					>
+					<button class="btn btn-square btn-info" on:click={downloadPdf}
+						><IconDownload style="font-size: x-large;" />
+					</button>
+					<button class="btn btn-square btn-warning"><IconBin style="font-size: x-large;" /></button
+					>
 				</th>
 			</tr>
 		</tbody>

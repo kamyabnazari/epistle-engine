@@ -74,10 +74,10 @@
 		<button class="btn btn-square" on:click={nextPage}>
 			<IconRightArrow style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square btn-info" on:click={printPdf}
+		<button class="btn btn-square btn-success" on:click={printPdf}
 			><IconPrint style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square btn-warning" on:click={downloadPdf}
+		<button class="btn btn-square btn-info" on:click={downloadPdf}
 			><IconDownload style="font-size: x-large;" /></button
 		>
 	</div>
