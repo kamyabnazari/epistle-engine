@@ -1,6 +1,6 @@
 <script lang="ts">
-	// Import goto from SvelteKit
 	import { goto } from '$app/navigation';
+	import PdfViewer from '$lib/components/PDFViewer.svelte';
 
 	function goBack() {
 		goto('/dashboard/file-read');
@@ -15,17 +15,20 @@
 					<div class="flex flex-row justify-center">
 						<h1 class="text-2xl font-bold">Read a new file</h1>
 					</div>
-					<div class="flex w-96 flex-row justify-center">
+					<div class="flex flex-row justify-center">
 						<div class="flex-grow">
 							<ul class="steps w-full">
-								<li class="step step-primary">Upload</li>
+								<li class="step step-primary">Select</li>
 								<li class="step step-primary">Preview</li>
-								<li class="step">Done</li>
+								<li class="step">Upload</li>
 							</ul>
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
 						<h1>Preview your file!</h1>
+					</div>
+					<div class="flex justify-center">
+						<PdfViewer />
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">

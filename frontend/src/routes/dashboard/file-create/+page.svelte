@@ -30,7 +30,7 @@
 						<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 					</div>
 					<div>
-						<a href="/dashboard"><button class="btn btn-primary">Next</button></a>
+						<a href="/dashboard"><button class="btn btn-primary">Generate</button></a>
 					</div>
 				</div>
 			</div>
