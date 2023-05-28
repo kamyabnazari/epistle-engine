@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import PdfViewer from '$lib/components/PDFViewer.svelte';
 
-	function goBack() {
+	function goRead() {
 		goto('/dashboard/file-read');
 	}
 </script>
@@ -13,26 +12,25 @@
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">
-						<h1 class="text-2xl font-bold">Read a new file</h1>
+						<h1 class="text-2xl font-bold">Upload a new file</h1>
 					</div>
-					<div class="flex flex-row justify-center">
+					<div class="flex w-96 flex-row justify-center">
 						<div class="flex-grow">
 							<ul class="steps w-full">
 								<li class="step step-primary">Select</li>
 								<li class="step step-primary">Preview</li>
-								<li class="step">Upload</li>
+								<li class="step step-primary">Done</li>
 							</ul>
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
-						<PdfViewer />
+						<h1>You have uploaded a file for reading!</h1>
 					</div>
 					<div class="flex flex-row justify-center">
-						<div class="flex-auto">
-							<button class="btn btn-ghost" on:click|preventDefault={goBack}>Back</button>
-						</div>
 						<div>
-							<button class="btn btn-primary" type="submit">Upload</button>
+							<button class="btn btn-primary" type="submit" on:click|preventDefault={goRead}
+								>Read</button
+							>
 						</div>
 					</div>
 				</div>

@@ -8,10 +8,10 @@
 		<h2 class="card-title">Read a new file</h2>
 		<p>Upload a new file and ask it your questions!</p>
 		<div class="card-actions justify-end py-4">
-			<a href="/dashboard/file-read">
+			<a href="/dashboard/file-upload">
 				<button class="btn btn-primary gap-4">
 					<IconFile style="font-size: x-large" class="text-primary-content" />
-					Read
+					Upload
 				</button></a
 			>
 		</div>
