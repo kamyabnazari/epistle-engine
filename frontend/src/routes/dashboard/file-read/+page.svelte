@@ -39,7 +39,7 @@
 							<ul class="steps w-full">
 								<li class="step step-primary">Select</li>
 								<li class="step">Preview</li>
-								<li class="step">Upload</li>
+								<li class="step">Read</li>
 							</ul>
 						</div>
 					</div>

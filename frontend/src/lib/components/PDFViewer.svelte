@@ -2,6 +2,11 @@
 	import { onMount } from 'svelte';
 	import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist';
 
+	import IconDownload from '~icons/solar/download-square-outline';
+	import IconPrint from '~icons/solar/printer-outline';
+	import IconLeftArrow from '~icons/solar/square-arrow-left-outline';
+	import IconRightArrow from '~icons/solar/square-arrow-right-outline';
+
 	let pdf: PDFDocumentProxy | null = null;
 	let currentPageNumber = 1;
 	let canvas: HTMLCanvasElement;
@@ -58,17 +63,25 @@
 		pdf = await loadingTask.promise;
 
 		await loadPage(currentPageNumber);
-	});
+		});
 </script>
 
-<div class="ring-primary relative z-0 rounded-md ring-2 ring-offset-4">
-	<div class="flex flex-row gap-4 p-8">
-		<button class="btn btn-outline flex-1" on:click={prevPage}>Previous Page</button>
-		<button class="btn btn-outline flex-1" on:click={nextPage}>Next Page</button>
-		<button class="btn btn-outline flex-1" on:click={downloadPdf}>Download</button>
-		<button class="btn btn-outline flex-1" on:click={printPdf}>Print</button>
+<div class="ring-primary relative z-0 w-96">
+	<div class="flex flex-row justify-center gap-4 p-8">
+		<button class="btn btn-square" on:click={prevPage}
+			><IconLeftArrow style="font-size: x-large;" /></button
+		>
+		<button class="btn btn-square" on:click={nextPage}>
+			<IconRightArrow style="font-size: x-large;" /></button
+		>
+		<button class="btn btn-square btn-info" on:click={printPdf}
+			><IconPrint style="font-size: x-large;" /></button
+		>
+		<button class="btn btn-square btn-warning" on:click={downloadPdf}
+			><IconDownload style="font-size: x-large;" /></button
+		>
 	</div>
 	<div class="ring-primary relative z-0 ring-2 ring-offset-4">
-		<canvas bind:this={canvas} />
+		<canvas bind:this={canvas} class="w-full" />
 	</div>
 </div>

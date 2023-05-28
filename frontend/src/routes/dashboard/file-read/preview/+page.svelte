@@ -25,9 +25,6 @@
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
-						<h1>Preview your file!</h1>
-					</div>
-					<div class="flex justify-center">
 						<PdfViewer />
 					</div>
 					<div class="flex flex-row justify-center">
@@ -35,7 +32,7 @@
 							<button class="btn btn-ghost" on:click|preventDefault={goBack}>Back</button>
 						</div>
 						<div>
-							<button class="btn btn-primary" type="submit">Next</button>
+							<button class="btn btn-primary" type="submit">Upload</button>
 						</div>
 					</div>
 				</div>
