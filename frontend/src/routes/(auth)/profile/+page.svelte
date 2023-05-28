@@ -25,9 +25,9 @@
 	};
 </script>
 
-<div class="hero bg-base-100 min-h-full">
+<div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card p-16 shadow-lg">
+		<div class="card bg-base-200 p-16 shadow-lg">
 			<form
 				action="?/updateProfile"
 				method="POST"

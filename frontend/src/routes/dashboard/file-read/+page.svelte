@@ -16,10 +16,10 @@
 		<h1 class="mb-8 text-5xl font-bold">Reading Assistant</h1>
 	</div>
 	<div class="flex flex-col justify-center gap-8 md:flex-row">
-		<div class="mb-4 flex-1 rounded-lg bg-white p-8 shadow-lg md:mb-0">
+		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">
 			<PdfViewer />
 		</div>
-		<div class="flex-1 rounded-lg bg-white p-8 shadow-lg">
+		<div class="bg-base-200 flex-1 rounded-lg p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between">
 				<div class="form-control flex-grow">
 					<textarea

@@ -6,9 +6,9 @@
 	}
 </script>
 
-<div class="hero bg-base-100 min-h-full">
+<div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card p-16 shadow-lg">
+		<div class="card bg-base-200 p-16 shadow-lg">
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">

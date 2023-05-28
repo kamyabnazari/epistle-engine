@@ -1,6 +1,6 @@
 <div class="hero bg-base-100 min-h-full">
 	<div class="hero-content">
-		<div class="card p-16 shadow-lg">
+		<div class="card p-16 shadow-lg bg-base-200">
 			<div class="flex flex-col gap-8">
 				<div class="flex justify-center">
 					<h1 class="text-2xl font-bold">Create a new file</h1>

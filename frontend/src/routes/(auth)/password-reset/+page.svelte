@@ -3,7 +3,7 @@
 	import { pb } from '$lib/pocketbase';
 </script>
 
-<div class="hero bg-base-100 min-h-full">
+<div class="hero min-h-full">
 	<div class="hero-content flex-col lg:flex-row-reverse">
 		<div class="text-center lg:text-left">
 			<h1 class="text-5xl font-bold">Password Reset</h1>
@@ -12,7 +12,7 @@
 				Enter your email address below, and we'll send you instructions on how to reset your password.
 			</p>
 		</div>
-		<div class="card bg-base-100 w-full max-w-sm flex-shrink-0 shadow-2xl">
+		<div class="card bg-base-200 w-full max-w-sm flex-shrink-0 shadow-2xl">
 			<div class="card-body">
 				<form
 					method="POST"
