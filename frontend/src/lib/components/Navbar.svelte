@@ -5,7 +5,8 @@
 	import IconMoon from '~icons/solar/moon-outline';
 	import IconSun from '~icons/solar/sun-2-outline';
 	import { onMount, onDestroy } from 'svelte';
-	import { get, writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
+	import { getImageURL } from '$lib/utils';
 
 	const theme = writable('lofi');
 
@@ -37,10 +38,10 @@
 	}
 </script>
 
-<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 px-6 py-4 shadow-sm">
+<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 z-50 px-6 py-4 shadow-sm">
 	<div class="me-4 flex-none lg:hidden">
 		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
-			<IconMenu style="font-size: x-large" />
+			<IconMenu style="font-size: x-large" class="text-primary" />
 		</label>
 	</div>
 	<div class="flex-1">
@@ -54,7 +55,13 @@
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label tabindex="0" class="btn btn-ghost btn-square avatar">
 						<div class="ring-primary ring-offset-base-100 w-8 rounded-md ring-2 ring-offset-2">
-							<img src="/example-avatar-image.jpeg" alt="Example Avatar" />
+							<img
+								src={$currentUser?.avatar
+									? getImageURL($currentUser?.collectionId, $currentUser?.id, $currentUser?.avatar)
+									: `https://ui-avatars.com/api/?name=${$currentUser?.name}`}
+								alt="user avatar"
+								id="avatar-preview-navbar"
+							/>
 						</div>
 					</label>
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -90,7 +97,7 @@
 	</div>
 	<label class="swap swap-rotate px-4">
 		<input type="checkbox" bind:checked={isChecked} on:change={handleCheckboxChange} />
-		<IconSun class="swap-off fill-current" style="font-size: x-large" />
-		<IconMoon class="swap-on fill-current" style="font-size: x-large" />
+		<IconSun class="swap-off text-primary fill-current" style="font-size: x-large" />
+		<IconMoon class="swap-on text-warning fill-current" style="font-size: x-large" />
 	</label>
 </div>
