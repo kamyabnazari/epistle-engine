@@ -21,9 +21,7 @@ export const actions: Actions = {
 			throw error(400, 'Something went wrong updating your profile');
 		}
 
-		return {
-			success: true
-		};
+		throw redirect(303, '/dashboard');
 	}
 };
 
