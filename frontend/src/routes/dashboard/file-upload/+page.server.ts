@@ -13,7 +13,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			const { document } = await locals.pb.collection('stored_documents').create(data);
+			const { document } = await locals.pb.collection('documents').create(data);
 
 			const previewDocument = document;
 			console.log(previewDocument);

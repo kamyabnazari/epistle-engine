@@ -63,10 +63,10 @@
 		pdf = await loadingTask.promise;
 
 		await loadPage(currentPageNumber);
-		});
+	});
 </script>
 
-<div class="ring-primary relative z-0 w-96">
+<div class="ring-primary relative z-0">
 	<div class="flex flex-row justify-center gap-4 p-8">
 		<button class="btn btn-square" on:click={prevPage}
 			><IconLeftArrow style="font-size: x-large;" /></button
