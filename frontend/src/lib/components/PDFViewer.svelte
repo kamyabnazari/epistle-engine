@@ -34,4 +34,6 @@
 	});
 </script>
 
-<canvas bind:this={canvas} />
+<div class="ring-primary relative z-0 rounded-md ring-2 ring-offset-4">
+	<canvas bind:this={canvas} />
+</div>
