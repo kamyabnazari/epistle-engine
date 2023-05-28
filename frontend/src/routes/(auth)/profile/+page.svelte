@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { currentUser, pb } from '$lib/pocketbase';
+	import { currentUser } from '$lib/pocketbase';
 	import { getImageURL, showPreview } from '$lib/utils';
 
 	import IconImageEdit from '~icons/solar/gallery-edit-outline';

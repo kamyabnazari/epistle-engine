@@ -5,18 +5,16 @@ import type { PageServerLoad } from './$types';
 export const actions: Actions = {
 	uploadDocument: async ({ locals, request }) => {
 		const data = await request.formData();
+		const userDocument = data.get('document') as File;
 		data.set('owner', locals.user.id);
-		const userDocument = data.get('document');
+		data.set('name', userDocument?.name ?? 'untitled');
 
 		if (userDocument instanceof Blob && userDocument.size === 0) {
 			throw error(400, 'Please upload a file');
 		}
 
 		try {
-			const { document } = await locals.pb.collection('documents').create(data);
-
-			const previewDocument = document;
-			console.log(previewDocument);
+			await locals.pb.collection('documents').create(data);
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');
