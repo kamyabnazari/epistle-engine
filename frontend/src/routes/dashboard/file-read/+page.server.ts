@@ -1,6 +1,6 @@
-import { goto } from '$app/navigation';
 import type { Actions } from './$types';
 import { error, redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 export const actions: Actions = {
 	uploadDocument: async ({ locals, request }) => {
@@ -23,5 +23,11 @@ export const actions: Actions = {
 		}
 
 		throw redirect(303, '/dashboard/file-read/preview');
+	}
+};
+
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user) {
+		throw redirect(303, '/login');
 	}
 };

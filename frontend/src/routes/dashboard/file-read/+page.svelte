@@ -37,9 +37,9 @@
 					<div class="flex flex-row justify-center">
 						<div class="flex-grow">
 							<ul class="steps w-full">
-								<li class="step step-primary">Upload</li>
+								<li class="step step-primary">Select</li>
 								<li class="step">Preview</li>
-								<li class="step">Done</li>
+								<li class="step">Upload</li>
 							</ul>
 						</div>
 					</div>
