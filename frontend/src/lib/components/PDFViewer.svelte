@@ -84,23 +84,15 @@
 		}
 	};
 
-	const printPdf = async () => {
+	const printPdf = () => {
 		if (generatedDocumentURL) {
-			const response = await fetch(generatedDocumentURL);
-			const blob = await response.blob();
-			const objectURL = window.URL.createObjectURL(blob);
-
-			const pdfWindow = window.open('', '_blank');
-			if (pdfWindow) {
-				pdfWindow.document.open();
-				pdfWindow.document.write(
-					`<html><head><title>Print</title></head><body><embed src="${objectURL}" type="application/pdf" /></body></html>`
-				);
-				pdfWindow.document.close();
-				pdfWindow.print();
-			}
-
-			window.URL.revokeObjectURL(objectURL);
+			const link = window.document.createElement('a');
+			link.href = generatedDocumentURL;
+			link.target = '_blank';
+			link.rel = 'noopener noreferrer';
+			window.document.body.appendChild(link);
+			link.click();
+			window.document.body.removeChild(link);
 		}
 	};
 
