@@ -66,7 +66,7 @@
 		}
 	};
 
-	const downloadPdf = async (document: Record) => {
+	const downloadPdf = async () => {
 		const response = await fetch(generatedDocumentURL);
 		const blob = await response.blob();
 		const objectURL = window.URL.createObjectURL(blob);

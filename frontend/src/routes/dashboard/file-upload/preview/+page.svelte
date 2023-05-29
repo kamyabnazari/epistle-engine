@@ -15,7 +15,7 @@
 	}
 
 	function goForward() {
-		goto('/dashboard/file-upload/done');
+		goto(`/dashboard/file-upload/done/${recentlyAddedDocumentID}`);
 	}
 
 	onMount(async () => {

@@ -1,8 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+
+	let documentID: string;
+
+	onMount(async () => {
+		documentID = $page.params.id;
+	});
+
 	function goRead() {
-		goto(`/dashboard/file-read/${document.id}`);
+		goto(`/dashboard/file-read/${documentID}`);
 	}
 </script>
 
