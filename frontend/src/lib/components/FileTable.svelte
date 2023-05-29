@@ -79,7 +79,7 @@
 						</div>
 					</td>
 					<td>
-						<span class="text-sm">Uploaded</span><br />
+						<span class="text-sm">{document.type}</span><br />
 						<span class="badge badge-ghost badge-sm">PDF</span>
 					</td>
 					<td>{document.created.slice(0, 19)}</td>

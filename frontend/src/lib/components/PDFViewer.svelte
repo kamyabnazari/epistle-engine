@@ -6,7 +6,6 @@
 	import IconPrint from '~icons/solar/printer-outline';
 	import IconLeftArrow from '~icons/solar/square-arrow-left-outline';
 	import IconRightArrow from '~icons/solar/square-arrow-right-outline';
-	import type { Record } from 'pocketbase';
 
 	let pdf: PDFDocumentProxy | null = null;
 	let currentPageNumber = 1;
