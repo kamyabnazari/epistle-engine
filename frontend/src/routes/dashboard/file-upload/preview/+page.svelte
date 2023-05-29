@@ -8,6 +8,7 @@
 
 	let recentlyAddedDocumentID: string;
 	let documentList: Record[] = [];
+	let document: Record;
 	let generatedDocumentURL: string | null = null;
 
 	function goBack() {
@@ -29,6 +30,7 @@
 				filter: `owner='${$currentUser?.id}'`
 			});
 			documentList = response.items || [];
+			document = documentList[0];
 			recentlyAddedDocumentID = documentList[0]?.id;
 
 			generatedDocumentURL = await getDocumentURL(
@@ -70,7 +72,7 @@
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
-						<PdfViewer {generatedDocumentURL} />
+						<PdfViewer {generatedDocumentURL} {document} />
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">

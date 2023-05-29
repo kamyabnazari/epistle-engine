@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { afterUpdate, onMount } from 'svelte';
 	import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist';
+	import type { Record } from 'pocketbase';
 
 	import IconDownload from '~icons/solar/download-square-outline';
 	import IconPrint from '~icons/solar/printer-outline';
@@ -13,6 +14,8 @@
 	let isRendering = false;
 
 	export let generatedDocumentURL: string | null = null;
+	export let document: Record | null = null;
+
 	let previousDocumentUrl: string | null = null;
 
 	let isLoading = true;
@@ -66,21 +69,39 @@
 	};
 
 	const downloadPdf = async () => {
-		const response = await fetch(generatedDocumentURL);
-		const blob = await response.blob();
-		const objectURL = window.URL.createObjectURL(blob);
+		if (generatedDocumentURL) {
+			const response = await fetch(generatedDocumentURL);
+			const blob = await response.blob();
+			const objectURL = window.URL.createObjectURL(blob);
 
-		const downloadLink = window.document.createElement('a');
-		downloadLink.href = objectURL;
-		downloadLink.download = document.name;
-		window.document.body.appendChild(downloadLink);
-		downloadLink.click();
-		window.document.body.removeChild(downloadLink);
-		window.URL.revokeObjectURL(objectURL);
+			const downloadLink = window.document.createElement('a');
+			downloadLink.href = objectURL;
+			downloadLink.download = document?.name;
+			window.document.body.appendChild(downloadLink);
+			downloadLink.click();
+			window.document.body.removeChild(downloadLink);
+			window.URL.revokeObjectURL(objectURL);
+		}
 	};
 
-	const printPdf = () => {
-		window.print();
+	const printPdf = async () => {
+		if (generatedDocumentURL) {
+			const response = await fetch(generatedDocumentURL);
+			const blob = await response.blob();
+			const objectURL = window.URL.createObjectURL(blob);
+
+			const pdfWindow = window.open('', '_blank');
+			if (pdfWindow) {
+				pdfWindow.document.open();
+				pdfWindow.document.write(
+					`<html><head><title>Print</title></head><body><embed src="${objectURL}" type="application/pdf" /></body></html>`
+				);
+				pdfWindow.document.close();
+				pdfWindow.print();
+			}
+
+			window.URL.revokeObjectURL(objectURL);
+		}
 	};
 
 	async function loadPdf(url: string) {
@@ -119,10 +140,10 @@
 		<button class="btn btn-square" on:click={nextPage}>
 			<IconRightArrow style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square btn-success" on:click={printPdf}
+		<button class="btn btn-square btn-success" on:click={() => printPdf()}
 			><IconPrint style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square btn-info" on:click={() => downloadPdf}
+		<button class="btn btn-square btn-info" on:click={() => downloadPdf()}
 			><IconDownload style="font-size: x-large;" /></button
 		>
 	</div>
