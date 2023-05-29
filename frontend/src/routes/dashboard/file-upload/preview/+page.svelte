@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PdfViewer from '$lib/components/PDFViewer.svelte';
-	import { pb } from '$lib/pocketbase';
-	//import { session } from '$app/stores';
+	import { currentUser, pb } from '$lib/pocketbase';
+	import { onMount } from 'svelte';
+	import type { Record } from 'pocketbase';
+
+	let recentlyAddedDocumentID: string;
+	let documentList: Record[] = [];
 
 	function goBack() {
 		goto('/dashboard/file-upload');
@@ -12,16 +16,28 @@
 		goto('/dashboard/file-upload/done');
 	}
 
-	let createDocumentID: string;
-
-	/*
-	$session.subscribe((value: string) => {
-		createDocumentID = value.createDocumentID;
+	onMount(async () => {
+		await fetchRecentlyAddedDocumentID();
 	});
-*/
+
+	async function fetchRecentlyAddedDocumentID() {
+		try {
+			const response = await pb.collection('documents').getList(1, 1, {
+				sort: '-created',
+				filter: `owner='${$currentUser?.id}'`
+			});
+			documentList = response.items || [];
+			recentlyAddedDocumentID = documentList[0]?.id;
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
+
 	async function deleteDocument() {
 		try {
-			await pb.collection('documents').delete(createDocumentID);
+			await pb.collection('documents').delete(recentlyAddedDocumentID);
+			documentList = documentList.filter((document) => document.id !== recentlyAddedDocumentID);
+			goBack();
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}

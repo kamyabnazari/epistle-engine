@@ -19,11 +19,11 @@
 		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">
 			<PdfViewer />
 		</div>
-		<div class="bg-base-200 flex-1 rounded-lg p-8 shadow-lg">
+		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between">
 				<div class="form-control flex-grow">
 					<textarea
-						class="textarea textarea-bordered w-full rounded-lg p-4 max-sm:h-96 sm:h-96 md:h-96 lg:h-full"
+						class="textarea textarea-bordered w-full rounded-md p-4 max-sm:h-96 sm:h-96 md:h-96 lg:h-full"
 						unselectable="on"
 						placeholder="Read-only content..."
 						readonly
@@ -34,7 +34,7 @@
 						<span class="label-text">Ask me anything!</span>
 					</label>
 					<textarea
-						class="textarea textarea-bordered border-primary h-48 w-full rounded-lg border-2 p-4"
+						class="textarea textarea-bordered border-primary h-48 w-full rounded-md border-2 p-4"
 						placeholder="Ask anything..."
 					/>
 				</div>

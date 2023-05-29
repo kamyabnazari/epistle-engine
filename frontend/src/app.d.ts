@@ -12,7 +12,6 @@ declare global {
 		interface Locals {
 			pb: PocketBase;
 			user: PocketBase['authStore']['model'];
-			session: Session;
 		}
 		// interface PageData {}
 		// interface Platform {}

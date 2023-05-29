@@ -22,7 +22,6 @@
 				filter: `owner='${$currentUser?.id}'`
 			});
 			documentList = response || [];
-			console.log(documentList);
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
