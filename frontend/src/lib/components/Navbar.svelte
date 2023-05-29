@@ -54,7 +54,7 @@
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label tabindex="0" class="btn btn-ghost btn-square avatar">
-						<div class="ring-primary ring-offset-base-100 w-8 rounded-md ring-2 ring-offset-2">
+						<div class="ring-primary ring-offset-base-100 w-8 rounded-sm ring-2 ring-offset-2">
 							<img
 								src={$currentUser?.avatar
 									? getImageURL($currentUser?.collectionId, $currentUser?.id, $currentUser?.avatar)
