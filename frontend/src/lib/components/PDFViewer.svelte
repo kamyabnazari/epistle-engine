@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist';
 
 	import IconDownload from '~icons/solar/download-square-outline';
@@ -14,11 +14,16 @@
 	let isRendering = false;
 
 	export let generatedDocumentURL: string | null = null;
+	let previousDocumentUrl: string | null = null;
 
 	let isLoading = true;
 
+	afterUpdate(() => {
+		previousDocumentUrl = generatedDocumentURL;
+	});
+
 	$: {
-		if (generatedDocumentURL && !isRendering) {
+		if (generatedDocumentURL && generatedDocumentURL !== previousDocumentUrl) {
 			isLoading = true;
 			loadPdf(generatedDocumentURL);
 		}
@@ -44,6 +49,7 @@
 			viewport: viewport
 		};
 		await page.render(renderContext);
+		page.cleanup();
 		isRendering = false;
 	};
 
@@ -88,12 +94,16 @@
 		GlobalWorkerOptions.workerSrc =
 			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.js';
 
-		const loadingTask = getDocument(url);
-		pdf = await loadingTask.promise;
+		try {
+			const loadingTask = getDocument(url);
+			pdf = await loadingTask.promise;
 
-		await loadPage(currentPageNumber);
+			await loadPage(currentPageNumber);
 
-		isLoading = false;
+			isLoading = false;
+		} catch (error) {
+			console.error('Failed to load PDF:', error);
+		}
 	}
 
 	onMount(async () => {
@@ -114,7 +124,7 @@
 		<button class="btn btn-square btn-success" on:click={printPdf}
 			><IconPrint style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square btn-info" on:click={downloadPdf}
+		<button class="btn btn-square btn-info" on:click={() => downloadPdf}
 			><IconDownload style="font-size: x-large;" /></button
 		>
 	</div>
