@@ -85,7 +85,7 @@
 					<td>{document.created.slice(0, 19)}</td>
 					<th
 						><div class="flex flex-row gap-4">
-							<a href="/dashboard/file-read"
+							<a href={`/dashboard/file-read/${document.id}`}
 								><button class="btn btn-square btn-primary"
 									><IconRead style="font-size: x-large;" /></button
 								></a

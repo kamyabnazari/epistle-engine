@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 
 	function goRead() {
-		goto('/dashboard/file-read');
+		goto(`/dashboard/file-read/${document.id}`);
 	}
 </script>
 

@@ -49,7 +49,6 @@
 			viewport: viewport
 		};
 		await page.render(renderContext);
-		page.cleanup();
 		isRendering = false;
 	};
 
