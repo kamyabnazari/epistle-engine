@@ -6,7 +6,7 @@
 				<p class="py-6 text-xl">
 					Unleash the Power of AI: Creating Beautiful, Structured PDFs Has Never Been Easier!
 				</p>
-				<div class="stats shadow-lg">
+				<div class="stats bg-base-200 shadow-lg">
 					<div class="stat">
 						<div class="stat-title">Total documents analysed</div>
 						<div class="stat-value">389,400</div>
@@ -16,7 +16,7 @@
 						<div class="stat-value">59,200</div>
 					</div>
 				</div>
-				<div class="py-4">
+				<div class="py-8">
 					<a href="/register"><button class="btn btn-primary">Register now</button></a>
 				</div>
 			</div>

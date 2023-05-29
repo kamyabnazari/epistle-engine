@@ -5,9 +5,7 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
 	import { onMount } from 'svelte';
-
-	const urlPDF =
-		'https://raw.githubusercontent.com/vinodnimbalkar/svelte-pdf/369db2f9edbf5ab8c87184193e1404340729bb3a/public/sample.pdf';
+	import { getDocumentURL } from '$lib/utils';
 
 	onMount(async () => {
 		await fetchDocuments();
@@ -22,15 +20,35 @@
 				filter: `owner='${$currentUser?.id}'`
 			});
 			documentList = response || [];
-			console.log(documentList);
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
 	}
 
-	const downloadPdf = () => {
-		window.open(urlPDF);
-	};
+	async function deleteDocument(documentID: string) {
+		try {
+			await pb.collection('documents').delete(documentID);
+			documentList = documentList.filter((document) => document.id !== documentID);
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
+
+	async function downloadDocument(document: Record) {
+		const documentURL = getDocumentURL(document?.collectionId, document?.id, document?.document);
+
+		const response = await fetch(documentURL);
+		const blob = await response.blob();
+		const objectURL = window.URL.createObjectURL(blob);
+
+		const downloadLink = window.document.createElement('a');
+		downloadLink.href = objectURL;
+		downloadLink.download = document.name;
+		window.document.body.appendChild(downloadLink);
+		downloadLink.click();
+		window.document.body.removeChild(downloadLink);
+		window.URL.revokeObjectURL(objectURL);
+	}
 </script>
 
 <div class="w-full overflow-x-auto rounded-lg shadow-lg">
@@ -38,11 +56,7 @@
 		<!-- head -->
 		<thead>
 			<tr>
-				<th>
-					<label>
-						<input type="checkbox" class="checkbox" />
-					</label>
-				</th>
+				<th />
 				<th>Name</th>
 				<th>Type</th>
 				<th>Create Date</th>
@@ -50,17 +64,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each documentList as document}
-				<tr>
-					<th>
-						<label>
-							<input type="checkbox" class="checkbox" />
-						</label>
-					</th>
+			{#each documentList as document, index}
+				<tr class="hover">
+					<td>
+						<div class="text-md">
+							{index + 1}
+						</div>
+					</td>
 					<td>
 						<div class="flex items-center space-x-3">
 							<div>
-								<div class="font-bold">{document.name}</div>
+								<div class="text-md font-bold">{document.name}</div>
 							</div>
 						</div>
 					</td>
@@ -68,19 +82,22 @@
 						<span class="text-sm">Uploaded</span><br />
 						<span class="badge badge-ghost badge-sm">PDF</span>
 					</td>
-					<td>13.05.2023</td>
+					<td>{document.created.slice(0, 19)}</td>
 					<th
 						><div class="flex flex-row gap-4">
-							<a href="/dashboard/file-read"
+							<a href={`/dashboard/file-read/${document.id}`}
 								><button class="btn btn-square btn-primary"
 									><IconRead style="font-size: x-large;" /></button
 								></a
 							>
-							<button class="btn btn-square btn-info" on:click={downloadPdf}
+							<button class="btn btn-square btn-info" on:click={() => downloadDocument(document)}
 								><IconDownload style="font-size: x-large;" />
 							</button>
-							<button class="btn btn-square btn-warning"
-								><IconBin style="font-size: x-large;" /></button
+							<button
+								class="btn btn-square btn-warning"
+								on:click={() => deleteDocument(document.id)}
+							>
+								<IconBin style="font-size: x-large;" /></button
 							>
 						</div>
 					</th>

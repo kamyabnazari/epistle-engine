@@ -12,7 +12,7 @@
 
 	const toggleTheme = () => {
 		theme.update((currentTheme) => {
-			const newTheme = currentTheme === 'black' ? 'lofi' : 'black';
+			const newTheme = currentTheme === 'business' ? 'lofi' : 'business';
 			document.documentElement.setAttribute('data-theme', newTheme);
 			localStorage.setItem('theme', newTheme);
 			return newTheme;
@@ -27,10 +27,10 @@
 	});
 
 	onDestroy(() => {
-		theme.set('black'); // Reset the theme to default on component destruction
+		theme.set('business'); // Reset the theme to default on component destruction
 	});
 
-	$: isChecked = $theme === 'black'; // Computed property for checkbox state
+	$: isChecked = $theme === 'business'; // Computed property for checkbox state
 
 	function handleCheckboxChange() {
 		isChecked;
@@ -38,7 +38,7 @@
 	}
 </script>
 
-<div class="navbar text-base-content bg-base-100 sticky left-0 top-0 z-50 px-6 py-4 shadow-sm">
+<div class="navbar text-base-content bg-base-200 sticky left-0 top-0 z-50 px-6 py-4 shadow-sm">
 	<div class="me-4 flex-none lg:hidden">
 		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
 			<IconMenu style="font-size: x-large" class="text-primary" />

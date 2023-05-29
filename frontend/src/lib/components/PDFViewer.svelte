@@ -1,20 +1,38 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist';
 
 	import IconDownload from '~icons/solar/download-square-outline';
 	import IconPrint from '~icons/solar/printer-outline';
 	import IconLeftArrow from '~icons/solar/square-arrow-left-outline';
 	import IconRightArrow from '~icons/solar/square-arrow-right-outline';
+	import type { Record } from 'pocketbase';
 
 	let pdf: PDFDocumentProxy | null = null;
 	let currentPageNumber = 1;
 	let canvas: HTMLCanvasElement;
+	let isRendering = false;
 
-	const urlPDF =
-		'https://raw.githubusercontent.com/vinodnimbalkar/svelte-pdf/369db2f9edbf5ab8c87184193e1404340729bb3a/public/sample.pdf';
+	export let generatedDocumentURL: string | null = null;
+	let previousDocumentUrl: string | null = null;
+
+	let isLoading = true;
+
+	afterUpdate(() => {
+		previousDocumentUrl = generatedDocumentURL;
+	});
+
+	$: {
+		if (generatedDocumentURL && generatedDocumentURL !== previousDocumentUrl) {
+			isLoading = true;
+			loadPdf(generatedDocumentURL);
+		}
+	}
 
 	const loadPage = async (pageNumber: number) => {
+		if (!pdf) {
+			return;
+		}
 		const page = await pdf.getPage(pageNumber);
 
 		const scale = 1;
@@ -31,6 +49,7 @@
 			viewport: viewport
 		};
 		await page.render(renderContext);
+		isRendering = false;
 	};
 
 	const prevPage = () => {
@@ -41,28 +60,55 @@
 	};
 
 	const nextPage = () => {
-		if (currentPageNumber < pdf.numPages) {
+		if (pdf && currentPageNumber < pdf.numPages) {
 			currentPageNumber++;
 			loadPage(currentPageNumber);
 		}
 	};
 
-	const downloadPdf = () => {
-		window.open(urlPDF);
+	const downloadPdf = async () => {
+		const response = await fetch(generatedDocumentURL);
+		const blob = await response.blob();
+		const objectURL = window.URL.createObjectURL(blob);
+
+		const downloadLink = window.document.createElement('a');
+		downloadLink.href = objectURL;
+		downloadLink.download = document.name;
+		window.document.body.appendChild(downloadLink);
+		downloadLink.click();
+		window.document.body.removeChild(downloadLink);
+		window.URL.revokeObjectURL(objectURL);
 	};
 
 	const printPdf = () => {
 		window.print();
 	};
 
-	onMount(async () => {
+	async function loadPdf(url: string) {
+		if (isRendering) {
+			return;
+		}
+
+		isRendering = true;
 		GlobalWorkerOptions.workerSrc =
 			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.js';
 
-		const loadingTask = getDocument(urlPDF);
-		pdf = await loadingTask.promise;
+		try {
+			const loadingTask = getDocument(url);
+			pdf = await loadingTask.promise;
 
-		await loadPage(currentPageNumber);
+			await loadPage(currentPageNumber);
+
+			isLoading = false;
+		} catch (error) {
+			console.error('Failed to load PDF:', error);
+		}
+	}
+
+	onMount(async () => {
+		if (generatedDocumentURL) {
+			loadPdf(generatedDocumentURL);
+		}
 	});
 </script>
 
@@ -77,7 +123,7 @@
 		<button class="btn btn-square btn-success" on:click={printPdf}
 			><IconPrint style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square btn-info" on:click={downloadPdf}
+		<button class="btn btn-square btn-info" on:click={() => downloadPdf}
 			><IconDownload style="font-size: x-large;" /></button
 		>
 	</div>

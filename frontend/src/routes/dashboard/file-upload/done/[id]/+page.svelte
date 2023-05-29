@@ -1,14 +1,23 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+
+	let documentID: string;
+
+	onMount(async () => {
+		documentID = $page.params.id;
+	});
+
 	function goRead() {
-		goto('/dashboard/file-read');
+		goto(`/dashboard/file-read/${documentID}`);
 	}
 </script>
 
-<div class="hero bg-base-100 min-h-full">
+<div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card p-16 shadow-lg">
+		<div class="card bg-base-200 p-16 shadow-lg">
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">

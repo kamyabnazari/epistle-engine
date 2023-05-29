@@ -1,6 +1,6 @@
 <div class="hero bg-base-100 min-h-full">
 	<div class="hero-content">
-		<div class="card p-16 shadow-lg">
+		<div class="card bg-base-200 p-16 shadow-lg">
 			<div class="flex flex-col gap-8">
 				<div class="flex justify-center">
 					<h1 class="text-2xl font-bold">Create a new file</h1>
@@ -20,7 +20,7 @@
 							<span class="label-text">What do you want to generate?</span>
 						</label>
 						<textarea
-							class="textarea textarea-bordered h-48 w-full"
+							class="textarea textarea-bordered border-primary h-48 w-full rounded-md border-2"
 							placeholder="I want an essay about birds..."
 						/>
 					</div>
