@@ -5,9 +5,7 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
 	import { onMount } from 'svelte';
-
-	const urlPDF =
-		'https://raw.githubusercontent.com/vinodnimbalkar/svelte-pdf/369db2f9edbf5ab8c87184193e1404340729bb3a/public/sample.pdf';
+	import { getDocumentURL } from '$lib/utils';
 
 	onMount(async () => {
 		await fetchDocuments();
@@ -36,8 +34,20 @@
 		}
 	}
 
-	const downloadPdf = () => {
-		window.open(urlPDF);
+	const downloadDocument = async (document: Record) => {
+		const documentURL = getDocumentURL(document?.collectionId, document?.id, document?.document);
+
+		const response = await fetch(documentURL);
+		const blob = await response.blob();
+		const objectURL = window.URL.createObjectURL(blob);
+
+		const downloadLink = window.document.createElement('a');
+		downloadLink.href = objectURL;
+		downloadLink.download = document.name;
+		window.document.body.appendChild(downloadLink);
+		downloadLink.click();
+		window.document.body.removeChild(downloadLink);
+		window.URL.revokeObjectURL(objectURL);
 	};
 </script>
 
@@ -76,7 +86,7 @@
 						<span class="text-sm">Uploaded</span><br />
 						<span class="badge badge-ghost badge-sm">PDF</span>
 					</td>
-					<td>13.05.2023</td>
+					<td>{document.created.slice(0, 19)}</td>
 					<th
 						><div class="flex flex-row gap-4">
 							<a href="/dashboard/file-read"
@@ -84,7 +94,7 @@
 									><IconRead style="font-size: x-large;" /></button
 								></a
 							>
-							<button class="btn btn-square btn-info" on:click={downloadPdf}
+							<button class="btn btn-square btn-info" on:click={() => downloadDocument(document)}
 								><IconDownload style="font-size: x-large;" />
 							</button>
 							<button
