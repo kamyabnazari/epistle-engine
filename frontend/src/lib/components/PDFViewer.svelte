@@ -11,6 +11,16 @@
 	let currentPageNumber = 1;
 	let canvas: HTMLCanvasElement;
 
+	export let generatedDocumentURL: string | null = null;
+
+	let isLoading = true;
+
+	$: {
+		if (generatedDocumentURL) {
+			isLoading = true;
+			loadPdf(generatedDocumentURL);
+		}
+	}
 	const urlPDF =
 		'https://raw.githubusercontent.com/vinodnimbalkar/svelte-pdf/369db2f9edbf5ab8c87184193e1404340729bb3a/public/sample.pdf';
 
@@ -55,7 +65,7 @@
 		window.print();
 	};
 
-	onMount(async () => {
+	async function loadPdf(url: string) {
 		GlobalWorkerOptions.workerSrc =
 			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.js';
 
@@ -63,6 +73,14 @@
 		pdf = await loadingTask.promise;
 
 		await loadPage(currentPageNumber);
+
+		isLoading = false;
+	}
+
+	onMount(async () => {
+		if (generatedDocumentURL) {
+			loadPdf(generatedDocumentURL);
+		}
 	});
 </script>
 

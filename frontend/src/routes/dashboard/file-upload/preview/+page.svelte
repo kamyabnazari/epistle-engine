@@ -4,9 +4,11 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
+	import { getDocumentURL } from '$lib/utils';
 
 	let recentlyAddedDocumentID: string;
 	let documentList: Record[] = [];
+	let generatedDocumentURL: string | null = null;
 
 	function goBack() {
 		goto('/dashboard/file-upload');
@@ -17,10 +19,10 @@
 	}
 
 	onMount(async () => {
-		await fetchRecentlyAddedDocumentID();
+		await fetchRecentlyAddedDocument();
 	});
 
-	async function fetchRecentlyAddedDocumentID() {
+	async function fetchRecentlyAddedDocument() {
 		try {
 			const response = await pb.collection('documents').getList(1, 1, {
 				sort: '-created',
@@ -28,6 +30,12 @@
 			});
 			documentList = response.items || [];
 			recentlyAddedDocumentID = documentList[0]?.id;
+
+			generatedDocumentURL = await getDocumentURL(
+				documentList[0]?.collectionId,
+				documentList[0]?.id,
+				documentList[0]?.document
+			);
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
@@ -62,7 +70,7 @@
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
-						<PdfViewer />
+						<PdfViewer {generatedDocumentURL} />
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">

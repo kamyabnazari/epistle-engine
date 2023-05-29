@@ -20,7 +20,7 @@
 							<span class="label-text">What do you want to generate?</span>
 						</label>
 						<textarea
-							class="textarea textarea-bordered h-48 w-full rounded-md"
+							class="textarea textarea-bordered border-primary h-48 w-full rounded-md border-2"
 							placeholder="I want an essay about birds..."
 						/>
 					</div>
