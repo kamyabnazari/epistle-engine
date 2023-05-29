@@ -30,7 +30,9 @@
 						<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 					</div>
 					<div>
-						<a href="/dashboard"><button class="btn btn-primary">Generate</button></a>
+						<a href="/dashboard/file-create/preview"
+							><button class="btn btn-primary">Generate</button></a
+						>
 					</div>
 				</div>
 			</div>
