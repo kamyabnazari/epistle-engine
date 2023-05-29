@@ -34,7 +34,7 @@
 		}
 	}
 
-	const downloadDocument = async (document: Record) => {
+	async function downloadDocument(document: Record) {
 		const documentURL = getDocumentURL(document?.collectionId, document?.id, document?.document);
 
 		const response = await fetch(documentURL);
@@ -48,7 +48,7 @@
 		downloadLink.click();
 		window.document.body.removeChild(downloadLink);
 		window.URL.revokeObjectURL(objectURL);
-	};
+	}
 </script>
 
 <div class="w-full overflow-x-auto rounded-lg shadow-lg">
@@ -56,11 +56,7 @@
 		<!-- head -->
 		<thead>
 			<tr>
-				<th>
-					<label>
-						<input type="checkbox" class="checkbox" />
-					</label>
-				</th>
+				<th />
 				<th>Name</th>
 				<th>Type</th>
 				<th>Create Date</th>
@@ -68,17 +64,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each documentList as document}
-				<tr>
-					<th>
-						<label>
-							<input type="checkbox" class="checkbox" />
-						</label>
-					</th>
+			{#each documentList as document, index}
+				<tr class="hover">
+					<td>
+						<div class="text-md">
+							{index + 1}
+						</div>
+					</td>
 					<td>
 						<div class="flex items-center space-x-3">
 							<div>
-								<div class="font-bold">{document.name}</div>
+								<div class="text-md font-bold">{document.name}</div>
 							</div>
 						</div>
 					</td>
