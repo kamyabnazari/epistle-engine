@@ -8,6 +8,7 @@ export const actions: Actions = {
 		const userDocument = data.get('document') as File;
 		data.set('owner', locals.user.id);
 		data.set('name', userDocument?.name ?? 'untitled');
+		data.set('type', 'Uploaded');
 
 		if (userDocument instanceof Blob && userDocument.size === 0) {
 			throw error(400, 'Please upload a file');
