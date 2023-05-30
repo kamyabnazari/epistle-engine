@@ -21,6 +21,23 @@ export const actions: Actions = {
 			const document = await locals.pb.collection('documents').create(data);
 
 			// Python backend to process document
+			const response = await fetch(
+				`http://localhost:8000/api/documents/${document.id}/calculate_stats`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			);
+
+			if (!response.ok) {
+				// if HTTP-status is 200-299
+				// get the error message from the server, or default to a response status text
+				throw new Error(response.statusText);
+			}
+			let answare = await response.json();
+			console.log(answare);
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');

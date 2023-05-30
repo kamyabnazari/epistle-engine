@@ -43,7 +43,15 @@ async def read_root():
 
 @app.get("/api")
 async def read_api_root():
-    return {"message": "Welcome to the ADM Backend!"}
+    return {"message": "Welcome to the ADM API!"}
+
+@app.post("/api/documents/{document_id}/calculate_stats")
+async def read_api_documents_calculate_stats(document_id: str):
+    # Fetching document from the databse by document ID
+    
+    print("Received document ID: " + document_id)
+    
+    return {"message": "Has been calculated!"}
 
 @app.get("/api/joke")
 async def read_():

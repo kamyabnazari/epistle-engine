@@ -155,7 +155,7 @@
     "system": false,
     "schema": [
       {
-        "id": "g2hhmt0o",
+        "id": "fm44lkwu",
         "name": "owner",
         "type": "relation",
         "system": false,
@@ -169,7 +169,7 @@
         }
       },
       {
-        "id": "kx2cipxt",
+        "id": "n8aya7bo",
         "name": "total_pages",
         "type": "json",
         "system": false,
@@ -177,7 +177,7 @@
         "options": {}
       },
       {
-        "id": "coe8mhod",
+        "id": "f4rgw81f",
         "name": "total_words",
         "type": "json",
         "system": false,
@@ -185,7 +185,7 @@
         "options": {}
       },
       {
-        "id": "7jsq4joo",
+        "id": "osb6pifm",
         "name": "total_documents",
         "type": "number",
         "system": false,
@@ -196,7 +196,7 @@
         }
       },
       {
-        "id": "p2vcdwdw",
+        "id": "voqo410q",
         "name": "total_uploaded",
         "type": "json",
         "system": false,
@@ -204,8 +204,24 @@
         "options": {}
       },
       {
-        "id": "14zcswpo",
+        "id": "hiylmr7d",
         "name": "total_created",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "7ahqa9ft",
+        "name": "min_created_date",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "tm77c9fh",
+        "name": "max_created_date",
         "type": "json",
         "system": false,
         "required": false,
@@ -219,7 +235,7 @@
     "updateRule": null,
     "deleteRule": null,
     "options": {
-      "query": "SELECT\n    (ROW_NUMBER() OVER()) as id,\n    documents.owner AS owner,\n    SUM(page_count) AS total_pages,\n    SUM(word_count) AS total_words,\n    COUNT(*) AS total_documents,\n    SUM(CASE WHEN type = 'Uploaded' THEN 1 ELSE 0 END) AS total_uploaded,\n    SUM(CASE WHEN type = 'Created' THEN 1 ELSE 0 END) AS total_created\nFROM documents\nGROUP BY owner\n"
+      "query": "SELECT\n    (ROW_NUMBER() OVER()) as id,\n    documents.owner AS owner,\n    SUM(page_count) AS total_pages,\n    SUM(word_count) AS total_words,\n    COUNT(*) AS total_documents,\n    SUM(CASE WHEN type = 'Uploaded' THEN 1 ELSE 0 END) AS total_uploaded,\n    SUM(CASE WHEN type = 'Created' THEN 1 ELSE 0 END) AS total_created,\n  MIN(created) AS min_created_date,\n  MAX(created) AS max_created_date\nFROM documents\nGROUP BY owner\n"
     }
   }
 ]
