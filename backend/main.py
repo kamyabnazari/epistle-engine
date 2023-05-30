@@ -1,4 +1,8 @@
+from collections import namedtuple
+import io
 import os
+import requests
+import PyPDF3
 
 # Importing fastAPI
 from fastapi import FastAPI, HTTPException
@@ -13,7 +17,15 @@ from langchain.prompts import PromptTemplate, ChatPromptTemplate
 
 from dotenv import load_dotenv
 
+# Importing pocketbase sdk
+from pocketbase import PocketBase
+
 load_dotenv()
+
+pocketbase_client = PocketBase("http://localhost:8090")
+
+# Login as admin
+admin_data = pocketbase_client.admins.auth_with_password(os.getenv("POCKETBASE_ADMIN_EMAIL"), os.getenv("POCKETBASE_ADMIN_PASSWORD"))
 
 apikey = os.getenv("OPENAI_API_KEY")
 # use the gpt-3.5-turbo LLM   
@@ -31,7 +43,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173"],
+    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173", "http://localhost:8090"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -43,7 +55,46 @@ async def read_root():
 
 @app.get("/api")
 async def read_api_root():
-    return {"message": "Welcome to the ADM Backend!"}
+    return {"message": "Welcome to the ADM API!"}
+
+@app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
+async def read_api_documents_calculate_stats(document_id: str, user_id: str):
+    # Fetching document from the database by document ID
+    response = pocketbase_client.collection("documents").get_one(document_id)
+    response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
+    owner = response_dict["collection_id"]["owner"]
+    recordId = response_dict["collection_id"]["id"]
+    collectionId = response_dict["collection_id"]["collectionId"]
+    fileName = response_dict["collection_id"]["document"]
+    size = '0x0'
+
+    if owner == user_id:
+        url = f"http://localhost:8090/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+        response = requests.get(url)
+        response.raise_for_status()
+        content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
+
+        total_pages = get_pdf_page_count(content)
+        total_words = get_pdf_word_count(content)
+        
+        data = {
+            "page_count": total_pages,
+            "word_count": total_words
+        }
+        pocketbase_client.collection('documents').update(recordId, data)
+
+def get_pdf_page_count(file_content):
+    pdf_reader = PyPDF3.PdfFileReader(file_content)
+    total_pages = len(pdf_reader.pages)
+    return total_pages
+
+def get_pdf_word_count(file_content):
+    pdf_reader = PyPDF3.PdfFileReader(file_content)
+    total_words = 0
+    for page_num in range(pdf_reader.getNumPages()):
+        page = pdf_reader.getPage(page_num)
+        total_words += len(page.extractText().split())
+    return total_words
 
 @app.get("/api/joke")
 async def read_():

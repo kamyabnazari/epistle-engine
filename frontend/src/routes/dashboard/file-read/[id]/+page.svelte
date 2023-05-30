@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PdfViewer from '$lib/components/PDFViewer.svelte';
-	import { currentUser, pb } from '$lib/pocketbase';
+	import { pb } from '$lib/pocketbase';
 	import { getDocumentURL } from '$lib/utils';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
@@ -12,6 +12,7 @@
 	import { page } from '$app/stores';
 
 	let documentID: string;
+	let document: Record;
 
 	onMount(async () => {
 		documentID = $page.params.id;
@@ -20,15 +21,14 @@
 
 	async function fetchOpenedDocument() {
 		try {
-			const response = await pb.collection('documents').getOne(documentID);
-			recentlyAddedDocumentID = response?.id;
+			document = await pb.collection('documents').getOne(documentID);
+			recentlyAddedDocumentID = document?.id;
 
 			generatedDocumentURL = await getDocumentURL(
-				response?.collectionId,
-				response?.id,
-				response?.document
+				document?.collectionId,
+				document?.id,
+				document?.document
 			);
-			console.log(generatedDocumentURL);
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
@@ -41,7 +41,7 @@
 	</div>
 	<div class="flex flex-col justify-center gap-8 md:flex-row">
 		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">
-			<PdfViewer {generatedDocumentURL} />
+			<PdfViewer {generatedDocumentURL} {document} />
 		</div>
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
