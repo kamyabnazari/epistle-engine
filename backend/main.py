@@ -1,6 +1,8 @@
 import io
 import os
 import requests
+
+# Python package for PDF parsing
 import PyPDF3
 
 # Importing fastAPI
@@ -21,10 +23,27 @@ from pocketbase import PocketBase
 
 load_dotenv()
 
-pocketbase_client = PocketBase("http://localhost:8090")
+from retry import retry
 
-# Login as admin
-admin_data = pocketbase_client.admins.auth_with_password(os.getenv("POCKETBASE_ADMIN_EMAIL"), os.getenv("POCKETBASE_ADMIN_PASSWORD"))
+# Define the maximum number of retries and the delay between retries
+max_retries = 5
+retry_delay = 2
+
+# Function to create PocketBase client with retries
+@retry(tries=max_retries, delay=retry_delay)
+def create_pocketbase_client():
+    pocketbase_client = PocketBase("http://localhost:8090")
+
+    # Login as admin
+    pocketbase_client.admins.auth_with_password(
+        os.getenv("POCKETBASE_ADMIN_EMAIL"), os.getenv("POCKETBASE_ADMIN_PASSWORD")
+    )
+
+    # If the above code executes successfully, return the PocketBase client
+    return pocketbase_client
+
+# Create PocketBase client with retries
+pocketbase_client = create_pocketbase_client()
 
 apikey = os.getenv("OPENAI_API_KEY")
 # use the gpt-3.5-turbo LLM   

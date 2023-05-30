@@ -21,9 +21,12 @@ services:
     image: adm-backend
     container_name: adm-backend
     restart: unless-stopped
+    network_mode: host
     build:
       context: ./backend
       dockerfile: Dockerfile.backend
+    env_file:
+      - ./backend/.env
     depends_on:
       - pocketbase
     ports:
