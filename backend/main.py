@@ -1,3 +1,6 @@
+from collections import namedtuple
+import json
+import asyncio
 import os
 
 # Importing fastAPI
@@ -13,7 +16,16 @@ from langchain.prompts import PromptTemplate, ChatPromptTemplate
 
 from dotenv import load_dotenv
 
+# Importing pocketbase sdk
+from pocketbase import PocketBase
+from pocketbase.client import FileUpload
+
 load_dotenv()
+
+pocketbase_client = PocketBase("http://localhost:8090")
+
+# Login as admin
+admin_data = pocketbase_client.admins.auth_with_password(os.getenv("POCKETBASE_ADMIN_EMAIL"), os.getenv("POCKETBASE_ADMIN_PASSWORD"))
 
 apikey = os.getenv("OPENAI_API_KEY")
 # use the gpt-3.5-turbo LLM   
@@ -31,7 +43,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173"],
+    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173", "http://localhost:8090"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -48,8 +60,13 @@ async def read_api_root():
 @app.post("/api/documents/{document_id}/calculate_stats")
 async def read_api_documents_calculate_stats(document_id: str):
     # Fetching document from the databse by document ID
-    
-    print("Received document ID: " + document_id)
+    response = pocketbase_client.collection("documents").get_one(document_id)
+    response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
+    ResponseObject = namedtuple("ResponseObject", response_dict.keys())
+    response_object = ResponseObject(**response_dict)
+
+    print(response_object.collection_id["document"])
+    print(json.dumps(response_dict, indent=4))
     
     return {"message": "Has been calculated!"}
 
