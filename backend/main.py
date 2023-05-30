@@ -1,7 +1,8 @@
 from collections import namedtuple
-import json
-import asyncio
+import io
 import os
+import requests
+import PyPDF3
 
 # Importing fastAPI
 from fastapi import FastAPI, HTTPException
@@ -18,7 +19,6 @@ from dotenv import load_dotenv
 
 # Importing pocketbase sdk
 from pocketbase import PocketBase
-from pocketbase.client import FileUpload
 
 load_dotenv()
 
@@ -57,18 +57,44 @@ async def read_root():
 async def read_api_root():
     return {"message": "Welcome to the ADM API!"}
 
-@app.post("/api/documents/{document_id}/calculate_stats")
-async def read_api_documents_calculate_stats(document_id: str):
-    # Fetching document from the databse by document ID
+@app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
+async def read_api_documents_calculate_stats(document_id: str, user_id: str):
+    # Fetching document from the database by document ID
     response = pocketbase_client.collection("documents").get_one(document_id)
     response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
-    ResponseObject = namedtuple("ResponseObject", response_dict.keys())
-    response_object = ResponseObject(**response_dict)
+    owner = response_dict["collection_id"]["owner"]
+    recordId = response_dict["collection_id"]["id"]
+    collectionId = response_dict["collection_id"]["collectionId"]
+    fileName = response_dict["collection_id"]["document"]
+    size = '0x0'
 
-    print(response_object.collection_id["document"])
-    print(json.dumps(response_dict, indent=4))
-    
-    return {"message": "Has been calculated!"}
+    if owner == user_id:
+        url = f"http://localhost:8090/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+        response = requests.get(url)
+        response.raise_for_status()
+        content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
+
+        total_pages = get_pdf_page_count(content)
+        total_words = get_pdf_word_count(content)
+        
+        data = {
+            "page_count": total_pages,
+            "word_count": total_words
+        }
+        pocketbase_client.collection('documents').update(recordId, data)
+
+def get_pdf_page_count(file_content):
+    pdf_reader = PyPDF3.PdfFileReader(file_content)
+    total_pages = len(pdf_reader.pages)
+    return total_pages
+
+def get_pdf_word_count(file_content):
+    pdf_reader = PyPDF3.PdfFileReader(file_content)
+    total_words = 0
+    for page_num in range(pdf_reader.getNumPages()):
+        page = pdf_reader.getPage(page_num)
+        total_words += len(page.extractText().split())
+    return total_words
 
 @app.get("/api/joke")
 async def read_():

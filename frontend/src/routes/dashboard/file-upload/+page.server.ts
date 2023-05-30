@@ -22,7 +22,7 @@ export const actions: Actions = {
 
 			// Python backend to process document
 			const response = await fetch(
-				`http://localhost:8000/api/documents/${document.id}/calculate_stats`,
+				`http://localhost:5003/api/documents/${document.id}/calculate_stats/${locals.user.id}`,
 				{
 					method: 'POST',
 					headers: {
