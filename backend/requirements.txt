@@ -5,4 +5,5 @@ fastapi
 uvicorn
 openai
 python-dotenv
+pocketbase
 PyPDF3

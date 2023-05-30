@@ -1,12 +1,11 @@
-from collections import namedtuple
 import io
 import os
 import requests
 import PyPDF3
 
 # Importing fastAPI
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
