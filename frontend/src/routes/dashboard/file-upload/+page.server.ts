@@ -11,7 +11,7 @@ export const actions: Actions = {
 		data.set('name', userDocument?.name ?? 'untitled');
 		data.set('type', 'Uploaded');
 		data.set('page_count', '5');
-		data.set('word_count', '5');
+		data.set('word_count', '25');
 
 		if (userDocument.size === 0) {
 			throw error(400, 'Please upload a file');
@@ -19,6 +19,8 @@ export const actions: Actions = {
 
 		try {
 			const document = await locals.pb.collection('documents').create(data);
+
+			// Python backend to process document
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');

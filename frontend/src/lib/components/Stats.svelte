@@ -5,6 +5,28 @@
 	import IconArrowDown from '~icons/solar/arrow-left-down-outline';
 	import IconWord from '~icons/solar/chat-square-outline';
 	import IconPage from '~icons/solar/documents-outline';
+	import { onMount } from 'svelte';
+	import type { Record } from 'pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
+
+	let stats: Record;
+
+	onMount(async () => {
+		await fetchStats();
+	});
+
+	async function fetchStats() {
+		try {
+			const response = await pb
+				.collection('documents_stats')
+				.getFirstListItem(`owner='${$currentUser?.id}'`);
+			if (response) {
+				stats = response as Record;
+			}
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
 </script>
 
 <div class="stats bg-base-200 flex-auto flex-nowrap shadow-lg">
@@ -13,7 +35,7 @@
 			<IconFile style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Uploaded files</div>
-		<div class="stat-value">118</div>
+		<div class="stat-value">{stats?.total_uploaded ?? '0'}</div>
 		<div class="stat-desc">Jan 1st - Dec 1st</div>
 	</div>
 	<div class="stat">
@@ -21,7 +43,7 @@
 			<IconNewFile style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Created files</div>
-		<div class="stat-value">24</div>
+		<div class="stat-value">{stats?.total_created ?? '0'}</div>
 		<div class="stat-desc flex flex-row gap-2">
 			<IconArrowUp style="font-size: small;" class="text-success" />
 			<span>12 (22%)</span>
@@ -32,7 +54,7 @@
 			<IconPage style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Total pages</div>
-		<div class="stat-value">459</div>
+		<div class="stat-value">{stats?.total_pages ?? '0'}</div>
 		<div class="stat-desc flex flex-row gap-2">
 			<IconArrowDown style="font-size: small;" class="text-warning" />
 			<span>52 (5%)</span>
@@ -43,7 +65,7 @@
 			<IconWord style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Total words</div>
-		<div class="stat-value">24K</div>
+		<div class="stat-value">{stats?.total_words ?? '0'}</div>
 		<div class="stat-desc flex flex-row gap-2">
 			<IconArrowUp style="font-size: small;" class="text-success" />
 			<span>2K (10%)</span>
