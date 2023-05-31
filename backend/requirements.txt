@@ -8,3 +8,4 @@ python-dotenv
 pocketbase
 PyPDF3
 retry
+reportlab

@@ -50,6 +50,8 @@ Branch Example: `kn-feature-name-example`
 - NPM
 - Git
 - Docker Engine
+- pkg-config
+- cairo
 
 ### Development
 
