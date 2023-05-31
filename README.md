@@ -52,6 +52,7 @@ Branch Example: `kn-feature-name-example`
 - Docker Engine
 - pkg-config
 - cairo
+- wkhtmltopdf
 
 ### Development
 
