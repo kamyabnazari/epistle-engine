@@ -1,5 +1,10 @@
 # Backend Python gitignore file
 
+# Etc
+created-document.pdf
+created-document.tex
+created-document.aux
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

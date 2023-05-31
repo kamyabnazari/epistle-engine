@@ -5,4 +5,7 @@ fastapi
 uvicorn
 openai
 python-dotenv
+pocketbase
 PyPDF3
+retry
+reportlab

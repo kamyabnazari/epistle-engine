@@ -47,7 +47,7 @@
 			<div class="flex h-full flex-col justify-between gap-8">
 				<div class="form-control flex-grow">
 					<textarea
-						class="textarea textarea-bordered w-full rounded-md p-4 max-sm:h-96 sm:h-96 lg:h-full"
+						class="textarea textarea-bordered w-full rounded-md p-4 max-sm:h-96 sm:h-96 md:h-full lg:h-full"
 						unselectable="on"
 						placeholder="Read-only content..."
 						readonly

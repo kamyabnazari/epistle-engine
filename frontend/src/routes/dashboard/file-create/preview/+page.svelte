@@ -76,7 +76,7 @@
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">
-							<button class="btn btn-info btn-outline" on:click|preventDefault={goBack}
+							<button class="btn btn-info btn-outline" on:click|preventDefault={deleteDocument}
 								>Retry</button
 							>
 						</div>
