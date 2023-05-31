@@ -104,7 +104,7 @@ async def read_api_document_create(user_id: str, request: Request):
     topic = body.get('topic')
     
     # Create a LaTeX prompt using this topic
-    html_prompt = ChatPromptTemplate.from_template("Write a section about {subject}, it should be in HTML format.")
+    html_prompt = ChatPromptTemplate.from_template("Write a document about {subject}, it should be in HTML format and styled like a scientific document.")
     html_prompt_value = html_prompt.format_prompt(subject=topic)
 
     llm_chain = LLMChain(  
