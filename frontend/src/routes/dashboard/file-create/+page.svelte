@@ -40,6 +40,22 @@
 					</div>
 					<div class="flex justify-center">
 						<div class="form-control w-96">
+							<label class="label" for="export_option">
+								<span class="label-text">Pick your desired output process</span>
+							</label>
+							<select
+								class="select select-bordered"
+								id="export_option"
+								name="export_option"
+								disabled={loading}
+							>
+								<option>HTML</option>
+								<option>LaTeX</option>
+							</select>
+						</div>
+					</div>
+					<div class="flex justify-center">
+						<div class="form-control w-96">
 							<label for="" class="label">
 								<span class="label-text">What do you want to generate?</span>
 							</label>
@@ -57,7 +73,9 @@
 							<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 						</div>
 						<div>
-							<button class="btn btn-primary" type="submit" disabled={loading}>Generate</button>
+							<button class="btn btn-primary" class:loading type="submit" disabled={loading}
+								>Generate</button
+							>
 						</div>
 					</div>
 				</div>

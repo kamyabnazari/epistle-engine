@@ -52,6 +52,7 @@ Branch Example: `kn-feature-name-example`
 - Docker Engine
 - pkg-config
 - cairo
+- wkhtmltopdf
 
 ### Development
 
@@ -97,8 +98,7 @@ pip install -r requirements.txt
 To run the plugin, enter the following command:
 
 ```bash
-uvicorn main:app --reload
-python main.py
+uvicorn main:app --reload --port 5003
 ```
 
 Once the local server is running:
