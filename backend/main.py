@@ -1,3 +1,4 @@
+import subprocess
 import pdfkit
 import io
 import os
@@ -103,48 +104,108 @@ async def read_api_document_create(user_id: str, request: Request):
     # Sending topic to gpt to generate latex output of the text 
     topic = body.get('topic')
     
-    # Create a LaTeX prompt using this topic
-    html_prompt = ChatPromptTemplate.from_template("Write a document about {subject}, it should be in HTML format and styled like a scientific document.")
-    html_prompt_value = html_prompt.format_prompt(subject=topic)
+    if (body.get('export_option') == 'LaTeX'):  
+        # Create a LaTeX prompt using this topic
+        latex_prompt = ChatPromptTemplate.from_template("Write a section about {subject}, it should be in LaTeX format.")
+        latex_prompt_value = latex_prompt.format_prompt(subject=topic)
 
-    llm_chain = LLMChain(  
-    prompt = html_prompt,
-    llm = openai_model  
-    )
+        llm_chain = LLMChain(  
+        prompt = latex_prompt,
+        llm = openai_model  
+        )
 
-    # Generate HTML content using this prompt
-    html_content = llm_chain.run(html_prompt_value)
-    html_content = "<!DOCTYPE html>\n<html>\n<head>\n<title>Document</title>\n</head>\n<body>\n" + html_content + "\n</body>\n</html>"
-    
-    # Write the HTML content to a file
-    html_file_name = "created-document.html"
-    with open(html_file_name, "w") as file:
-        file.write(html_content)
+        # Generate LaTeX content using this prompt
+        latex_content = llm_chain.run(latex_prompt_value)
+        latex_content = "\\documentclass{article}\n\\begin{document}\n" + latex_content + "\n\\end{document}"
+        
+        # Write the LaTeX content to a file
+        latex_file_name = "created-document.tex"
+        with open(latex_file_name, "w") as file:
+            file.write(latex_content)
 
-    # Generate a PDF from the HTML file
-    pdf_file_name = html_file_name.replace('.html', '.pdf')
-    pdfkit.from_file(html_file_name, pdf_file_name)
+        # Generate a PDF from the LaTeX file
+        current_dir = os.getcwd()
+        generate_pdf_from_latex(latex_file_name, current_dir)
 
-    # Calculate the total number of pages and words in the document
-    total_pages = get_pdf_page_count(pdf_file_name)
-    total_words = get_pdf_word_count(pdf_file_name)
+        # The name of the generated PDF file
+        pdf_file_name = latex_file_name.replace('.tex', '.pdf')
+        # The path to the generated PDF file
+        pdf_file_path = os.path.join(current_dir, pdf_file_name)
 
-    # Create a new document in the database
-    data = {
-        "owner": user_id,
-        "name": pdf_file_name,
-        "document": FileUpload((pdf_file_name, open(pdf_file_name, "rb"))),
-        "type": "Created",
-        "page_count": total_pages,
-        "word_count": total_words
-    }
-    
-    pocketbase_client.collection("documents").create(data)
-    
-    # Delete the generated HTML and PDF files
-    os.remove(html_file_name)
-    os.remove(pdf_file_name)
-   
+        # Calculate the total number of pages and words in the document
+        total_pages = get_pdf_page_count(pdf_file_path)
+        total_words = get_pdf_word_count(pdf_file_path)
+
+        # Create a new document in the database
+        data = {
+            "owner": user_id,
+            "name": pdf_file_name,
+            "document": FileUpload((pdf_file_name, open(pdf_file_path, "rb"))),
+            "type": "Created",
+            "page_count": total_pages,
+            "word_count": total_words
+        }
+        
+        pocketbase_client.collection("documents").create(data)
+        
+        # Delete the generated LaTeX and PDF files
+        os.remove(latex_file_name)
+        os.remove(pdf_file_path)
+        
+    elif (body.get('export_option') == 'HTML'):
+        
+        # Create a LaTeX prompt using this topic
+        html_prompt = ChatPromptTemplate.from_template("Write a document about {subject}, it should be in HTML format and styled like a scientific document.")
+        html_prompt_value = html_prompt.format_prompt(subject=topic)
+
+        llm_chain = LLMChain(  
+        prompt = html_prompt,
+        llm = openai_model  
+        )
+
+        # Generate HTML content using this prompt
+        html_content = llm_chain.run(html_prompt_value)
+        html_content = "<!DOCTYPE html>\n<html>\n<head>\n<title>Document</title>\n</head>\n<body>\n" + html_content + "\n</body>\n</html>"
+        
+        # Write the HTML content to a file
+        html_file_name = "created-document.html"
+        with open(html_file_name, "w") as file:
+            file.write(html_content)
+
+        # Generate a PDF from the HTML file
+        pdf_file_name = html_file_name.replace('.html', '.pdf')
+        pdfkit.from_file(html_file_name, pdf_file_name)
+
+        # Calculate the total number of pages and words in the document
+        total_pages = get_pdf_page_count(pdf_file_name)
+        total_words = get_pdf_word_count(pdf_file_name)
+
+        # Create a new document in the database
+        data = {
+            "owner": user_id,
+            "name": pdf_file_name,
+            "document": FileUpload((pdf_file_name, open(pdf_file_name, "rb"))),
+            "type": "Created",
+            "page_count": total_pages,
+            "word_count": total_words
+        }
+        
+        pocketbase_client.collection("documents").create(data)
+        
+        # Delete the generated HTML and PDF files
+        os.remove(html_file_name)
+        os.remove(pdf_file_name)
+
+def generate_pdf_from_latex(latex_file_name, output_directory):
+    # Save the current working directory
+    original_cwd = os.getcwd()
+    # Change the current working directory
+    os.chdir(output_directory)
+    # Generate a PDF from the LaTeX file
+    subprocess.check_call(['pdflatex', latex_file_name])
+    # Restore the original working directory
+    os.chdir(original_cwd)
+
 def get_pdf_page_count(file_content):
     pdf_reader = PyPDF3.PdfFileReader(file_content)
     total_pages = len(pdf_reader.pages)

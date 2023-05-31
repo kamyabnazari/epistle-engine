@@ -6,6 +6,7 @@ export const actions: Actions = {
 	createDocument: async ({ locals, request }) => {
 		const data = await request.formData();
 		const topicRequested = data.get('topic') as string;
+		const exportOption = data.get('export_option') as string;
 
 		if (topicRequested.length === 0) {
 			throw error(400, 'Please fill in a topic');
@@ -19,7 +20,8 @@ export const actions: Actions = {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					topic: topicRequested
+					topic: topicRequested,
+					export_option: exportOption
 				})
 			});
 

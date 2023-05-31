@@ -64,7 +64,9 @@
 							<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 						</div>
 						<div>
-							<button class="btn btn-primary" type="submit" disabled={loading}>Upload</button>
+							<button class="btn btn-primary" class:loading type="submit" disabled={loading}
+								>Upload</button
+							>
 						</div>
 					</div>
 				</div>
