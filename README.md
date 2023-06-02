@@ -25,7 +25,8 @@ Branch Example: `kn-feature-name-example`
 - Svelte [Frontend Framework]
 - PocketBase [SaaS - Database/File-Storage/Authentication]
 - TailwindCSS [CSS Framework]
-- DaisyUI [Tailwind Component Library] it should be changed!
+- DaisyUI [Tailwind Component Library]
+- Text Editor - Monaco [Code Editor] or CodeMirror [Code Editor] or Ace [Code Editor]
 
 ### Backend
 
