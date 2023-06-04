@@ -149,8 +149,10 @@ async def read_api_document_create(user_id: str, request: Request):
         pocketbase_client.collection("documents").create(data)
         
         # Delete the generated LaTeX and PDF files
-        os.remove(latex_file_name)
         os.remove(pdf_file_path)
+        os.remove(latex_file_name)
+        os.remove('created-document.aux')
+        os.remove('created-document.log')
         
     elif (body.get('export_option') == 'HTML'):
         
