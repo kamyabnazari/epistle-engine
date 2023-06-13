@@ -5,9 +5,9 @@
 	import { page } from '$app/stores';
 </script>
 
-<div class="drawer lg:drawer-open">
+<div class="drawer drawer-mobile">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content flex min-h-screen flex-col">
+	<div class="drawer-content flex flex-col">
 		<div class="flex-none">
 			<Navbar />
 		</div>
@@ -18,9 +18,9 @@
 			<Footer />
 		</div>
 	</div>
-	<div class="drawer-side z-50">
+	<div class="drawer-side">
 		<label for="application-drawer" class="drawer-overlay" />
-		<ul class="menu bg-base-200 text-base-content h-full w-80 gap-2 p-4">
+		<ul class="menu bg-base-200 text-base-content w-80 gap-2 p-4">
 			<li><a href="/dashboard" class:active={$page.url.pathname === '/dashboard'}>Dashboard</a></li>
 			<li>
 				<a href="/documentation" class:active={$page.url.pathname === '/documentation'}

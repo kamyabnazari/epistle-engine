@@ -9,7 +9,7 @@ export default {
 		themes: [
 			{
 				lofi: {
-					...require('daisyui/src/theming/themes')['[data-theme=lofi]'],
+					...require('daisyui/src/colors/themes')['[data-theme=lofi]'],
 					'--rounded-box': '0.25rem',
 					'--rounded-btn': '0.25rem',
 					'--rounded-badge': '0.15rem',
@@ -22,7 +22,7 @@ export default {
 					'--tab-radius': '0.5rem'
 				},
 				business: {
-					...require('daisyui/src/theming/themes')['[data-theme=business]'],
+					...require('daisyui/src/colors/themes')['[data-theme=business]'],
 					'--rounded-box': '0.25rem',
 					'--rounded-btn': '0.25rem',
 					'--rounded-badge': '0.15rem',

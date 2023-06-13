@@ -38,7 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"daisyui": "^3.1.0",
+		"daisyui": "^2.51.6",
 		"pdfjs-dist": "^3.6.172",
 		"pocketbase": "^0.15.0",
 		"zod": "^3.21.4"
