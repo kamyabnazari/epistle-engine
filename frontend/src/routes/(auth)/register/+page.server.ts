@@ -30,6 +30,5 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const form = await superValidate(registerSchema);
 
-	// Always return { form } in load and form actions.
 	return { form };
 };
