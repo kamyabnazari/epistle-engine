@@ -1,6 +1,24 @@
 <script lang="ts">
-	import { applyAction, enhance } from '$app/forms';
 	import { pb } from '$lib/pocketbase';
+	import { loginSchema } from '$lib/schemas';
+
+	import type { PageData } from './$types';
+	import { superForm } from 'sveltekit-superforms/client';
+
+	import IconInfo from '~icons/solar/info-square-outline';
+
+	export let data: PageData;
+
+	const { form, errors, constraints, message, enhance } = superForm(data.form, {
+		taintedMessage: false,
+		validators: loginSchema,
+		onSubmit: () => {
+			pb.authStore.loadFromCookie(document.cookie);
+		},
+		onError({ result, message }) {
+			message.set(result.error.message);
+		}
+	});
 </script>
 
 <div class="hero min-h-full">
@@ -11,15 +29,7 @@
 		</div>
 		<div class="card bg-base-200 w-full max-w-sm flex-shrink-0 shadow-2xl">
 			<div class="card-body">
-				<form
-					method="POST"
-					use:enhance={() => {
-						return async ({ result }) => {
-							pb.authStore.loadFromCookie(document.cookie);
-							await applyAction(result);
-						};
-					}}
-				>
+				<form method="POST" use:enhance>
 					<div class="form-control gap-2">
 						<label for="email" class="label">
 							<span class="label-text">Email</span>
@@ -29,6 +39,10 @@
 							name="email"
 							placeholder="your@email.com"
 							class="input input-bordered"
+							class:input-warning={$errors.email}
+							aria-invalid={$errors.email ? 'true' : undefined}
+							bind:value={$form.email}
+							{...$constraints.email}
 						/>
 						<label for="password" class="label">
 							<span class="label-text">Password</span>
@@ -38,6 +52,10 @@
 							name="password"
 							placeholder="password"
 							class="input input-bordered"
+							class:input-warning={$errors.password}
+							aria-invalid={$errors.password ? 'true' : undefined}
+							bind:value={$form.password}
+							{...$constraints.password}
 						/>
 						<a href="/password-reset" class="label-text-alt link link-hover">Forgot password?</a>
 						<div class="form-control mt-6">
@@ -47,5 +65,13 @@
 				</form>
 			</div>
 		</div>
+		{#if $message}
+			<div class="alert alert-warning">
+				<span>
+					<IconInfo style="font-size: x-large;" class="text-warning-content" />
+					{$message}</span
+				>
+			</div>
+		{/if}
 	</div>
 </div>

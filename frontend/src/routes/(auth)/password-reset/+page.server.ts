@@ -1,5 +1,8 @@
-import { redirect } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import { error, redirect, fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+
+import { superValidate } from 'sveltekit-superforms/server';
+import { registerSchema } from '$lib/schemas';
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
@@ -9,11 +12,21 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').requestPasswordReset(data.email);
-		} catch (e) {
-			console.error(e);
-			throw e;
+		} catch (err) {
+			throw error(400, 'The Email may not exist, please use one that exists.');
 		}
 
 		throw redirect(303, '/login');
 	}
+};
+
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user) {
+		throw redirect(303, '/dashboard');
+	}
+
+	const form = await superValidate(registerSchema);
+
+	// Always return { form } in load and form actions.
+	return { form };
 };
