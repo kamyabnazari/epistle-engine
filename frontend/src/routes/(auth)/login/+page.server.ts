@@ -1,18 +1,21 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+
+import { superValidate } from 'sveltekit-superforms/server';
+import { loginSchema } from '$lib/schemas';
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
-		const data = Object.fromEntries(await request.formData()) as {
-			email: string;
-			password: string;
-		};
+		const form = await superValidate(request, loginSchema);
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
 
 		try {
-			await locals.pb.collection('users').authWithPassword(data.email, data.password);
-		} catch (e) {
-			console.error(e);
-			throw e;
+			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
+		} catch (err) {
+			throw error(400, 'The Email or Password may be wrong, try again.');
 		}
 
 		throw redirect(303, '/dashboard');
@@ -23,4 +26,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
 		throw redirect(303, '/dashboard');
 	}
+
+	const form = await superValidate(loginSchema);
+
+	return { form };
 };
