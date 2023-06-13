@@ -7,7 +7,7 @@
 				</div>
 				<div class="form-control">
 					<label class="label cursor-pointer">
-						<span class="label-text">Cloud integration</span>
+						<span class="label-text">Offline Mode</span>
 						<input type="checkbox" class="toggle" checked />
 					</label>
 				</div>
