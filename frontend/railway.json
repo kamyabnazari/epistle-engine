@@ -1,5 +1,12 @@
 {
 	"$schema": "https://railway.app/railway.schema.json",
+	"environments": {
+		"production": {
+			"variables": {
+				"NIXPACKS_NODE_VERSION": "18"
+			}
+		}
+	},
 	"build": {
 		"builder": "NIXPACKS",
 		"buildCommand": "npm run build"
