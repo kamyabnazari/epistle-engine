@@ -32,10 +32,13 @@ from retry import retry
 max_retries = 5
 retry_delay = 2
 
+pocketbase_url = os.getenv("PUBLIC_POCKETBASE_URL")
+frontend_public_url = os.getenv("PUBLIC_FRONTEND_URL")
+
 # Function to create PocketBase client with retries
 @retry(tries=max_retries, delay=retry_delay)
 def create_pocketbase_client():
-    pocketbase_client = PocketBase("http://localhost:8090")
+    pocketbase_client = PocketBase(pocketbase_url)
 
     # Login as admin
     pocketbase_client.admins.auth_with_password(
@@ -56,7 +59,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chat.openai.com", "http://localhost:8080", "http://localhost:5173", "http://localhost:8090"],
+    allow_origins=[frontend_public_url, pocketbase_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -82,7 +85,7 @@ async def read_api_documents_calculate_stats(document_id: str, user_id: str):
     size = '0x0'
 
     if owner == user_id:
-        url = f"http://localhost:8090/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+        url = f"{frontend_public_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
         response = requests.get(url)
         response.raise_for_status()
         content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
@@ -220,18 +223,6 @@ def get_pdf_word_count(file_content):
         page = pdf_reader.getPage(page_num)
         total_words += len(page.extractText().split())
     return total_words
-
-@app.get("/logo.png")
-async def logo():
-    return FileResponse('logo.png', media_type='image/png')
-
-@app.get("/.well-known/ai-plugin.json")
-async def ai_plugin():
-    return FileResponse('./.well-known/ai-plugin.json', media_type='application/json')
-
-@app.get("/openapi.yaml")
-async def openapi():
-    return FileResponse('openapi.yaml', media_type='text/yaml')
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5003)
