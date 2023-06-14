@@ -1,0 +1,44 @@
+name: Frontend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+        working-directory: ./frontend
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./frontend
+      - name: Run tests
+        run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install Fly CLI
+        run: curl -L https://fly.io/install.sh | sh
+        working-directory: ./frontend
+
+      - name: Login to Fly.io
+        run: flyctl auth login --token ${{ secrets.FLY_API_TOKEN }}
+        working-directory: ./pocketbase
+
+      - name: Deploy to Fly.io
+        run: flyctl deploy
