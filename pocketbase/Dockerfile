@@ -1,18 +1,19 @@
 # Dockerfile for PocketBase
 
-FROM botwayorg/pb-core:latest AS download
 FROM alpine:latest
 
-ENV PKGS="git git-lfs npm build-base ca-certificates"
-ENV CMD="/usr/local/bin/pocketbase serve --http=0.0.0.0:8090 --dir=/root/pocketbase"
-ENV SG_DIR="/root/pocketbase"
+ARG PB_VERSION=0.16.5
 
-ARG GITHUB_TOKEN
+RUN apk add --no-cache \
+    unzip \
+    # this is needed only if you want to use scp to copy later your pb_data locally
+    openssh
 
-RUN apk update && apk add --update $PKGS && rm -rf /var/cache/apk/* && npm i -g npm@latest @botway/strg@latest
-
-COPY --from=download /pocketbase /usr/local/bin/pocketbase
+# download and unzip PocketBase
+ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
+RUN unzip /tmp/pb.zip -d /pb/
 
 EXPOSE 8090
 
-ENTRYPOINT strg --check && strg --sync
+# start PocketBase
+CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8090"]

@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     build:
       context: ./pocketbase
-      dockerfile: Dockerfile.pocketbase
+      dockerfile: Dockerfile
     ports:
       - "8090:8090"
     volumes:
@@ -24,7 +24,7 @@ services:
     network_mode: host
     build:
       context: ./backend
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile
     env_file:
       - ./backend/.env
     depends_on:
@@ -42,7 +42,7 @@ services:
     restart: unless-stopped
     build:
       context: ./frontend
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile
     env_file:
       - ./frontend/.env
     depends_on:
