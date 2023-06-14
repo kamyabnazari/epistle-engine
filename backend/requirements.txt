@@ -9,3 +9,4 @@ pocketbase
 PyPDF3
 retry
 pdfkit
+pytest
