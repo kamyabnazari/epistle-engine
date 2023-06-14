@@ -43,9 +43,9 @@ jobs:
           echo "/home/runner/.fly/bin" >> $GITHUB_PATH
 
       - name: Login to Fly.io
-        run: flyctl auth login --access-token ${{ secrets.FLY_API_TOKEN }}
+        run: flyctl auth login -t ${{ secrets.FLY_API_TOKEN }}
 
       - name: Deploy to Fly.io
         run: |
-          cd pocketbase
+          cd frontend
           flyctl deploy
