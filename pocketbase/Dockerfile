@@ -1,6 +1,6 @@
 # Dockerfile for PocketBase
 
-FROM botwayorg/pb-core:latest AS download
+FROM ghcr.io/muchobien/pocketbase:latest AS download
 FROM alpine:latest
 
 ENV PKGS="git git-lfs npm build-base ca-certificates"
