@@ -22,7 +22,8 @@ jobs:
 
       - name: Login to Fly.io
         run: flyctl auth login --access-token ${{ secrets.FLY_API_TOKEN }}
-        working-directory: ./pocketbase
 
       - name: Deploy to Fly.io
-        run: flyctl deploy
+        run: |
+          cd frontend
+          flyctl deploy
