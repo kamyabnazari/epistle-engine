@@ -12,6 +12,9 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"engines": {
+		"node": "18"
+	},
 	"devDependencies": {
 		"@iconify/json": "^2.2.67",
 		"@sveltejs/adapter-node": "^1.2.4",
