@@ -9,3 +9,4 @@ build
 .vscode
 README.md
 docker-compose.yml
+.env

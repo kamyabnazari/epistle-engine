@@ -1,13 +1,12 @@
 version: "3.8"
-name: adm-stack
 services:
   pocketbase:
-    image: adm-pocketbase
-    container_name: adm-pocketbase
+    image: ee-pocketbase
+    container_name: ee-pocketbase
     restart: unless-stopped
     build:
       context: ./pocketbase
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.test
     ports:
       - "8090:8090"
     volumes:
@@ -17,36 +16,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-  backend:
-    image: adm-backend
-    container_name: adm-backend
-    restart: unless-stopped
-    network_mode: host
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    env_file:
-      - ./backend/.env
-    depends_on:
-      - pocketbase
-    ports:
-      - "5003:5003"
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:5003/api/health || exit 1
-      interval: 5s
-      timeout: 5s
-      retries: 5
-  frontend:
-    image: adm-frontend
-    container_name: adm-frontend
-    restart: unless-stopped
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    env_file:
-      - ./frontend/.env
-    depends_on:
-      - pocketbase
-      - backend
-    ports:
-      - "8080:3000"
