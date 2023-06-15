@@ -39,7 +39,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./frontend
           push: true
           tags: user/app:latest
           build-args: PUBLIC_POCKETBASE_URL=${{ env.PUBLIC_POCKETBASE_URL }}
