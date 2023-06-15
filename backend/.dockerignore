@@ -1,6 +1,7 @@
 # Ignore .dockerignore and Dockerfile
 .dockerignore
 Dockerfile
+.env
 
 # Ignore Python build / cache files
 *.pyc

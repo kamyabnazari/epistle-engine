@@ -23,10 +23,6 @@ export const actions: Actions = {
 };
 
 export const load: PageServerLoad = async ({ locals }) => {
-	if (!locals.user) {
-		throw redirect(303, '/dashboard');
-	}
-
 	const form = await superValidate(resetPasswordSchema);
 
 	return { form };

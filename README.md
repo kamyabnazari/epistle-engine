@@ -1,6 +1,6 @@
-# ADM - Auto Document Manager
+# EE - Epistle Engine
 
-This is the Repository for the unified backend and frontend for the ADM Project.
+This is the Repository for the unified services for the Epistle Engine Project.
 
 ## Conventions
 
@@ -15,7 +15,7 @@ Branch Example: `kn-feature-name-example`
 - Git [Version Control]
 - Docker [Containerization]
 - GitHub [Code Hosting]
-- GitHub Actions [CI/CD] - Work In Progress
+- GitHub Actions [CI/CD]
 
 ### Frontend
 
@@ -26,15 +26,14 @@ Branch Example: `kn-feature-name-example`
 - PocketBase [SaaS - Database/File-Storage/Authentication]
 - TailwindCSS [CSS Framework]
 - DaisyUI [Tailwind Component Library]
-- Text Editor - Monaco [Code Editor] or CodeMirror [Code Editor] or Ace [Code Editor]
 
 ### Backend
 
 - Python [Programming Language]
 - FastApi [Backend Framework]
 - LangChain [Language Processing]
-- GPT4All [Language Processing]
-- ChatGPT Plugin Files [Chatbot Plugin Files]
+- OpenAI GPT [Language Processing]
+- Open Source LLM [Language Processing]
 
 ### PocketBase
 
@@ -46,66 +45,21 @@ Branch Example: `kn-feature-name-example`
 
 ### Prerequisites
 
+- Git
+- Docker
+- NPM
 - Nodejs
 - Python
-- NPM
-- Git
-- Docker Engine
 - pkg-config
 - cairo
 - wkhtmltopdf
 
-### Development
+## Development
 
-### Commands
+Please create the services after another in order and follow the instructions in the README.md files.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### 1. Setup [Pocketbase](pocketbase/README.md)
 
-```bash
-npm run dev
+### 2. Setup [Backend](frontend/README.md)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-### Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-### Docker
-
-To create a full local environment, use the docker compose to create all services localy and the production application:
-
-```bash
-docker-compose up
-```
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-### ChatGPT Plugin
-
-To install the required packages for this plugin, run the following command:
-
-```bash
-pip install -r requirements.txt
-```
-
-To run the plugin, enter the following command:
-
-```bash
-uvicorn main:app --reload --port 5003
-```
-
-Once the local server is running:
-
-1. Navigate to https://chat.openai.com.
-2. In the Model drop down, select "Plugins" (note, if you don't see it there, you don't have access yet).
-3. Select "Plugin store"
-4. Select "Develop your own plugin"
-5. Enter in `localhost:5003` since this is the URL the server is running on locally, then select "Find manifest file".
+### 3. Setup [Frontend](frontend/README.md)

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { afterUpdate, onMount } from 'svelte';
 	import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist';
+
 	import type { Record } from 'pocketbase';
 
 	import IconDownload from '~icons/solar/download-square-outline';
@@ -19,6 +20,12 @@
 	let previousDocumentUrl: string | null = null;
 
 	let isLoading = true;
+
+	let pdfjsWorker: string;
+	import('pdfjs-dist/build/pdf.worker.entry').then((worker) => {
+		pdfjsWorker = URL.createObjectURL(new Blob([worker], { type: 'application/javascript' }));
+		GlobalWorkerOptions.workerSrc = pdfjsWorker;
+	});
 
 	afterUpdate(() => {
 		previousDocumentUrl = generatedDocumentURL;
@@ -102,9 +109,6 @@
 		}
 
 		isRendering = true;
-		GlobalWorkerOptions.workerSrc =
-			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.worker.js';
-
 		try {
 			const loadingTask = getDocument(url);
 			pdf = await loadingTask.promise;
