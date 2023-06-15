@@ -1,4 +1,4 @@
-name: Frontend Tests
+name: Frontend
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  frontend-tests:
+  test-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -29,3 +29,14 @@ jobs:
         run: |
           cd frontend
           npm test
+
+  deploy-frontend:
+    needs: test-frontend
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: cd frontend && flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_FRONTEND }}

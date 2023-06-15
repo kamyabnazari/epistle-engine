@@ -1,4 +1,4 @@
-name: Backend Tests
+name: Backend
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  backend-tests:
+  test-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -29,3 +29,14 @@ jobs:
         run: |
           cd backend
           pytest
+
+  deploy-backend:
+    needs: test-backend
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: cd backend && flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_BACKEND }}
