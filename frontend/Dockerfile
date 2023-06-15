@@ -7,5 +7,6 @@ FROM node:18-alpine
 
 WORKDIR /app
 COPY . .
+RUN node --version && npm --version && npm list -g --depth=0
 RUN npm install && npm run build
 CMD [ "node", "./build" ]

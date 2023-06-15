@@ -20,6 +20,12 @@ jobs:
         with:
           node-version: 18
 
+      - name: Print debugging information
+        run: |
+          node --version
+          npm --version
+          npm list -g --depth=0
+
       - name: Install dependencies
         run: |
           cd frontend
