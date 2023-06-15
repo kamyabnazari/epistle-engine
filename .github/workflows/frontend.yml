@@ -20,6 +20,10 @@ jobs:
         with:
           node-version: 18
 
+      - name: Debug - List files in src/lib/components/
+        run: |
+          ls -la src/lib/components/
+
       - name: Install dependencies
         run: |
           cd frontend
