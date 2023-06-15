@@ -29,9 +29,11 @@ jobs:
             });
             const failed = checks.data.check_runs.filter(check => check.name == "Frontend Tests" || check.name == "Backend Tests").filter(check => check.conclusion !== 'success');
             return failed.length === 0;
-      - name: Deployment
+      - name: Setup Flyctl
         if: steps.checks.outputs.result == 'true'
         uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deployment
+        if: steps.checks.outputs.result == 'true'
         run: cd frontend && flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_FRONTEND }}
