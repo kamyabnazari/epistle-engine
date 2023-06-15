@@ -13,7 +13,7 @@ RUN mkdir /app
 COPY --from=deploy-app-builder /app/build /app/build
 COPY --from=deploy-app-builder /app/package.json /app/package.json
 COPY --from=deploy-app-builder /app/package-lock.json /app/package-lock.json
-RUN cd /app && npm install --production
+RUN cd /app
 WORKDIR /app
 EXPOSE 3000
 CMD [ "node", "./build" ]
