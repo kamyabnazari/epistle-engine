@@ -36,8 +36,14 @@ jobs:
     if: success()
     steps:
       - uses: actions/checkout@v3
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: user/app:latest
+          build-args: PUBLIC_POCKETBASE_URL=${{ env.PUBLIC_POCKETBASE_URL }}
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: cd frontend && flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_FRONTEND }}
-          PUBLIC_POCKETBASE_URL: ${{ env.PUBLIC_POCKETBASE_URL }}
