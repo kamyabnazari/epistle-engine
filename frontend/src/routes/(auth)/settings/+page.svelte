@@ -11,15 +11,6 @@
 						<input type="checkbox" class="toggle" checked />
 					</label>
 				</div>
-				<div class="form-control w-96 gap-2">
-					<span class="label-text p-1">Export quality</span>
-					<input type="range" min="1" max="3" value="2" class="range" step="1" />
-					<div class="flex w-full justify-between px-2 text-xs">
-						<span>Low</span>
-						<span>Standard</span>
-						<span>High</span>
-					</div>
-				</div>
 				<div class="flex flex-row justify-center">
 					<div class="flex-auto">
 						<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
