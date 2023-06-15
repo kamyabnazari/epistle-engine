@@ -1,39 +1,21 @@
 name: Deploy Development
 
 on:
-  pull_request:
-    branches: [main]
-    types: [synchronize]
+  workflow_run:
+    workflows: ["Frontend Tests", "Backend Tests"]
+    types:
+      - completed
 
 jobs:
   deploy-frontend-test:
     runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.workflow_run.conclusion == 'success'
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/github-script@v5
-        id: checks
-        with:
-          script: |
-            const repo = context.repo;
-            const pr = await github.pulls.listCommits({
-              owner: repo.owner,
-              repo: repo.repo,
-              pull_number: context.issue.number,
-              per_page: 1
-            });
-            const sha = pr.data[0].sha;
-            const checks = await github.checks.listForRef({
-              owner: repo.owner,
-              repo: repo.repo,
-              ref: sha
-            });
-            const failed = checks.data.check_runs.filter(check => check.name == "Frontend Tests" || check.name == "Backend Tests").filter(check => check.conclusion !== 'success');
-            return failed.length === 0;
-      - name: Setup Flyctl
-        if: steps.checks.outputs.result == 'true'
-        uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Deployment
-        if: steps.checks.outputs.result == 'true'
-        run: cd frontend && flyctl deploy --remote-only
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: cd frontend && flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_FRONTEND }}
