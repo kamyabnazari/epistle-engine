@@ -56,8 +56,10 @@ Branch Example: `kn-feature-name-example`
 
 ## Development
 
-### Setup [Frontend](frontend/README.md)
+Please create the services after another in order and follow the instructions in the README.md files.
 
-### Setup [Backend](frontend/README.md)
+### 1. Setup [Pocketbase](pocketbase/README.md)
 
-### Setup [Pocketbase](pocketbase/README.md)
+### 2. Setup [Backend](frontend/README.md)
+
+### 3. Setup [Frontend](frontend/README.md)

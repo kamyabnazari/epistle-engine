@@ -13,9 +13,6 @@ RUN apk add --no-cache \
 ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
 RUN unzip /tmp/pb.zip -d /pb/
 
-# Copy migration file for admin creation from host to Docker image
-COPY create_backend_admin.js /pb/migrations/
-
 EXPOSE 8090
 
 # start PocketBase
