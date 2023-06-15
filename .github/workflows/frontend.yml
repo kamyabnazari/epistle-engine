@@ -20,9 +20,9 @@ jobs:
         with:
           node-version: 18
 
-      - name: Debug - List files in src/lib/components/
+      - name: Debug - Print directory structure
         run: |
-          ls -la src/lib/components/
+          ls -laR
 
       - name: Install dependencies
         run: |
