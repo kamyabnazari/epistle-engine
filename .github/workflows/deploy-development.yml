@@ -1,10 +1,10 @@
 name: Deploy Development
 
 on:
-  workflow_run:
-    workflows: ["Frontend Tests", "Backend Tests"]
+  check_run:
     types:
       - completed
+    jobs: ["frontend-tests", "backend-tests"]
 
 jobs:
   deploy-frontend-test:
