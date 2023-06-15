@@ -57,18 +57,19 @@ Branch Example: `kn-feature-name-example`
 
 ### Development
 
-### Commands
+### [Frontend](frontend/README.md)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+#### Running the project
 
 ```bash
+npm install
 npm run dev
 
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
 
-### Building
+#### Building
 
 To create a production version of your app:
 
@@ -78,34 +79,20 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-### Docker
+### Pocketbase
 
-To create a full local environment, use the docker compose to create all services localy and the production application:
+Use docker compose to create Pocketbase Service:
 
 ```bash
 docker-compose up
 ```
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+### [Backend](backend/README.md)
 
-### ChatGPT Plugin
-
-To install the required packages for this plugin, run the following command:
+To install the required packages for this plugin and run the service locally, run the following commands:
 
 ```bash
 pip install -r requirements.txt
-```
 
-To run the plugin, enter the following command:
-
-```bash
 uvicorn main:app --reload --port 5003
 ```
-
-Once the local server is running:
-
-1. Navigate to https://chat.openai.com.
-2. In the Model drop down, select "Plugins" (note, if you don't see it there, you don't have access yet).
-3. Select "Plugin store"
-4. Select "Develop your own plugin"
-5. Enter in `localhost:5003` since this is the URL the server is running on locally, then select "Find manifest file".
