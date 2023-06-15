@@ -45,7 +45,7 @@
 		</label>
 	</div>
 	<div class="flex-1">
-		<a class="btn-link text-left text-xl font-bold normal-case" href="/">ADM</a>
+		<a class="btn-link text-left text-xl font-bold normal-case" href="/">Epistle Engine</a>
 	</div>
 	<div class="flex-none">
 		{#await $currentUser then user}

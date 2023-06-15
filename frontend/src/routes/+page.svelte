@@ -2,7 +2,7 @@
 	<div class="hero-content text-center">
 		<div>
 			<div class="my-20 max-w-md">
-				<h1 class="text-5xl font-bold">Welcome to Auto Document Manager</h1>
+				<h1 class="text-5xl font-bold">Welcome to Epistle Engine</h1>
 				<p class="py-6 text-xl">
 					Unleash the Power of AI: Creating Beautiful, Structured PDFs Has Never Been Easier!
 				</p>
