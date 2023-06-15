@@ -1,5 +1,5 @@
 {
-	"name": "asa-application",
+	"name": "ee-application",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -46,6 +46,6 @@
 	"dependencies": {
 		"daisyui": "^2.51.6",
 		"pdfjs-dist": "^3.7.107",
-		"pocketbase": "^0.15.0"
+		"pocketbase": "^0.15.2"
 	}
 }

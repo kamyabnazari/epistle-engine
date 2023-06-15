@@ -17,3 +17,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  ee-frontend:
+    image: ee-frontend
+    container_name: ee-frontend
+    restart: unless-stopped
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
