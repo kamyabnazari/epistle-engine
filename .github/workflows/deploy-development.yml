@@ -1,14 +1,15 @@
-name: Deploy Production
+name: Deploy Development
 
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Frontend Tests", "Backend Tests"]
+    types:
+      - completed
 
 jobs:
   deploy-frontend-test:
-    needs: test
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' && github.base_ref == 'main') }}
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
