@@ -1,6 +1,7 @@
 import type { Actions } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { env } from '$env/dynamic/public';
 
 export const actions: Actions = {
 	uploadDocument: async ({ locals, request }) => {
@@ -22,7 +23,7 @@ export const actions: Actions = {
 
 			// Python backend to process document
 			const response = await fetch(
-				`http://localhost:5003/api/documents/${document.id}/calculate_stats/${locals.user.id}`,
+				`${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/calculate_stats/${locals.user.id}`,
 				{
 					method: 'POST',
 					headers: {

@@ -12,6 +12,7 @@ PUBLIC_BACKEND_URL=http://localhost:5003
 PUBLIC_SECURE=false
 PUBLIC_HTTPONLY=false
 PUBLIC_SAMESITE=None
+BODY_SIZE_LIMIT=0
 ```
 
 ### Running the frontend
