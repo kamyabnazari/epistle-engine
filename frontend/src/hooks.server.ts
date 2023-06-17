@@ -19,15 +19,40 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// the `resolve` function runs the actual route handler
 	const response = await resolve(event);
 
+	// list of allowed origins
+	const allowedOrigins = [env.PUBLIC_POCKETBASE_URL, env.PUBLIC_BACKEND_URL];
+
+	const requestOrigin = event.request.headers.get('origin') || '';
+
+	// if the request origin is in the list of allowed origins, set the Access-Control-Allow-Origin header
+	if (allowedOrigins.includes(requestOrigin)) {
+		response.headers.append('Access-Control-Allow-Origin', requestOrigin);
+	}
+
 	// after the route has been rendered by the server,
 	response.headers.set(
 		'set-cookie',
 		pb.authStore.exportToCookie({
-			httpOnly: env.PUBLIC_HTTPONLY === undefined ? true : Boolean(env.PUBLIC_HTTPONLY),
-			secure: env.PUBLIC_SECURE === undefined ? true : Boolean(env.PUBLIC_SECURE),
+			httpOnly: parseBool(env.PUBLIC_HTTPONLY),
+			secure: parseBool(env.PUBLIC_SECURE),
 			sameSite: env.PUBLIC_SAMESITE === undefined ? 'Strict' : env.PUBLIC_SAMESITE
 		})
 	);
 
 	return response;
 };
+
+function parseBool(value: string | undefined) {
+	// if the value is undefined, return true as a default
+	if (value === undefined) {
+		return true;
+	}
+
+	// if the value is a string and equal to "true" (ignoring case), return true
+	if (value.toLowerCase() === 'true') {
+		return true;
+	}
+
+	// in all other cases, return false
+	return false;
+}
