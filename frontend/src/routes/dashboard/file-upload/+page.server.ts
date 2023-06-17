@@ -37,8 +37,6 @@ export const actions: Actions = {
 				// get the error message from the server, or default to a response status text
 				throw new Error(response.statusText);
 			}
-			let answare = await response.json();
-			console.log(answare);
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');
