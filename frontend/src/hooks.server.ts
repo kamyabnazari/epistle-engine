@@ -1,3 +1,4 @@
+import { env } from '$env/dynamic/public';
 import { pb } from '$lib/pocketbase';
 import type { Handle } from '@sveltejs/kit';
 
@@ -21,7 +22,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// after the route has been rendered by the server,
 	response.headers.set(
 		'set-cookie',
-		pb.authStore.exportToCookie({ httpOnly: false, secure: false })
+		pb.authStore.exportToCookie({
+			httpOnly: env.PUBLIC_HTTPONLY === undefined ? true : Boolean(env.PUBLIC_HTTPONLY),
+			secure: env.PUBLIC_SECURE === undefined ? true : Boolean(env.PUBLIC_SECURE),
+			sameSite: env.PUBLIC_SAMESITE === undefined ? 'Strict' : env.PUBLIC_SAMESITE
+		})
 	);
 
 	return response;
