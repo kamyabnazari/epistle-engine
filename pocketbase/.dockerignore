@@ -2,6 +2,9 @@
 .git
 .git*
 .vscode
-README.md
-docker-compose.yml
 .env
+.dockeringnore
+docker-compose.yml
+fly.toml
+pb-schema.json
+README.md

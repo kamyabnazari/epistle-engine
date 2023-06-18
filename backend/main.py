@@ -9,14 +9,13 @@ import PyPDF3
 
 # Importing fastAPI
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 # Importing langchain
 from langchain import LLMChain
 from langchain.chat_models import ChatOpenAI  
-from langchain.prompts import PromptTemplate, ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate
 
 from dotenv import load_dotenv
 
