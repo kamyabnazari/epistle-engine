@@ -1,3 +1,5 @@
+import { env } from "$env/dynamic/public";
+
 export function showPreview(event: Event) {
 	const inputElement = event.target as HTMLInputElement;
 	const files = inputElement.files;
@@ -12,9 +14,9 @@ export function showPreview(event: Event) {
 }
 
 export const getImageURL = (collectionId, recordId, fileName, size = '0x0') => {
-	return `http://localhost:8090/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+	return `${env.PUBLIC_POCKETBASE_URL}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
 };
 
 export const getDocumentURL = (collectionId, recordId, fileName, size = '0x0') => {
-	return `http://localhost:8090/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+	return `${env.PUBLIC_POCKETBASE_URL}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
 };

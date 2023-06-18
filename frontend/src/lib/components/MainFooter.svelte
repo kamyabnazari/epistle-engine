@@ -9,6 +9,6 @@
 	</div>
 	<div>
 		<p>Copyright © 2023</p>
-		<p>All right reserved by Kamyab Nazari & Mohammad Khezri</p>
+		<p>All right reserved</p>
 	</div>
 </footer>

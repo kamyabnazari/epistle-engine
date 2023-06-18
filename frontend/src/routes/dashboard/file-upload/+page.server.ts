@@ -1,6 +1,7 @@
 import type { Actions } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { env } from '$env/dynamic/public';
 
 export const actions: Actions = {
 	uploadDocument: async ({ locals, request }) => {
@@ -10,8 +11,8 @@ export const actions: Actions = {
 		data.set('owner', locals.user.id);
 		data.set('name', userDocument?.name ?? 'untitled');
 		data.set('type', 'Uploaded');
-		data.set('page_count', '5');
-		data.set('word_count', '25');
+		data.set('page_count', '0');
+		data.set('word_count', '0');
 
 		if (userDocument.size === 0) {
 			throw error(400, 'Please upload a file');
@@ -22,7 +23,7 @@ export const actions: Actions = {
 
 			// Python backend to process document
 			const response = await fetch(
-				`http://localhost:5003/api/documents/${document.id}/calculate_stats/${locals.user.id}`,
+				`${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/calculate_stats/${locals.user.id}`,
 				{
 					method: 'POST',
 					headers: {
@@ -36,8 +37,6 @@ export const actions: Actions = {
 				// get the error message from the server, or default to a response status text
 				throw new Error(response.statusText);
 			}
-			let answare = await response.json();
-			console.log(answare);
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');

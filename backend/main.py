@@ -59,7 +59,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_public_url, pocketbase_url],
+    allow_origins=[pocketbase_url, frontend_public_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,11 +67,11 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"message": "This is the backend for ADM Project!"}
+    return {"message": "This is the backend for EE Project!"}
 
 @app.get("/api")
 async def read_api_root():
-    return {"message": "Welcome to the ADM API!"}
+    return {"message": "Welcome to the EE API!"}
 
 @app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
 async def read_api_documents_calculate_stats(document_id: str, user_id: str):
@@ -85,7 +85,7 @@ async def read_api_documents_calculate_stats(document_id: str, user_id: str):
     size = '0x0'
 
     if owner == user_id:
-        url = f"{frontend_public_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+        url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
         response = requests.get(url)
         response.raise_for_status()
         content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
