@@ -11,8 +11,8 @@ export const actions: Actions = {
 		data.set('owner', locals.user.id);
 		data.set('name', userDocument?.name ?? 'untitled');
 		data.set('type', 'Uploaded');
-		data.set('page_count', '5');
-		data.set('word_count', '25');
+		data.set('page_count', '0');
+		data.set('word_count', '0');
 
 		if (userDocument.size === 0) {
 			throw error(400, 'Please upload a file');
