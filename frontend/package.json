@@ -45,7 +45,6 @@
 	"type": "module",
 	"dependencies": {
 		"daisyui": "^2.51.6",
-		"node-fetch": "^3.3.1",
 		"pdfjs-dist": "^3.7.107",
 		"pocketbase": "^0.15.2"
 	}
