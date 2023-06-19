@@ -70,7 +70,6 @@
 						class="menu dropdown-content bg-base-100 rounded-box mt-2 w-52 p-2 shadow-lg"
 					>
 						<li><a href="/profile">Profile</a></li>
-						<li><a href="/settings">Settings</a></li>
 						<li>
 							<form
 								method="POST"
