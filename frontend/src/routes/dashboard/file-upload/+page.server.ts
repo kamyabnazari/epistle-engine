@@ -2,6 +2,7 @@ import type { Actions } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/public';
+import fetch from 'node-fetch';
 
 export const actions: Actions = {
 	uploadDocument: async ({ locals, request }) => {
