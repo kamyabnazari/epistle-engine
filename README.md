@@ -1,6 +1,6 @@
 # EE - Epistle Engine
 
-This is the Repository for the unified services for the Epistle Engine Project.
+This is the Repository for the unified services for the Epistle Engine with github actions and docker support.
 
 ## Conventions
 
