@@ -2,6 +2,9 @@ import type { Actions } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/public';
+import axios from 'axios';
+import http from 'http';
+import https from 'https';
 
 export const actions: Actions = {
 	createDocument: async ({ locals, request }) => {
@@ -14,26 +17,17 @@ export const actions: Actions = {
 		}
 
 		try {
-			// Python backend to creating document
-			const response = await fetch(
-				`${env.PUBLIC_BACKEND_URL}/api/documents/create/${locals.user.id}`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						topic: topicRequested,
-						export_option: exportOption
-					})
-				}
-			);
-
-			if (!response.ok) {
-				// if HTTP-status is 200-299
-				// get the error message from the server, or default to a response status text
-				throw new Error(response.statusText);
-			}
+			await axios({
+				url: `${env.PUBLIC_BACKEND_URL}/api/documents/create/${locals.user.id}`,
+				method: 'post',
+				headers: { 'Content-Type': 'application/json' },
+				data: {
+					topic: topicRequested,
+					export_option: exportOption
+				},
+				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
+				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
+			});
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong creating your document');
