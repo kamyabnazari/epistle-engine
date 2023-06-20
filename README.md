@@ -42,6 +42,8 @@ Branch Example: `kn-feature-name-example`
 
 ## Getting Started
 
+Install all of the prerequisites and follow the instructions in the README.md files of the services.
+
 ### Prerequisites
 
 - Git
@@ -49,9 +51,13 @@ Branch Example: `kn-feature-name-example`
 - NPM
 - Nodejs
 - Python
+
+#### PDF Generation
+
+- texlive-full (latex)
 - pkg-config
 - cairo
-- wkhtmltopdf
+- wkhtmltopdf (HTML to PDF converter)
 
 ## Development
 

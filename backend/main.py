@@ -73,29 +73,32 @@ async def read_api_root():
 
 @app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
 async def read_api_documents_calculate_stats(document_id: str, user_id: str):
-    # Fetching document from the database by document ID
-    response = pocketbase_client.collection("documents").get_one(document_id)
-    response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
-    owner = response_dict["collection_id"]["owner"]
-    recordId = response_dict["collection_id"]["id"]
-    collectionId = response_dict["collection_id"]["collectionId"]
-    fileName = response_dict["collection_id"]["document"]
-    size = '0x0'
+    try:
+        # Fetching document from the database by document ID
+        response = pocketbase_client.collection("documents").get_one(document_id)
+        response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
+        owner = response_dict["owner"]
+        recordId = response_dict["id"]
+        collectionId = response_dict["collection_id"]
+        fileName = response_dict["document"]
+        size = '0x0'
 
-    if owner == user_id:
-        url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
-        response = requests.get(url)
-        response.raise_for_status()
-        content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
+        if owner == user_id:
+            url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+            response = requests.get(url)
+            response.raise_for_status()
+            content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
 
-        total_pages = get_pdf_page_count(content)
-        total_words = get_pdf_word_count(content)
-        
-        data = {
-            "page_count": total_pages,
-            "word_count": total_words
-        }
-        pocketbase_client.collection('documents').update(recordId, data)
+            total_pages = get_pdf_page_count(content)
+            total_words = get_pdf_word_count(content)
+            
+            data = {
+                "page_count": total_pages,
+                "word_count": total_words
+            }
+            pocketbase_client.collection('documents').update(recordId, data)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
 
 @app.post("/api/documents/create/{user_id}")
 async def read_api_document_create(user_id: str, request: Request):
