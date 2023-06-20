@@ -2,7 +2,7 @@ quart
 quart-cors
 langchain
 fastapi
-uvicorn
+hypercorn
 openai
 python-dotenv
 pocketbase

@@ -21,5 +21,5 @@ To install the required packages for this plugin and run the service locally, ru
 ```bash
 pip install -r requirements.txt
 
-uvicorn main:app --reload --host 0.0.0.0 --port 5003
+hypercorn main:app --reload --bind '0.0.0.0:5003' --bind '[::]:5003'
 ```
