@@ -33,7 +33,6 @@ Branch Example: `kn-feature-name-example`
 - FastApi [Backend Framework]
 - LangChain [Language Processing]
 - OpenAI GPT [Language Processing]
-- Open Source LLM [Language Processing]
 
 ### PocketBase
 

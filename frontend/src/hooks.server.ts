@@ -19,16 +19,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// the `resolve` function runs the actual route handler
 	const response = await resolve(event);
 
-	// list of allowed origins
-	const allowedOrigins = [env.PUBLIC_POCKETBASE_URL, env.PUBLIC_BACKEND_URL];
-
-	const requestOrigin = event.request.headers.get('origin') || '';
-
-	// if the request origin is in the list of allowed origins, set the Access-Control-Allow-Origin header
-	if (allowedOrigins.includes(requestOrigin)) {
-		response.headers.append('Access-Control-Allow-Origin', requestOrigin);
-	}
-
 	// after the route has been rendered by the server,
 	response.headers.set(
 		'set-cookie',
