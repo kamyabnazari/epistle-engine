@@ -44,6 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"axios": "^1.4.0",
 		"daisyui": "^2.51.6",
 		"pdfjs-dist": "^3.7.107",
 		"pocketbase": "^0.15.2"

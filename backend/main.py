@@ -11,7 +11,6 @@ import PyPDF3
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
 # Importing langchain
 from langchain import LLMChain
@@ -223,6 +222,3 @@ def get_pdf_word_count(file_content):
         page = pdf_reader.getPage(page_num)
         total_words += len(page.extractText().split())
     return total_words
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5003)
