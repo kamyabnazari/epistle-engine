@@ -4,4 +4,4 @@ WORKDIR /app
 COPY . /app
 RUN pip install -r requirements.txt --no-cache-dir
 EXPOSE 5003
-CMD ["hypercorn", "main:app", "--bind", "'0.0.0.0:5003'", "--bind", "'[::]:5003'"]
+CMD ["hypercorn", "main:app", "--bind", "'fly-local-6pn:5003'"]
