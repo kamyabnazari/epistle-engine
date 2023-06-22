@@ -24,6 +24,12 @@ from dotenv import load_dotenv
 from pocketbase import PocketBase
 from pocketbase.client import FileUpload
 
+# Importing ingest.py 
+from ingest import create_embeddings_from_pdf_file
+
+# Importing chat_bot_function.py 
+from chat_bot_function import chat_bot_funtion
+
 load_dotenv()
 
 from retry import retry
