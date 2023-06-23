@@ -104,11 +104,20 @@ async def read_api_documents_calculate_stats(document_id: str, user_id: str):
         # Fetching document from the database by document ID
         response = pocketbase_client.collection("documents").get_one(document_id)
         response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
-        owner = response_dict["owner"]
-        recordId = response_dict["id"]
-        collectionId = response_dict["collection_id"]
-        fileName = response_dict["document"]
-        size = '0x0'
+        try:
+            # This works when deployed
+            owner = response_dict["owner"]
+            recordId = response_dict["id"]
+            collectionId = response_dict["collection_id"]
+            fileName = response_dict["document"]
+            size = '0x0'
+        except KeyError:
+            # This works locally
+            owner = response_dict["collection_id"]["owner"]
+            recordId = response_dict["collection_id"]["id"]
+            collectionId = response_dict["collection_id"]["collectionId"]
+            fileName = response_dict["collection_id"]["document"]
+            size = '0x0'
 
         if owner == user_id:
             url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
