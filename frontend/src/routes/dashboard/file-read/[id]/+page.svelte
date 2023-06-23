@@ -45,6 +45,7 @@
 	}
 
 	function sentMessage(message: string) {
+		if (!message) return;
 		messages.update((currentMessages) => [
 			...currentMessages,
 			{ message: message, sender: $currentUser?.id }
