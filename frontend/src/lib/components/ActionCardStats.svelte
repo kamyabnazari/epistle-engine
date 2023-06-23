@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconFile from '~icons/solar/file-text-outline';
+	import IconCharts from '~icons/solar/pie-chart-outline';
 </script>
 
 <div class="card bg-base-200 h-48 w-96 flex-1 shadow-lg">
@@ -9,7 +9,7 @@
 		<div class="card-actions justify-end py-4">
 			<a href="/dashboard/stats">
 				<button class="btn btn-primary gap-4">
-					<IconFile style="font-size: x-large" class="text-primary-content" />
+					<IconCharts style="font-size: x-large" class="text-primary-content" />
 					View
 				</button></a
 			>
