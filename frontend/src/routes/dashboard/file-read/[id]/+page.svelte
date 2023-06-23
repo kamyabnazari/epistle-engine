@@ -1,10 +1,12 @@
 <script lang="ts">
 	import PdfViewer from '$lib/components/PDFViewer.svelte';
-	import { pb } from '$lib/pocketbase';
-	import { getDocumentURL } from '$lib/utils';
+	import { pb, currentUser } from '$lib/pocketbase';
+	import { getDocumentURL, getImageURL } from '$lib/utils';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
 	import IconSend from '~icons/solar/square-double-alt-arrow-right-outline';
+	import { applyAction, enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 
 	let recentlyAddedDocumentID: string;
 	let generatedDocumentURL: string | null = null;
@@ -33,6 +35,24 @@
 			console.error('Fetch error:', error);
 		}
 	}
+
+	let loading = false;
+
+	const submitNewMessage = () => {
+		loading = true;
+		return async ({ result }) => {
+			switch (result.type) {
+				case 'success':
+					await invalidateAll();
+					break;
+				case 'error':
+					break;
+				default:
+					await applyAction(result);
+			}
+			loading = false;
+		};
+	};
 </script>
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
@@ -46,21 +66,53 @@
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
 				<div class="form-control flex-grow">
-					<textarea
-						class="textarea textarea-bordered w-full rounded-md p-4 max-sm:h-96 sm:h-96 md:h-full lg:h-full"
-						unselectable="on"
-						placeholder="Read-only content..."
-						readonly
-					/>
+					<div class="chat chat-end my-4">
+						<div class="chat-image avatar">
+							<div class="w-10 rounded-lg">
+								<img
+									src={$currentUser?.avatar
+										? getImageURL(
+												$currentUser?.collectionId,
+												$currentUser?.id,
+												$currentUser?.avatar
+										  )
+										: `https://ui-avatars.com/api/?name=${$currentUser?.name}`}
+									alt="user avatar"
+									id="avatar-preview-navbar"
+								/>
+							</div>
+						</div>
+						<div class="chat-header">{$currentUser?.name}</div>
+						<div class="chat-bubble chat-bubble-info">Why are cats so fast?</div>
+					</div>
+					<div class="chat chat-start my-4">
+						<div class="chat-image avatar">
+							<div class="w-10 rounded-lg">
+								<img src="/favicon.png" alt="ee" />
+							</div>
+						</div>
+						<div class="chat-header">Epistle Engine</div>
+						<div class="chat-bubble">It is because they are like lions!</div>
+					</div>
 				</div>
 				<div class="flex flex-row gap-2">
 					<div class="form-control w-full">
-						<textarea
-							class="textarea textarea-bordered border-primary h-12 w-full rounded-md border-2"
-							placeholder="Ask anything..."
-						/>
+						<form
+							action="?/sendNewMessage"
+							method="POST"
+							enctype="multipart/form-data"
+							use:enhance={submitNewMessage}
+						>
+							<textarea
+								class="textarea textarea-bordered border-primary h-12 w-full rounded-md border-2"
+								placeholder="Ask anything..."
+								disabled={loading}
+							/>
+						</form>
 					</div>
-					<button class="btn btn-primary"><IconSend style="font-size: x-large;" /></button>
+					<button class="btn btn-primary" class:loading type="submit" disabled={loading}
+						><IconSend style="font-size: x-large;" /></button
+					>
 				</div>
 			</div>
 		</div>
