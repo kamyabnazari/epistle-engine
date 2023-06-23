@@ -5,7 +5,7 @@
 	import { page } from '$app/stores';
 </script>
 
-<div class="drawer drawer-mobile">
+<div class="drawer">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
 		<div class="flex-none">

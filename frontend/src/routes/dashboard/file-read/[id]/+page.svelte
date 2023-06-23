@@ -9,6 +9,7 @@
 	import IconSend from '~icons/solar/square-double-alt-arrow-right-outline';
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
+	import { tick } from 'svelte';
 
 	let recentlyAddedDocumentID: string;
 	let generatedDocumentURL: string | null = null;
@@ -17,6 +18,7 @@
 	let messages = writable([]);
 	let message: string = '';
 	let loading = false;
+	let chatContainer;
 
 	onMount(async () => {
 		documentID = $page.params.id;
@@ -43,6 +45,7 @@
 			...currentMessages,
 			{ message: message, sender: $currentUser?.id }
 		]);
+		scrollToBottom();
 	}
 
 	function receiveMessage(message: string, sender: string) {
@@ -50,6 +53,7 @@
 			...currentMessages,
 			{ message: message, sender: sender }
 		]);
+		scrollToBottom();
 	}
 
 	const submitNewMessage = () => {
@@ -71,6 +75,13 @@
 			loading = false;
 		};
 	};
+
+	async function scrollToBottom() {
+		await tick();
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
+	}
 </script>
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
@@ -83,7 +94,10 @@
 		</div>
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
-				<div class="form-control chat-container flex-grow overflow-y-auto">
+				<div
+					class="form-control chat-container flex-grow overflow-y-auto"
+					bind:this={chatContainer}
+				>
 					{#each $messages as message (message)}
 						<div
 							class={message.sender === $currentUser?.id
@@ -154,7 +168,7 @@
 <style>
 	.chat-container {
 		height: calc(
-			80vh - 20rem
+			60vh - 20rem
 		); /* Adjust the subtraction value according to your header and footer size */
 	}
 </style>
