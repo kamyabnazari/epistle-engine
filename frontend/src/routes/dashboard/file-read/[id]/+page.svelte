@@ -66,6 +66,7 @@
 				case 'success':
 					receiveMessage(result.data.message, result.data.sender);
 					await invalidateAll();
+					message = '';
 					break;
 				case 'error':
 					break;
@@ -139,8 +140,9 @@
 				<form action="?/sendNewMessage" method="POST" use:enhance={submitNewMessage}>
 					<div class="flex flex-row gap-2">
 						<div class="form-control w-full">
-							<textarea
-								class="textarea textarea-bordered border-primary h-12 w-full rounded-md border-2"
+							<input
+								type="text"
+								class="input input-bordered border-primary h-12 w-full rounded-md border-2"
 								placeholder="Ask anything..."
 								id="message"
 								name="message"
