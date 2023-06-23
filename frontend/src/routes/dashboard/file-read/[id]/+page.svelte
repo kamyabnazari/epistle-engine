@@ -83,7 +83,7 @@
 		</div>
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
-				<div class="form-control flex-grow">
+				<div class="form-control chat-container flex-grow overflow-y-auto">
 					{#each $messages as message (message)}
 						<div
 							class={message.sender === $currentUser?.id
@@ -150,3 +150,11 @@
 		</a>
 	</div>
 </div>
+
+<style>
+	.chat-container {
+		height: calc(
+			80vh - 20rem
+		); /* Adjust the subtraction value according to your header and footer size */
+	}
+</style>
