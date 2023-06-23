@@ -62,7 +62,7 @@
     "system": false,
     "schema": [
       {
-        "id": "fm44lkwu",
+        "id": "z3nsifos",
         "name": "owner",
         "type": "relation",
         "system": false,
@@ -76,7 +76,7 @@
         }
       },
       {
-        "id": "n8aya7bo",
+        "id": "liecvep6",
         "name": "total_pages",
         "type": "json",
         "system": false,
@@ -84,7 +84,7 @@
         "options": {}
       },
       {
-        "id": "f4rgw81f",
+        "id": "57bub74n",
         "name": "total_words",
         "type": "json",
         "system": false,
@@ -92,7 +92,7 @@
         "options": {}
       },
       {
-        "id": "osb6pifm",
+        "id": "z9fdp5ux",
         "name": "total_documents",
         "type": "number",
         "system": false,
@@ -103,7 +103,7 @@
         }
       },
       {
-        "id": "voqo410q",
+        "id": "01vchojz",
         "name": "total_uploaded",
         "type": "json",
         "system": false,
@@ -111,7 +111,7 @@
         "options": {}
       },
       {
-        "id": "hiylmr7d",
+        "id": "bykcpfzd",
         "name": "total_created",
         "type": "json",
         "system": false,
@@ -119,7 +119,7 @@
         "options": {}
       },
       {
-        "id": "7ahqa9ft",
+        "id": "tlksddjo",
         "name": "min_created_date",
         "type": "json",
         "system": false,
@@ -127,7 +127,7 @@
         "options": {}
       },
       {
-        "id": "tm77c9fh",
+        "id": "zlyw7zyt",
         "name": "max_created_date",
         "type": "json",
         "system": false,
@@ -226,6 +226,14 @@
           "min": null,
           "max": null
         }
+      },
+      {
+        "id": "gfcbrhw1",
+        "name": "chat_history",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
       }
     ],
     "indexes": [],

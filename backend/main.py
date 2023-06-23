@@ -12,7 +12,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 # Importing langchain
-from langchain import LLMChain
+from langchain import LLMChain, PromptTemplate
 from langchain.chat_models import ChatOpenAI  
 from langchain.prompts import ChatPromptTemplate
 
@@ -70,6 +70,33 @@ async def read_root():
 @app.get("/api")
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
+
+@app.post("/api/documents/{document_id}/send_new_message/{user_id}")
+async def read_api_documents_send_new_message(document_id: str, user_id: str, request: Request):
+    # Accessing Request body and converting it to a dictionary
+    body = await request.json()
+    
+    # Sending topic to gpt to generate latex output of the text 
+    message = body.get('message')
+    history = body.get('history')
+    
+    # Create a question prompt using this message
+    multiple_input_prompt = PromptTemplate(
+        input_variables=["message", "history"], 
+        template="This is our conversation history: {history} and here is my next question: {message}. Please deliver a short answer please."
+    )
+    # Format the prompt with message and history
+    multiple_input_prompt.format(message=message, history=history)
+
+    llm_chain = LLMChain(  
+        prompt = multiple_input_prompt,
+        llm = openai_model  
+    )
+
+    # Generate LaTeX content using this prompt
+    question_content = llm_chain.run({'message': message, 'history': history})
+    
+    return {"message": question_content, "sender": "Epistle Engine"}
 
 @app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
 async def read_api_documents_calculate_stats(document_id: str, user_id: str):

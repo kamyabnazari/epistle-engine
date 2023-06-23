@@ -4,15 +4,12 @@
 			<div class="my-20 max-w-md">
 				<h1 class="text-5xl font-bold">About Us</h1>
 				<p class="py-6 text-justify text-base">
-					Welcome to our realm, the space where technology interfaces with your ideas. We are Kamyab
-					Nazari and Mohammad Khezri, the power duo behind this incredible journey.
+					Welcome to our realm, the space where technology interfaces with your ideas.
 				</p>
 				<p class="py-6 text-justify text-base">
 					Hailing from different academic backgrounds, our paths converged over a shared vision -
 					the passion for leveraging the power of AI to simplify and enhance everyday tasks. Our
-					backgrounds complement each other, creating an effective blend of skillsets. Kamyab brings
-					in his extensive knowledge in software development and AI, while Mohammad adds depth with
-					his business acumen and knack for strategy development.
+					backgrounds complement each other, creating an effective blend of skillsets.
 				</p>
 				<p class="py-6 text-justify text-base">
 					Our product is a testament to our commitment to revolutionize how people interact with
@@ -48,7 +45,7 @@
 				<p class="py-6 text-justify text-base">
 					Welcome to the future of document processing. Welcome to our vision.
 				</p>
-				<p class="py-6 text-justify text-base">Kamyab Nazari & Mohammad Khezri Co-Founders</p>
+				<p class="py-6 text-justify text-base">Epistle Engine Team</p>
 			</div>
 		</div>
 	</div>
