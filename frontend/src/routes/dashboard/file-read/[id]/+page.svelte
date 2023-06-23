@@ -30,6 +30,9 @@
 			document = await pb.collection('documents').getOne(documentID);
 			recentlyAddedDocumentID = document?.id;
 
+			// use set method to update the messages store
+			messages.set(document?.chat_history || []);
+
 			generatedDocumentURL = await getDocumentURL(
 				document?.collectionId,
 				document?.id,
@@ -83,6 +86,13 @@
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
 	}
+
+	let messagesArray = [];
+	let messagesArrayString;
+	messages.subscribe((value) => {
+		messagesArray = value;
+		messagesArrayString = JSON.stringify(value);
+	});
 </script>
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
@@ -96,7 +106,7 @@
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
 				<div
-					class="form-control chat-container flex-grow overflow-y-auto"
+					class="form-control chat-container border-rounded border-base-300 flex-grow overflow-y-auto rounded-lg border-2 p-2"
 					bind:this={chatContainer}
 				>
 					{#each $messages as message (message)}
@@ -106,7 +116,7 @@
 								: 'chat chat-start my-4'}
 						>
 							<div class="chat-image avatar">
-								<div class="w-10 rounded-lg">
+								<div class="w-10 rounded-lg shadow-sm">
 									{#if message.sender === $currentUser?.id}
 										<img
 											src={$currentUser?.avatar
@@ -129,8 +139,8 @@
 							</div>
 							<div
 								class={message.sender === $currentUser?.id
-									? 'chat-bubble chat-bubble-primary'
-									: 'chat-bubble chat-bubble-info'}
+									? 'chat-bubble chat-bubble-primary shadow-sm'
+									: 'chat-bubble chat-bubble-info shadow-sm'}
 							>
 								{message.message}
 							</div>
@@ -152,6 +162,8 @@
 						</div>
 						<!-- Hidden input field for documentId -->
 						<input type="hidden" name="documentId" bind:value={documentID} />
+						<!-- Hidden input field for messagesArray -->
+						<input type="hidden" name="messagesArray" bind:value={messagesArrayString} />
 						<button class="btn btn-primary" class:loading type="submit" disabled={loading}
 							><IconSend style="font-size: x-large;" /></button
 						>
