@@ -16,8 +16,8 @@ export const actions: Actions = {
 		}
 
 		try {
-			await axios({
-				url: `${env.PUBLIC_BACKEND_URL}/api/documents/send_new_question/${locals.user.id}`,
+			const response = await axios({
+				url: `${env.PUBLIC_BACKEND_URL}/api/documents/send_new_message`,
 				method: 'post',
 				headers: { 'Content-Type': 'application/json' },
 				data: {
@@ -26,6 +26,8 @@ export const actions: Actions = {
 				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
 				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
 			});
+
+			return response.data;
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong asking question');

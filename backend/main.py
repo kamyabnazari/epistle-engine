@@ -71,6 +71,28 @@ async def read_root():
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
 
+@app.post("/api/documents/send_new_message")
+async def read_api_documents_send_new_message(request: Request):
+    # Accessing Request body and converting it to a dictionary
+    body = await request.json()
+    
+    # Sending topic to gpt to generate latex output of the text 
+    message = body.get('message')
+    
+    # Create a question prompt using this message
+    question_prompt = ChatPromptTemplate.from_template("I am asking a {question}, short answare please.")
+    question_prompt_value = question_prompt.format_prompt(question=message)
+
+    llm_chain = LLMChain(  
+    prompt = question_prompt,
+    llm = openai_model  
+    )
+
+    # Generate LaTeX content using this prompt
+    question_content = llm_chain.run(question_prompt_value)
+    
+    return {"message": question_content, "sender": "Epistle Engine"}
+
 @app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
 async def read_api_documents_calculate_stats(document_id: str, user_id: str):
     try:
