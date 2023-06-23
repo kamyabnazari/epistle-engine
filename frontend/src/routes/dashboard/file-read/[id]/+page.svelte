@@ -134,6 +134,8 @@
 								disabled={loading}
 							/>
 						</div>
+						<!-- Hidden input field for documentId -->
+						<input type="hidden" name="documentId" bind:value={documentID} />
 						<button class="btn btn-primary" class:loading type="submit" disabled={loading}
 							><IconSend style="font-size: x-large;" /></button
 						>

@@ -10,6 +10,7 @@ export const actions: Actions = {
 	sendNewMessage: async ({ locals, request }) => {
 		const data = await request.formData();
 		const messageRequested = data.get('message') as string;
+		const documentId = data.get('documentId') as string;
 
 		if (messageRequested.length === 0) {
 			throw error(400, 'Please fill in a message');
@@ -17,7 +18,7 @@ export const actions: Actions = {
 
 		try {
 			const response = await axios({
-				url: `${env.PUBLIC_BACKEND_URL}/api/documents/send_new_message`,
+				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentId}/send_new_message/${locals.user.id}`,
 				method: 'post',
 				headers: { 'Content-Type': 'application/json' },
 				data: {

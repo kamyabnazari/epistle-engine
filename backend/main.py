@@ -71,10 +71,13 @@ async def read_root():
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
 
-@app.post("/api/documents/send_new_message")
-async def read_api_documents_send_new_message(request: Request):
+@app.post("/api/documents/{document_id}/send_new_message/{user_id}")
+async def read_api_documents_send_new_message(document_id: str, user_id: str, request: Request):
     # Accessing Request body and converting it to a dictionary
     body = await request.json()
+    
+    print(document_id)
+    print(user_id)
     
     # Sending topic to gpt to generate latex output of the text 
     message = body.get('message')
