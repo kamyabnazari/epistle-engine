@@ -1,5 +1,5 @@
 # Dockerfile for the backend service testing
-FROM python:3.8-slim-buster
+FROM python:3
 
 # Install system dependencies
 RUN apt-get update && \
