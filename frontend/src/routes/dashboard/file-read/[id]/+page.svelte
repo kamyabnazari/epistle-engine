@@ -23,6 +23,7 @@
 	onMount(async () => {
 		documentID = $page.params.id;
 		await fetchOpenedDocument();
+		scrollToBottom();
 	});
 
 	async function fetchOpenedDocument() {

@@ -45,7 +45,8 @@ export const actions: Actions = {
 				method: 'post',
 				headers: { 'Content-Type': 'application/json' },
 				data: {
-					message: messageRequested
+					message: messageRequested,
+					history: chatHistory
 				},
 				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
 				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
