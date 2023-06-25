@@ -12,6 +12,7 @@ POCKETBASE_ADMIN_EMAIL={your pocketbase admin email}
 POCKETBASE_ADMIN_PASSWORD={your pocketbase admin password}
 PUBLIC_POCKETBASE_URL=http://localhost:8090
 PUBLIC_FRONTEND_URL=http://localhost:5173
+PUBLIC_QDRANT_URL=http://localhost:6333
 ```
 
 ### Running the backend

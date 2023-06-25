@@ -40,6 +40,10 @@ Branch Example: `kn-feature-name-example`
 - Authentification
 - File Storage
 
+### Qdrant
+
+- Qdrant [Vector Search Engine]
+
 ## Getting Started
 
 Install all of the prerequisites and follow the instructions in the README.md files of the services.
