@@ -1,6 +1,6 @@
 # EE - Epistle Engine
 
-This is the Repository for the unified services for the Epistle Engine Project.
+This is the Repository for the unified services for the Epistle Engine with github actions and docker support.
 
 ## Conventions
 
@@ -33,7 +33,6 @@ Branch Example: `kn-feature-name-example`
 - FastApi [Backend Framework]
 - LangChain [Language Processing]
 - OpenAI GPT [Language Processing]
-- Open Source LLM [Language Processing]
 
 ### PocketBase
 
@@ -41,7 +40,13 @@ Branch Example: `kn-feature-name-example`
 - Authentification
 - File Storage
 
+### Qdrant
+
+- Qdrant [Vector Search Engine]
+
 ## Getting Started
+
+Install all of the prerequisites and follow the instructions in the README.md files of the services.
 
 ### Prerequisites
 
@@ -50,9 +55,13 @@ Branch Example: `kn-feature-name-example`
 - NPM
 - Nodejs
 - Python
+
+#### PDF Generation
+
+- texlive-full (latex)
 - pkg-config
 - cairo
-- wkhtmltopdf
+- wkhtmltopdf (HTML to PDF converter)
 
 ## Development
 
@@ -60,6 +69,8 @@ Please create the services after another in order and follow the instructions in
 
 ### 1. Setup [Pocketbase](pocketbase/README.md)
 
-### 2. Setup [Backend](frontend/README.md)
+### 2. Setup [Qdrant](qdrant/README.md)
 
-### 3. Setup [Frontend](frontend/README.md)
+### 3. Setup [Backend](backend/README.md)
+
+### 4. Setup [Frontend](frontend/README.md)

@@ -9,14 +9,12 @@ import PyPDF3
 
 # Importing fastAPI
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
 # Importing langchain
-from langchain import LLMChain
+from langchain import LLMChain, PromptTemplate
 from langchain.chat_models import ChatOpenAI  
-from langchain.prompts import PromptTemplate, ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate
 
 from dotenv import load_dotenv
 
@@ -79,31 +77,70 @@ async def read_root():
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
 
+@app.post("/api/documents/{document_id}/send_new_message/{user_id}")
+async def read_api_documents_send_new_message(document_id: str, user_id: str, request: Request):
+    # Accessing Request body and converting it to a dictionary
+    body = await request.json()
+    
+    # Sending topic to gpt to generate latex output of the text 
+    message = body.get('message')
+    history = body.get('history')
+    
+    # Create a question prompt using this message
+    multiple_input_prompt = PromptTemplate(
+        input_variables=["message", "history"], 
+        template="This is our conversation history: {history} and here is my next question: {message}. Please deliver a short answer please."
+    )
+    # Format the prompt with message and history
+    multiple_input_prompt.format(message=message, history=history)
+
+    llm_chain = LLMChain(  
+        prompt = multiple_input_prompt,
+        llm = openai_model  
+    )
+
+    # Generate LaTeX content using this prompt
+    question_content = llm_chain.run({'message': message, 'history': history})
+    
+    return {"message": question_content, "sender": "Epistle Engine"}
+
 @app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
 async def read_api_documents_calculate_stats(document_id: str, user_id: str):
-    # Fetching document from the database by document ID
-    response = pocketbase_client.collection("documents").get_one(document_id)
-    response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
-    owner = response_dict["collection_id"]["owner"]
-    recordId = response_dict["collection_id"]["id"]
-    collectionId = response_dict["collection_id"]["collectionId"]
-    fileName = response_dict["collection_id"]["document"]
-    size = '0x0'
+    try:
+        # Fetching document from the database by document ID
+        response = pocketbase_client.collection("documents").get_one(document_id)
+        response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
+        try:
+            # This works when deployed
+            owner = response_dict["owner"]
+            recordId = response_dict["id"]
+            collectionId = response_dict["collection_id"]
+            fileName = response_dict["document"]
+            size = '0x0'
+        except KeyError:
+            # This works locally
+            owner = response_dict["collection_id"]["owner"]
+            recordId = response_dict["collection_id"]["id"]
+            collectionId = response_dict["collection_id"]["collectionId"]
+            fileName = response_dict["collection_id"]["document"]
+            size = '0x0'
 
-    if owner == user_id:
-        url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
-        response = requests.get(url)
-        response.raise_for_status()
-        content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
+        if owner == user_id:
+            url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+            response = requests.get(url)
+            response.raise_for_status()
+            content = io.BytesIO(response.content)  # Create a BytesIO object from the response content
 
-        total_pages = get_pdf_page_count(content)
-        total_words = get_pdf_word_count(content)
-        
-        data = {
-            "page_count": total_pages,
-            "word_count": total_words
-        }
-        pocketbase_client.collection('documents').update(recordId, data)
+            total_pages = get_pdf_page_count(content)
+            total_words = get_pdf_word_count(content)
+            
+            data = {
+                "page_count": total_pages,
+                "word_count": total_words
+            }
+            pocketbase_client.collection('documents').update(recordId, data)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
 
 @app.post("/api/documents/create/{user_id}")
 async def read_api_document_create(user_id: str, request: Request):
@@ -229,6 +266,3 @@ def get_pdf_word_count(file_content):
         page = pdf_reader.getPage(page_num)
         total_words += len(page.extractText().split())
     return total_words
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5003)

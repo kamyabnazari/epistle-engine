@@ -6,5 +6,4 @@
 .dockeringnore
 docker-compose.yml
 fly.toml
-pb-schema.json
 README.md

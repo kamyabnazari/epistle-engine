@@ -9,17 +9,10 @@
 			</p>
 			<p class="py-6 text-justify text-base">Please reach us at</p>
 			<p class="py-6 text-justify text-base">
-				<a
-					href="mailto:[&#107;&#97;&#109;&#121;&#97;&#98;&#46;&#110;&#97;&#122;&#97;&#114;&#105;&#64;&#115;&#116;&#117;&#100;&#101;&#110;&#116;&#46;&#104;&#116;&#119;&#45;&#98;&#101;&#114;&#108;&#105;&#110;&#46;&#100;&#101;]"
-					class="text-blue-500 underline">kamyab.nazari@student.htw-berlin.de</a
+				<a href="mailto:contact@epistleengine.com" class="text-blue-500 underline"
+					>contact@epistleengine.com</a
 				>
 				<br />
-				<a
-					href="mailto:[&#109;&#111;&#104;&#97;&#109;&#109;&#97;&#100;&#46;&#107;&#104;&#101;&#122;&#114;&#105;&#64;&#115;&#116;&#117;&#100;&#101;&#110;&#116;&#46;&#104;&#116;&#119;&#45;&#98;&#101;&#114;&#108;&#105;&#110;&#46;&#100;&#101;]"
-					class="text-blue-500 underline"
-				>
-					mohammad.khezri@student.htw-berlin.de</a
-				>
 			</p>
 			<p class="py-6 text-justify text-base">
 				We understand the importance of your message, and we strive to respond within 48 business

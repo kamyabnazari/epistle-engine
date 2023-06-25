@@ -39,7 +39,7 @@
 </script>
 
 <div class="navbar text-base-content bg-base-200 sticky left-0 top-0 z-50 px-6 py-4 shadow-sm">
-	<div class="me-4 flex-none lg:hidden">
+	<div class="me-4 flex-none">
 		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
 			<IconMenu style="font-size: x-large" class="text-primary" />
 		</label>
@@ -70,7 +70,6 @@
 						class="menu dropdown-content bg-base-100 rounded-box mt-2 w-52 p-2 shadow-lg"
 					>
 						<li><a href="/profile">Profile</a></li>
-						<li><a href="/settings">Settings</a></li>
 						<li>
 							<form
 								method="POST"
