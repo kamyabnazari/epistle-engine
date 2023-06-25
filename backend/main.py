@@ -124,10 +124,12 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
 async def read_api_documents_calculate_stats(document_id: str, user_id: str):
     
     content, recordId = get_file_from_pb(document_id, user_id)
+    
+    print(recordId)
 
     # Write the LaTeX content to a file
     pdf_file_name = "created-document.pdf"
-    with open(pdf_file_name, "w") as file:
+    with open(pdf_file_name, "wb") as file:
         file.write(content)
 
     # Generate a PDF from the LaTeX file
