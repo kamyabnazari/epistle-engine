@@ -10,3 +10,4 @@ PyPDF3
 pdfkit
 retry
 pytest
+qdrant-client
