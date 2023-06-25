@@ -93,6 +93,7 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
             chunk_overlap=200,
         )
         chunks = text_splitter.split_text(page)
+    
         for i, chunk in enumerate(chunks):
             doc = Document(
                 page_content=chunk,
@@ -108,7 +109,7 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
     return doc_chunks
 
 
-def create_embeddings_from_pdf_file(file_path: str):
+def create_embeddings_from_pdf_file(file_path: str, documentId: str):
 
     # Step 1: Parse PDF
     raw_pages, metadata = parse_pdf(file_path)
@@ -130,8 +131,8 @@ def create_embeddings_from_pdf_file(file_path: str):
     vector_store = Chroma.from_documents(
         document_chunks,
         embeddings,
-        collection_name="april-2023-economic",
-        persist_directory="src/data/chroma",
+        collection_name=documentId,
+        persist_directory=os.getenv('DB_PERSIST_DIRECTORY'),
     )
 
     # Save DB locally

@@ -40,11 +40,6 @@ export const actions: Actions = {
 		}
 
 		try {
-			// Get only the messages from the chatHistory
-			const messages = chatHistory.map((chat) => chat.message);
-
-			// Concatenate the messages into a single string
-			const historyString = messages.join(' ');
 
 			const response = await axios({
 				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentId}/send_new_message/${locals.user.id}`,
@@ -52,7 +47,7 @@ export const actions: Actions = {
 				headers: { 'Content-Type': 'application/json' },
 				data: {
 					message: messageRequested,
-					history: historyString
+					history: chatHistory
 				},
 				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
 				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4

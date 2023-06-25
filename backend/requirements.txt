@@ -13,3 +13,4 @@ chromadb
 pdfplumber
 qdrant-client
 retry
+tiktoken
