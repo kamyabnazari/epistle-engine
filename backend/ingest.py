@@ -130,8 +130,8 @@ def create_embeddings_from_pdf_file(file_path: str):
     vector_store = Chroma.from_documents(
         document_chunks,
         embeddings,
-        collection_name="april-2023-economic",
-        persist_directory="src/data/chroma",
+        collection_name="file_embeddings",
+        persist_directory=os.getenv('DB_PERSIST_DIRECTORY'),
     )
 
     # Save DB locally

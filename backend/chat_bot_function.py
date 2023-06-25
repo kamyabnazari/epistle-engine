@@ -1,3 +1,4 @@
+import os 
 from langchain.vectorstores.chroma import Chroma
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -15,9 +16,9 @@ def make_chain():
     embedding = OpenAIEmbeddings()
 
     vector_store = Chroma(
-        collection_name="april-2023-economic",
+        collection_name="file_embeddings",
         embedding_function=embedding,
-        persist_directory="src/data/chroma",
+        persist_directory= os.getenv('DB_PERSIST_DIRECTORY'),
     )
 
     return ConversationalRetrievalChain.from_llm(
@@ -29,6 +30,9 @@ def make_chain():
 
 
 def chat_bot_funtion(question: str, chat_history):
+    load_dotenv()
+    if not chat_history:
+        chat_history=[]
 
     chain = make_chain()
 
