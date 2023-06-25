@@ -41,6 +41,7 @@ export const actions: Actions = {
 		}
 
 		try {
+
 			const response = await axios({
 				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentId}/send_new_message/${locals.user.id}`,
 				method: 'post',
@@ -64,7 +65,6 @@ export const actions: Actions = {
 
 			return response.data;
 		} catch (err) {
-			console.log(chatHistory)
 			console.error(err);
 			throw error(400, 'Something went wrong asking question');
 		}

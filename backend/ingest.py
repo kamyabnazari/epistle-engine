@@ -110,7 +110,7 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
     return doc_chunks
 
 
-def create_embeddings_from_pdf_file(file_path: str):
+def create_embeddings_from_pdf_file(file_path: str, documentId: str):
 
     # Step 1: Parse PDF
     raw_pages, metadata = parse_pdf(file_path)
@@ -132,7 +132,7 @@ def create_embeddings_from_pdf_file(file_path: str):
     vector_store = Chroma.from_documents(
         document_chunks,
         embeddings,
-        collection_name="file_embeddings",
+        collection_name=documentId,
         persist_directory=os.getenv('DB_PERSIST_DIRECTORY'),
     )
 
