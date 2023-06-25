@@ -65,6 +65,8 @@ Please create the services after another in order and follow the instructions in
 
 ### 1. Setup [Pocketbase](pocketbase/README.md)
 
-### 2. Setup [Backend](backend/README.md)
+### 2. Setup [Qdrant](qdrant/README.md)
 
-### 3. Setup [Frontend](frontend/README.md)
+### 3. Setup [Backend](backend/README.md)
+
+### 4. Setup [Frontend](frontend/README.md)
