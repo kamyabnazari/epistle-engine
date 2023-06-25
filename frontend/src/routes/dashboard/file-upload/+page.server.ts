@@ -25,7 +25,7 @@ export const actions: Actions = {
 			const document = await locals.pb.collection('documents').create(data);
 
 			await axios({
-				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/calculate_stats/${locals.user.id}`,
+				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/document_post_process/${locals.user.id}`,
 				method: 'post',
 				headers: { 'Content-Type': 'application/json' },
 				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
