@@ -8,6 +8,8 @@ python-dotenv
 pocketbase
 PyPDF3
 pdfkit
-retry
 pytest
+chromadb
+pdfplumber
 qdrant-client
+retry
