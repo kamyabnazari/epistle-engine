@@ -85,25 +85,7 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     
     # Sending topic to gpt to generate latex output of the text 
     message = body.get('message')
-    print(message)
     history = body.get('history')
-    print(history)
-    
-    # # Create a question prompt using this message
-    # multiple_input_prompt = PromptTemplate(
-    #     input_variables=["message", "history"], 
-    #     template="This is our conversation history: {history} and here is my next question: {message}. Please deliver a short answer please."
-    # )
-    # # Format the prompt with message and history
-    # multiple_input_prompt.format(message=message, history=history)
-
-    # llm_chain = LLMChain(  
-    #     prompt = multiple_input_prompt,
-    #     llm = openai_model  
-    # )
-
-    # # Generate LaTeX content using this prompt
-    # question_content = llm_chain.run({'message': message, 'history': history})
     chat_history = []
     #loop through the chat history to create a new chat history array for the chat_bot_function 
     for el in history:
@@ -117,11 +99,10 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     answer = response["answer"]
     source = response["source_documents"]
 
-    print(source)
     return {"message": answer, "sender": "Epistle Engine"}
 
-@app.post("/api/documents/{document_id}/calculate_stats/{user_id}")
-async def read_api_documents_calculate_stats(document_id: str, user_id: str):
+@app.post("/api/documents/{document_id}/document_post_process/{user_id}")
+async def read_api_documents_document_post_process(document_id: str, user_id: str):
     
     content, recordId = get_file_from_pb(document_id, user_id)
 

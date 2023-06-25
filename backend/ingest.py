@@ -95,7 +95,6 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
         chunks = text_splitter.split_text(page)
     
         for i, chunk in enumerate(chunks):
-            print(chunk)
             doc = Document(
                 page_content=chunk,
                 metadata={
