@@ -88,7 +88,7 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     history = body.get('history')
     chat_history = []
     #loop through the chat history to create a new chat history array for the chat_bot_function 
-    for el in history.json():
+    for el in history:
         if(el.get('sender') == "person"):
             chat_history.append(HumanMessage(content=el.get('message')))
         else:
