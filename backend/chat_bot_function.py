@@ -45,4 +45,10 @@ def chat_bot_funtion(question: str, chat_history):
     chat_history.append(HumanMessage(content=question))
     chat_history.append(AIMessage(content=answer))
     
+    # Display answer
+    print("\n\nSources:\n")
+    for document in source:
+        print(f"Page: {document.metadata['page_number']}")
+        print(f"Text chunk: {document.page_content[:160]}...\n")
+    print(f"Answer: {answer}")
     return response, chat_history

@@ -20,6 +20,7 @@ export const actions: Actions = {
 			const document = await pb.collection('documents').getOne(documentId);
 
 			chatHistory.push({ message: messageRequested, sender: "person" });
+			console.log(chatHistory)
 
 			documentData = {
 				owner: document.owner,
@@ -44,10 +45,10 @@ export const actions: Actions = {
 				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentId}/send_new_message/${locals.user.id}`,
 				method: 'post',
 				headers: { 'Content-Type': 'application/json' },
-				data: {
+				data: JSON.stringify({
 					message: messageRequested,
-					history: JSON.stringify(chatHistory)
-				},
+					history: chatHistory
+				}),
 				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
 				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
 			});
@@ -63,6 +64,7 @@ export const actions: Actions = {
 
 			return response.data;
 		} catch (err) {
+			console.log(chatHistory)
 			console.error(err);
 			throw error(400, 'Something went wrong asking question');
 		}

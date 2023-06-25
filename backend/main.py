@@ -85,7 +85,9 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     
     # Sending topic to gpt to generate latex output of the text 
     message = body.get('message')
+    print(message)
     history = body.get('history')
+    print(history)
     
     # # Create a question prompt using this message
     # multiple_input_prompt = PromptTemplate(
@@ -104,7 +106,7 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     # question_content = llm_chain.run({'message': message, 'history': history})
     chat_history = []
     #loop through the chat history to create a new chat history array for the chat_bot_function 
-    for el in history:
+    for el in history.json():
         if(el.get('sender') == "person"):
             chat_history.append(HumanMessage(content=el.get('message')))
         else:
@@ -135,8 +137,8 @@ async def read_api_documents_calculate_stats(document_id: str, user_id: str):
     create_embeddings_from_pdf_file(pdf_path)
     os.remove(pdf_path)
 
-    total_pages = get_pdf_page_count(content)
-    total_words = get_pdf_word_count(content)
+    total_pages = get_pdf_page_count(io.BytesIO(content))
+    total_words = get_pdf_word_count(io.BytesIO(content))
     
     data = {
         "page_count": total_pages,
@@ -294,6 +296,6 @@ def get_file_from_pb(document_id: str, user_id: str):
             url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
             response = requests.get(url)
             response.raise_for_status()
-            return io.BytesIO(response.content), recordId  # Create a BytesIO object from the response content
+            return response.content, recordId  # Create a BytesIO object from the response content
     except Exception as e:
         print(f"An error occurred: {str(e)}")
