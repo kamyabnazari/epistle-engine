@@ -249,9 +249,14 @@ def get_pdf_page_count(file_content):
 def get_pdf_word_count(file_content):
     pdf_reader = PyPDF3.PdfFileReader(file_content)
     total_words = 0
+    
     for page_num in range(pdf_reader.getNumPages()):
-        page = pdf_reader.getPage(page_num)
-        total_words += len(page.extractText().split())
+        try:
+            page = pdf_reader.getPage(page_num)
+            total_words += len(page.extractText().split())
+        except KeyError:
+            pass  # Skip pages without a /Contents key
+    
     return total_words
 
 def get_file_from_pb(document_id: str, user_id: str):
