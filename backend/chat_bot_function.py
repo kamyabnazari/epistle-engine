@@ -1,36 +1,33 @@
 import os 
-from langchain.vectorstores.chroma import Chroma
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import HumanMessage, AIMessage
+from langchain.vectorstores import Qdrant
+from qdrant_client import QdrantClient
+
 from dotenv import load_dotenv
 
+load_dotenv()
 
 def make_chain(documentId:str):
     model = ChatOpenAI(
         model_name="gpt-3.5-turbo",
         temperature="0",
-        # verbose=True
     )
-    embedding = OpenAIEmbeddings()
+    
+    embeddings = OpenAIEmbeddings()
 
-    vector_store = Chroma(
-        collection_name=documentId,
-        embedding_function=embedding,
-        persist_directory= os.getenv('DB_PERSIST_DIRECTORY'),
-    )
-
+    client = QdrantClient(os.getenv('PUBLIC_QDRANT_URL'))
+    qdrant = Qdrant(client, documentId, embeddings)
+    
     return ConversationalRetrievalChain.from_llm(
         model,
-        retriever=vector_store.as_retriever(),
+        retriever=qdrant.as_retriever(),
         return_source_documents=True,
-        # verbose=True,
     )
 
-
 def chat_bot_funtion(question: str, chat_history, documentId: str):
-    load_dotenv()
     if not chat_history:
         chat_history=[]
 
