@@ -57,9 +57,6 @@ def create_pocketbase_client():
     # If the above code executes successfully, return the PocketBase client
     return pocketbase_client
 
-# use the gpt-3.5-turbo LLM   
-openai_model = ChatOpenAI(openai_api_key=apikey, model_name = 'gpt-3.5-turbo')  
-
 app = FastAPI()
 
 app.add_middleware(
@@ -135,6 +132,9 @@ async def read_api_documents_document_post_process(document_id: str, user_id: st
 async def read_api_document_create(user_id: str, request: Request):
     # Create PocketBase client with retries
     pocketbase_client = create_pocketbase_client()
+    
+    # use the gpt-3.5-turbo LLM   
+    openai_model = ChatOpenAI(openai_api_key=apikey, model_name = 'gpt-3.5-turbo') 
     
     # Accessing Request body and converting it to a dictionary
     body = await request.json()
