@@ -12,7 +12,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 # Importing langchain
-from langchain import LLMChain, PromptTemplate
+from langchain import LLMChain
 from langchain.chat_models import ChatOpenAI  
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage

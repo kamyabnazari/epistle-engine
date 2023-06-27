@@ -2,16 +2,18 @@ import pdfplumber
 import PyPDF3
 import re
 import os
-import sys
 from typing import Callable, List, Tuple, Dict
 
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import Qdrant
+
+from qdrant_client import QdrantClient
 
 from dotenv import load_dotenv
 
+load_dotenv
 
 def extract_metadata_from_pdf(file_path: str) -> dict:
     with open(file_path, "rb") as pdf_file:
@@ -108,9 +110,8 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
 
     return doc_chunks
 
-
 def create_embeddings_from_pdf_file(file_path: str, documentId: str):
-
+    
     # Step 1: Parse PDF
     raw_pages, metadata = parse_pdf(file_path)
 
@@ -128,12 +129,12 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
 
     # Step 3 + 4: Generate embeddings and store them in DB
     embeddings = OpenAIEmbeddings()
-    vector_store = Chroma.from_documents(
+    
+    client = QdrantClient(os.getenv('PUBLIC_QDRANT_URL'))
+    qdrant = Qdrant(client, documentId, embeddings)
+    
+    qdrant.from_documents(
         document_chunks,
         embeddings,
         collection_name=documentId,
-        persist_directory=os.getenv('DB_PERSIST_DIRECTORY'),
     )
-
-    # Save DB locally
-    vector_store.persist()

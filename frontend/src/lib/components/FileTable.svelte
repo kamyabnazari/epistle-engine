@@ -6,6 +6,8 @@
 	import type { Record } from 'pocketbase';
 	import { onMount } from 'svelte';
 	import { getDocumentURL } from '$lib/utils';
+	import { env } from '$env/dynamic/public';
+	import axios from 'axios';
 
 	onMount(async () => {
 		await fetchDocuments();
@@ -28,6 +30,11 @@
 	async function deleteDocument(documentID: string) {
 		try {
 			await pb.collection('documents').delete(documentID);
+			await axios({
+				url: `${env.PUBLIC_QDRANT_URL}/collections/${documentID}`,
+				method: 'delete',
+				headers: { 'Content-Type': 'application/json' }
+			});
 			documentList = documentList.filter((document) => document.id !== documentID);
 		} catch (error) {
 			console.error('Fetch error:', error);
