@@ -9,7 +9,6 @@ pocketbase
 PyPDF3
 pdfkit
 pytest
-chromadb
 pdfplumber
 qdrant-client
 retry
