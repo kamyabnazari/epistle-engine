@@ -114,7 +114,6 @@ async def read_api_documents_document_post_process(document_id: str, user_id: st
     # Generate a PDF file
     current_dir = os.getcwd()
     pdf_path = os.path.join(current_dir, pdf_file_name)
-    print(pdf_path)
     create_embeddings_from_pdf_file(pdf_path, document_id)
     os.remove(pdf_path)
 
@@ -184,7 +183,19 @@ async def read_api_document_create(user_id: str, request: Request):
             "word_count": total_words
         }
         
-        pocketbase_client.collection("documents").create(data)
+        response = pocketbase_client.collection("documents").create(data)
+        response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
+        try:
+            # This works when deployed
+            documentId = response_dict["id"]
+        except KeyError:
+            # This works locally
+            documentId = response_dict["collection_id"]["id"]
+        
+        # Generate a Embeddings from the PDF file
+        current_dir = os.getcwd()
+        pdf_path = os.path.join(current_dir, pdf_file_name)
+        create_embeddings_from_pdf_file(pdf_path, documentId)
         
         # Delete the generated LaTeX and PDF files
         os.remove(pdf_file_path)
@@ -230,7 +241,19 @@ async def read_api_document_create(user_id: str, request: Request):
             "word_count": total_words
         }
         
-        pocketbase_client.collection("documents").create(data)
+        response = pocketbase_client.collection("documents").create(data)
+        response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
+        try:
+            # This works when deployed
+            documentId = response_dict["id"]
+        except KeyError:
+            # This works locally
+            documentId = response_dict["collection_id"]["id"]
+        
+        # Generate a Embeddings from the PDF file
+        current_dir = os.getcwd()
+        pdf_path = os.path.join(current_dir, pdf_file_name)
+        create_embeddings_from_pdf_file(pdf_path, documentId)
         
         # Delete the generated HTML and PDF files
         os.remove(html_file_name)
