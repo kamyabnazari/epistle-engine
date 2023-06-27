@@ -39,6 +39,10 @@ retry_delay = 2
 
 pocketbase_url = os.getenv("PUBLIC_POCKETBASE_URL")
 frontend_public_url = os.getenv("PUBLIC_FRONTEND_URL")
+apikey = os.getenv("OPENAI_API_KEY")
+
+# Empty PocketBase client
+pocketbase_client = None
 
 # Function to create PocketBase client with retries
 @retry(tries=max_retries, delay=retry_delay)
@@ -53,10 +57,6 @@ def create_pocketbase_client():
     # If the above code executes successfully, return the PocketBase client
     return pocketbase_client
 
-# Create PocketBase client with retries
-pocketbase_client = create_pocketbase_client()
-
-apikey = os.getenv("OPENAI_API_KEY")
 # use the gpt-3.5-turbo LLM   
 openai_model = ChatOpenAI(openai_api_key=apikey, model_name = 'gpt-3.5-turbo')  
 
@@ -103,6 +103,8 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
 
 @app.post("/api/documents/{document_id}/document_post_process/{user_id}")
 async def read_api_documents_document_post_process(document_id: str, user_id: str):
+    # Create PocketBase client with retries
+    pocketbase_client = create_pocketbase_client()
     
     content, recordId = get_file_from_pb(document_id, user_id)
 
@@ -131,6 +133,9 @@ async def read_api_documents_document_post_process(document_id: str, user_id: st
 
 @app.post("/api/documents/create/{user_id}")
 async def read_api_document_create(user_id: str, request: Request):
+    # Create PocketBase client with retries
+    pocketbase_client = create_pocketbase_client()
+    
     # Accessing Request body and converting it to a dictionary
     body = await request.json()
     
@@ -261,6 +266,9 @@ def get_pdf_word_count(file_content):
 
 def get_file_from_pb(document_id: str, user_id: str):
     try:
+        # Create PocketBase client with retries
+        pocketbase_client = create_pocketbase_client()
+    
         # Fetching document from the database by document ID
         response = pocketbase_client.collection("documents").get_one(document_id)
         response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
