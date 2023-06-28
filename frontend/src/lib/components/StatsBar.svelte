@@ -10,6 +10,7 @@
 	let stats: Record;
 
 	onMount(async () => {
+		pb.authStore.loadFromCookie(document.cookie);
 		await fetchStats();
 	});
 

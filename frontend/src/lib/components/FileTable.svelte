@@ -10,6 +10,7 @@
 	import axios from 'axios';
 
 	onMount(async () => {
+		pb.authStore.loadFromCookie(document.cookie);
 		await fetchDocuments();
 	});
 
