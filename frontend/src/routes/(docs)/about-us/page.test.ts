@@ -7,8 +7,8 @@ describe('Page', () => {
 
 	test('renders the title', async () => {
 		const { getByText } = render(Page);
-		const element = getByText('Welcome to Epistle Engine');
-		if (!element || element.textContent !== 'Welcome to Epistle Engine') {
+		const element = getByText('About Us');
+		if (!element || element.textContent !== 'About Us') {
 			throw new Error('Expected text not found');
 		}
 	});

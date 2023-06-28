@@ -2,7 +2,7 @@
 	<div class="hero-content text-justify">
 		<div>
 			<div class="my-20 max-w-md">
-				<h1 class="text-5xl font-bold">Documnetation</h1>
+				<h1 class="text-5xl font-bold">Documentation</h1>
 				<div class="container mx-auto">
 					<h2 class="py-4 text-3xl font-semibold">Installation</h2>
 					<ol class="list-decimal py-2">
