@@ -5,7 +5,7 @@
 	import StatsBar from '$lib/components/StatsBar.svelte';
 </script>
 
-<div class="flex flex-col gap-12">
+<div class="flex flex-col gap-8">
 	<div class="flex justify-center">
 		<h1 class="text-2xl font-bold">Dashboard</h1>
 	</div>
@@ -15,7 +15,7 @@
 	<div class="flex">
 		<ActionCardStats />
 	</div>
-	<div class="flex gap-4">
+	<div class="flex">
 		<ActionCards />
 	</div>
 

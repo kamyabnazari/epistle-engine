@@ -10,7 +10,7 @@
 			<a href="/dashboard/stats">
 				<button class="btn btn-primary gap-4">
 					<IconCharts style="font-size: x-large" class="text-primary-content" />
-					View
+					<span class="hidden sm:inline">View</span>
 				</button></a
 			>
 		</div>
