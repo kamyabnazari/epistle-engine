@@ -1,4 +1,27 @@
-<div class="hero text-base-content bg-base-100 min-h-full p-16">
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import type { Record } from 'pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
+
+	let stats: Record;
+
+	onMount(async () => {
+		await fetchStats();
+	});
+
+	async function fetchStats() {
+		try {
+			const response = await pb.collection('documents_total_stats').getFirstListItem('id=1');
+			if (response) {
+				stats = response as Record;
+			}
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
+</script>
+
+<div class="hero text-base-content bg-base-100 min-h-full">
 	<div class="hero-content text-center">
 		<div>
 			<div class="my-20 max-w-md">
@@ -9,11 +32,11 @@
 				<div class="stats bg-base-200 shadow-lg">
 					<div class="stat">
 						<div class="stat-title">Total documents analysed</div>
-						<div class="stat-value">389,400</div>
+						<div class="stat-value">{stats?.total_documents ?? '0'}</div>
 					</div>
 					<div class="stat">
 						<div class="stat-title">Total documents created</div>
-						<div class="stat-value">59,200</div>
+						<div class="stat-value">{stats?.total_created ?? '0'}</div>
 					</div>
 				</div>
 				<div class="py-8">
