@@ -17,13 +17,13 @@
 
 <div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-8 shadow-lg md:p-16">
+		<div class="card bg-base-200 p-8 shadow-lg sm:p-16">
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">
 						<h1 class="text-2xl font-bold">Read a new file</h1>
 					</div>
-					<div class="flex w-full flex-row justify-center md:w-96">
+					<div class="flex w-full flex-row justify-center sm:w-96">
 						<div class="flex-grow">
 							<ul class="steps w-full">
 								<li class="step step-primary">Select</li>

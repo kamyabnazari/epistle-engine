@@ -72,7 +72,7 @@
 		<tbody>
 			{#if documentList === undefined || documentList.length === 0}
 				<tr>
-					<td colspan="5" class="text-center">Ups it is empty, upload files easily!</td>
+					<td colspan="5" class="text-center">No files found! Upload some to get started.</td>
 				</tr>
 			{/if}
 			{#each documentList as document, index}
