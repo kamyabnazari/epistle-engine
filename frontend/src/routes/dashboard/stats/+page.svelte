@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconClose from '~icons/solar/close-square-outline';
+	import IconClose from '~icons/solar/alt-arrow-left-bold';
 	import { hierarchy, interpolateHcl, interpolateZoom, pack, scaleLinear, transition } from 'd3';
 	import data from './chart-example-data'; // or pass data to component as prop
 

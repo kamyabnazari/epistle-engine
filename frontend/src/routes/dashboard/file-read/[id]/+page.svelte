@@ -7,7 +7,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import IconSend from '~icons/solar/square-double-alt-arrow-right-outline';
-	import IconClose from '~icons/solar/close-square-outline';
+	import IconClose from '~icons/solar/alt-arrow-left-bold';
 
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
@@ -107,8 +107,7 @@
 	<div class="self-center">
 		<h1 class="text-3xl font-bold md:text-5xl">Reading Assistant</h1>
 	</div>
-	<div class="flex flex-row text-center" />
-	<div class="flex flex-col justify-center gap-8 md:flex-row">
+	<div class="flex flex-col-reverse justify-center gap-8 md:flex-row">
 		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">
 			<PdfViewer {generatedDocumentURL} {document} />
 		</div>
@@ -186,7 +185,7 @@
 <style>
 	.chat-container {
 		height: calc(
-			60vh - 20rem
+			80vh - 20rem
 		); /* Adjust the subtraction value according to your header and footer size */
 	}
 </style>
