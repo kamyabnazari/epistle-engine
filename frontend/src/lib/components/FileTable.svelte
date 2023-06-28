@@ -70,6 +70,11 @@
 			</tr>
 		</thead>
 		<tbody>
+			{#if documentList === undefined || documentList.length === 0}
+				<tr>
+					<td colspan="5" class="text-center">Ups it is empty, upload files easily!</td>
+				</tr>
+			{/if}
 			{#each documentList as document, index}
 				<tr class="hover">
 					<td>
