@@ -7,6 +7,8 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import IconSend from '~icons/solar/square-double-alt-arrow-right-outline';
+	import IconClose from '~icons/solar/close-square-outline';
+
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
 	import { tick } from 'svelte';
@@ -98,9 +100,14 @@
 </script>
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
-	<div class="text-center">
-		<h1 class="mb-8 text-5xl font-bold">Reading Assistant</h1>
+	<a href="/dashboard">
+		<button class="btn btn-link text-warning"><IconClose style="font-size: x-large;" />close</button
+		>
+	</a>
+	<div class="self-center">
+		<h1 class="mb-8 text-3xl font-bold md:text-5xl">Reading Assistant</h1>
 	</div>
+	<div class="flex flex-row text-center" />
 	<div class="flex flex-col justify-center gap-8 md:flex-row">
 		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">
 			<PdfViewer {generatedDocumentURL} {document} />
@@ -173,11 +180,6 @@
 				</form>
 			</div>
 		</div>
-	</div>
-	<div class="mt-8 flex flex-row justify-center">
-		<a href="/dashboard">
-			<button class="btn btn-primary">Close</button>
-		</a>
 	</div>
 </div>
 
