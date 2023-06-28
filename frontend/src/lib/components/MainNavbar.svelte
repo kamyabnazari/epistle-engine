@@ -45,7 +45,12 @@
 		</label>
 	</div>
 	<div class="flex-1">
-		<a class="btn-link text-left text-xl font-bold normal-case" href="/">Epistle Engine</a>
+		<a class="btn-link hidden text-left text-xl font-bold normal-case md:block" href="/"
+			>Epistle Engine</a
+		>
+		<a class="btn-link md:hidden" href="/">
+			<img class="h-12 rounded-lg" src="/favicon.png" alt="user avatar" />
+		</a>
 	</div>
 	<div class="flex-none">
 		{#await $currentUser then user}
@@ -88,7 +93,7 @@
 				</div>
 			{:else}
 				<a href="/login"><button class="btn btn-ghost">Login</button></a>
-				<a href="/register"><button class="btn btn-ghost">Register</button></a>
+				<a href="/register"><button class="btn btn-ghost hidden md:block">Register</button></a>
 			{/if}
 		{:catch error}
 			<p>Error loading user data: {error.message}</p>

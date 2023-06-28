@@ -1,8 +1,8 @@
-<div class="hero text-base-content bg-base-100 min-h-full p-16">
+<div class="hero text-base-content bg-base-100 min-h-full">
 	<div class="hero-content text-justify">
 		<div>
 			<div class="my-20 max-w-md">
-				<h1 class="text-5xl font-bold">About Us</h1>
+				<h1 class="text-3xl font-bold md:text-5xl">About Us</h1>
 				<p class="py-6 text-justify text-base">
 					Welcome to our realm, the space where technology interfaces with your ideas.
 				</p>
