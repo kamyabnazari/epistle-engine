@@ -27,7 +27,7 @@
 
 <div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg md:p-16">
 			<form
 				action="?/updateProfile"
 				method="POST"

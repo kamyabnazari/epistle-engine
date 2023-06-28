@@ -23,7 +23,7 @@
 
 <div class="hero bg-base-100 min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg md:p-16">
 			<form action="?/createDocument" method="POST" use:enhance={submitCreateDocument}>
 				<div class="flex flex-col gap-8">
 					<div class="flex justify-center">
