@@ -99,13 +99,13 @@
 	});
 </script>
 
-<div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
+<div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8">
 	<a href="/dashboard">
 		<button class="btn btn-link text-warning"><IconClose style="font-size: x-large;" />close</button
 		>
 	</a>
 	<div class="self-center">
-		<h1 class="mb-8 text-3xl font-bold md:text-5xl">Reading Assistant</h1>
+		<h1 class="text-3xl font-bold md:text-5xl">Reading Assistant</h1>
 	</div>
 	<div class="flex flex-row text-center" />
 	<div class="flex flex-col justify-center gap-8 md:flex-row">
