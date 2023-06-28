@@ -24,7 +24,7 @@
 <div class="hero min-h-full">
 	<div class="hero-content flex-col lg:flex-row-reverse">
 		<div class="text-center lg:text-left">
-			<h1 class="text-5xl font-bold">Email Change</h1>
+			<h1 class="text-3xl font-bold md:text-5xl">Email Change</h1>
 			<p class="py-6">
 				Enter your new email below. <br />
 				We'll send a confirmation to verify it's correct and accessible. Follow the instructions in the

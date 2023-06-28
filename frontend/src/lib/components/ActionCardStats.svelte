@@ -2,7 +2,7 @@
 	import IconCharts from '~icons/solar/pie-chart-outline';
 </script>
 
-<div class="card bg-base-200 h-48 w-96 flex-1 shadow-lg">
+<div class="card bg-base-200 flex-1 shadow-lg">
 	<div class="card-body">
 		<h2 class="card-title">Your embeding stats</h2>
 		<p>find out more with specific stats about your data collected!</p>

@@ -1,4 +1,4 @@
-import { env } from "$env/dynamic/public";
+import { env } from '$env/dynamic/public';
 
 export function showPreview(event: Event) {
 	const inputElement = event.target as HTMLInputElement;

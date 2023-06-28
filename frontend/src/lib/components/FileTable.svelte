@@ -60,7 +60,6 @@
 
 <div class="w-full overflow-x-auto rounded-lg shadow-lg">
 	<table class="table w-full">
-		<!-- head -->
 		<thead>
 			<tr>
 				<th />
@@ -111,7 +110,6 @@
 				</tr>
 			{/each}
 		</tbody>
-		<!-- foot -->
 		<tfoot>
 			<tr>
 				<th />

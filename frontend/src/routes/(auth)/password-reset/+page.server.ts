@@ -1,4 +1,4 @@
-import { error, redirect, fail } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 import { superValidate } from 'sveltekit-superforms/server';
@@ -22,7 +22,7 @@ export const actions: Actions = {
 	}
 };
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async () => {
 	const form = await superValidate(resetPasswordSchema);
 
 	return { form };
