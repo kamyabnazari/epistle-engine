@@ -23,7 +23,7 @@
 					<div class="flex flex-row justify-center">
 						<h1 class="text-2xl font-bold">Read a new file</h1>
 					</div>
-					<div class="flex w-96 flex-row justify-center">
+					<div class="flex w-full flex-row justify-center md:w-96">
 						<div class="flex-grow">
 							<ul class="steps w-full">
 								<li class="step step-primary">Select</li>

@@ -57,8 +57,8 @@
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
 	<div class="text-center">
-		<h1 class="mb-8 text-5xl font-bold">Stats</h1>
-		<h2 class="mb-8 text-2xl font-bold">These are your current embedings!</h2>
+		<h1 class="mb-8 text-3xl font-bold md:text-5xl">Stats</h1>
+		<h2 class="mb-8 text-2xl md:text-4xl">These are your current embedings!</h2>
 		<div class="flex min-h-full items-center justify-center overflow-auto rounded-xl border-2">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<svg {width} {height} style="background: {backgroundColor};" on:click={(e) => zoom(root, e)}>

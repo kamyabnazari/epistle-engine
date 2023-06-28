@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
-						<div class="form-control w-96">
+						<div class="form-control w-full md:w-96">
 							<label for="document" class="label">
 								<span class="label-text">Pick a file</span>
 							</label>
