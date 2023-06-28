@@ -4,7 +4,7 @@
 #
 
 app = "ee-backend"
-primary_region = "fra"
+primary_region = "ams"
 
 [http_service]
   internal_port = 5003

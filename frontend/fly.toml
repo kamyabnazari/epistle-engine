@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for ee-frontend on 2023-06-14T20:54:06+02:00
+# fly.toml app configuration file generated for ee-frontend on 2023-06-28T22:27:51+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = "ee-frontend"
-primary_region = "fra"
+primary_region = "ams"
 
 [http_service]
   internal_port = 3000

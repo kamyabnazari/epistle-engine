@@ -4,7 +4,7 @@
 #
 
 app = "ee-qdrant"
-primary_region = "fra"
+primary_region = "ams"
 
 [[mounts]]
   source = "qd_data"
