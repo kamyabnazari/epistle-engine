@@ -25,6 +25,16 @@
 			console.error('Fetch error:', error);
 		}
 	}
+
+	function formatNumber(num) {
+		if (num >= 1000000) {
+			return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+		}
+		if (num >= 1000) {
+			return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+		}
+		return num;
+	}
 </script>
 
 <div class="stats bg-base-200 flex-auto flex-nowrap shadow-lg">
@@ -33,27 +43,27 @@
 			<IconFile style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Uploaded files</div>
-		<div class="stat-value">{stats?.total_uploaded ?? '0'}</div>
+		<div class="stat-value">{formatNumber(stats?.total_uploaded ?? 0)}</div>
 	</div>
 	<div class="stat">
 		<div class="stat-figure text-secondary">
 			<IconNewFile style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Created files</div>
-		<div class="stat-value">{stats?.total_created ?? '0'}</div>
+		<div class="stat-value">{formatNumber(stats?.total_created ?? 0)}</div>
 	</div>
 	<div class="stat">
 		<div class="stat-figure text-secondary">
 			<IconPage style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Total pages</div>
-		<div class="stat-value">{stats?.total_pages ?? '0'}</div>
+		<div class="stat-value">{formatNumber(stats?.total_pages ?? 0)}</div>
 	</div>
 	<div class="stat">
 		<div class="stat-figure text-secondary">
 			<IconWord style="font-size: x-large;" class="text-primary" />
 		</div>
 		<div class="stat-title">Total words</div>
-		<div class="stat-value">{stats?.total_words ?? '0'}</div>
+		<div class="stat-value">{formatNumber(stats?.total_words ?? 0)}</div>
 	</div>
 </div>

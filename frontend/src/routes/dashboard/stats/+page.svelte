@@ -60,7 +60,7 @@
 	<div class="text-center">
 		<div class="text-left">
 			<a href="/dashboard">
-				<button class="btn btn-link text-warning"
+				<button class="btn btn-link text-primary"
 					><IconClose style="font-size: x-large;" />close</button
 				>
 			</a>

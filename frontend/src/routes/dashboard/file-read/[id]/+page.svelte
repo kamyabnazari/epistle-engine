@@ -101,7 +101,7 @@
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8">
 	<a href="/dashboard">
-		<button class="btn btn-link text-warning"><IconClose style="font-size: x-large;" />close</button
+		<button class="btn btn-link text-primary"><IconClose style="font-size: x-large;" />close</button
 		>
 	</a>
 	<div class="self-center">
@@ -114,7 +114,7 @@
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
 				<div
-					class="form-control chat-container border-rounded border-base-300 flex-grow overflow-y-auto rounded-lg border-2 p-2"
+					class="form-control chat-container bg-base-100 border-rounded border-base-300 flex-grow overflow-y-auto rounded-lg border-2 p-2"
 					bind:this={chatContainer}
 				>
 					{#each $messages as message (message)}
