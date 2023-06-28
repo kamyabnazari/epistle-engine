@@ -19,7 +19,7 @@
 <div class="hero min-h-full">
 	<div class="hero-content flex-col lg:flex-row-reverse">
 		<div class="text-center lg:text-left">
-			<h1 class="text-5xl font-bold">Password Reset</h1>
+			<h1 class="text-3xl font-bold md:text-5xl">Password Reset</h1>
 			<p class="py-6">
 				Forgot your password? No problem! <br />
 				Enter your email address below, and we'll send you instructions on how to reset your password.

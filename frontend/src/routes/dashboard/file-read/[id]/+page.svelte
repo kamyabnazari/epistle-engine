@@ -7,6 +7,8 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import IconSend from '~icons/solar/square-double-alt-arrow-right-outline';
+	import IconClose from '~icons/solar/alt-arrow-left-bold';
+
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
 	import { tick } from 'svelte';
@@ -97,18 +99,22 @@
 	});
 </script>
 
-<div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
-	<div class="text-center">
-		<h1 class="mb-8 text-5xl font-bold">Reading Assistant</h1>
+<div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8">
+	<a href="/dashboard">
+		<button class="btn btn-link text-primary"><IconClose style="font-size: x-large;" />close</button
+		>
+	</a>
+	<div class="self-center">
+		<h1 class="text-3xl font-bold md:text-5xl">Reading Assistant</h1>
 	</div>
-	<div class="flex flex-col justify-center gap-8 md:flex-row">
+	<div class="flex flex-col-reverse justify-center gap-8 md:flex-row">
 		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">
 			<PdfViewer {generatedDocumentURL} {document} />
 		</div>
 		<div class="bg-base-200 flex-1 rounded-md p-8 shadow-lg">
 			<div class="flex h-full flex-col justify-between gap-8">
 				<div
-					class="form-control chat-container border-rounded border-base-300 flex-grow overflow-y-auto rounded-lg border-2 p-2"
+					class="form-control chat-container bg-base-100 border-rounded border-base-300 flex-grow overflow-y-auto rounded-lg border-2 p-2"
 					bind:this={chatContainer}
 				>
 					{#each $messages as message (message)}
@@ -174,17 +180,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="mt-8 flex flex-row justify-center">
-		<a href="/dashboard">
-			<button class="btn btn-primary">Close</button>
-		</a>
-	</div>
 </div>
 
 <style>
 	.chat-container {
 		height: calc(
-			60vh - 20rem
+			80vh - 20rem
 		); /* Adjust the subtraction value according to your header and footer size */
 	}
 </style>

@@ -60,7 +60,6 @@
 
 <div class="w-full overflow-x-auto rounded-lg shadow-lg">
 	<table class="table w-full">
-		<!-- head -->
 		<thead>
 			<tr>
 				<th />
@@ -71,6 +70,11 @@
 			</tr>
 		</thead>
 		<tbody>
+			{#if documentList === undefined || documentList.length === 0}
+				<tr>
+					<td colspan="5" class="text-center">No files found! Upload some to get started.</td>
+				</tr>
+			{/if}
 			{#each documentList as document, index}
 				<tr class="hover">
 					<td>
@@ -111,7 +115,6 @@
 				</tr>
 			{/each}
 		</tbody>
-		<!-- foot -->
 		<tfoot>
 			<tr>
 				<th />

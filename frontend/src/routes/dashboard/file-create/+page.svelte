@@ -23,7 +23,7 @@
 
 <div class="hero bg-base-100 min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg sm:p-16">
 			<form action="?/createDocument" method="POST" use:enhance={submitCreateDocument}>
 				<div class="flex flex-col gap-8">
 					<div class="flex justify-center">
@@ -39,7 +39,7 @@
 						</div>
 					</div>
 					<div class="flex justify-center">
-						<div class="form-control w-96">
+						<div class="form-control w-full sm:w-96">
 							<label class="label" for="export_option">
 								<span class="label-text">Pick your desired output process</span>
 							</label>
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 					<div class="flex justify-center">
-						<div class="form-control w-96">
+						<div class="form-control w-full md:w-96">
 							<label for="" class="label">
 								<span class="label-text">What do you want to generate?</span>
 							</label>

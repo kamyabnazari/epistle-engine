@@ -56,7 +56,7 @@
 
 <div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg sm:p-16">
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">
@@ -71,8 +71,11 @@
 							</ul>
 						</div>
 					</div>
-					<div class="flex flex-row justify-center">
+					<div class="hidden flex-row justify-center sm:block">
 						<PdfViewer {generatedDocumentURL} {document} />
+					</div>
+					<div class="block flex-row justify-center px-20 py-16 text-center sm:hidden">
+						<h2>File has been created!</h2>
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">

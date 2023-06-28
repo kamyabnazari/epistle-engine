@@ -1,4 +1,5 @@
 <script lang="ts">
+	import IconClose from '~icons/solar/alt-arrow-left-bold';
 	import { hierarchy, interpolateHcl, interpolateZoom, pack, scaleLinear, transition } from 'd3';
 	import data from './chart-example-data'; // or pass data to component as prop
 
@@ -57,8 +58,17 @@
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
 	<div class="text-center">
-		<h1 class="mb-8 text-5xl font-bold">Stats</h1>
-		<h2 class="mb-8 text-2xl font-bold">These are your current embedings!</h2>
+		<div class="text-left">
+			<a href="/dashboard">
+				<button class="btn btn-link text-primary"
+					><IconClose style="font-size: x-large;" />close</button
+				>
+			</a>
+		</div>
+		<div class="self-center">
+			<h1 class="mb-8 text-3xl font-bold md:text-5xl">Stats</h1>
+			<h2 class="mb-8 text-xl md:text-3xl">These are your current embedings!</h2>
+		</div>
 		<div class="flex min-h-full items-center justify-center overflow-auto rounded-xl border-2">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<svg {width} {height} style="background: {backgroundColor};" on:click={(e) => zoom(root, e)}>
@@ -97,11 +107,6 @@
 				</g>
 			</svg>
 		</div>
-	</div>
-	<div class="mt-8 flex flex-row justify-center">
-		<a href="/dashboard">
-			<button class="btn btn-primary">Close</button>
-		</a>
 	</div>
 </div>
 

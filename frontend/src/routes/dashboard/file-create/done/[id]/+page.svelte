@@ -17,13 +17,13 @@
 
 <div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg sm:p-16">
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">
 						<h1 class="text-2xl font-bold">Create a new file</h1>
 					</div>
-					<div class="flex w-96 flex-row justify-center">
+					<div class="flex w-full flex-row justify-center sm:w-96">
 						<div class="flex-grow">
 							<ul class="steps w-full">
 								<li class="step step-primary">Generate Text</li>
@@ -32,7 +32,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="flex flex-row justify-center">
+					<div class="flex flex-row text-center">
 						<h1>You have generated a new file, ask it some questions!</h1>
 					</div>
 					<div class="flex flex-row justify-center">

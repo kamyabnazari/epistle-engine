@@ -21,9 +21,9 @@
 	};
 </script>
 
-<div class="hero min-h-full">
+<div class="hero bg-base-100 min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg sm:p-16">
 			<form
 				action="?/uploadDocument"
 				method="POST"
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="flex flex-row justify-center">
-						<div class="form-control w-96">
+						<div class="form-control w-full sm:w-96">
 							<label for="document" class="label">
 								<span class="label-text">Pick a file</span>
 							</label>

@@ -27,7 +27,7 @@
 
 <div class="hero min-h-full">
 	<div class="hero-content">
-		<div class="card bg-base-200 p-16 shadow-lg">
+		<div class="card bg-base-200 p-8 shadow-lg md:p-16">
 			<form
 				action="?/updateProfile"
 				method="POST"
@@ -83,7 +83,7 @@
 								<h2>Username</h2>
 							{/if}
 						</div>
-						<div class="form-control w-96">
+						<div class="form-control w-full md:w-96">
 							<label for="name" class="label">
 								<span class="label-text">Name</span>
 							</label>

@@ -130,7 +130,7 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
     # Step 3 + 4: Generate embeddings and store them in DB
     embeddings = OpenAIEmbeddings()
     
-    client = QdrantClient(os.getenv('PUBLIC_QDRANT_URL'))
+    client = QdrantClient(os.getenv('PUBLIC_QDRANT_URL'), port=443)
     qdrant = Qdrant(client, documentId, embeddings)
     
     qdrant.from_documents(

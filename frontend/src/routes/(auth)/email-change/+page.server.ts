@@ -25,7 +25,7 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/dashboard');
+		throw redirect(303, '/login');
 	}
 
 	const form = await superValidate(changeEmailSchema);
