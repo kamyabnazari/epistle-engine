@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
 	import { loginSchema } from '$lib/schemas';
+	import { onMount } from 'svelte';
 
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms/client';
@@ -8,6 +9,10 @@
 	import IconInfo from '~icons/solar/info-square-outline';
 
 	export let data: PageData;
+
+	onMount(() => {
+		pb.authStore.loadFromCookie(document.cookie);
+	});
 
 	const { form, errors, constraints, message, enhance } = superForm(data.form, {
 		taintedMessage: false,

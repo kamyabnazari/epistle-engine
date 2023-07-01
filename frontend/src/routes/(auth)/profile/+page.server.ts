@@ -1,6 +1,9 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
+import axios from 'axios';
+import { env } from '$env/dynamic/public';
+import type { Record } from 'pocketbase';
 
 export const actions: Actions = {
 	updateProfile: async ({ locals, request }) => {
@@ -22,6 +25,32 @@ export const actions: Actions = {
 		}
 
 		throw redirect(303, '/dashboard');
+	},
+	deleteAccount: async ({ locals }) => {
+		try {
+			// get all user documents
+			const documentList = await locals.pb.collection('documents').getFullList({
+				sort: '-created',
+				filter: `owner='${locals?.user?.id}'`
+			});
+
+			documentList.forEach(async (document: Record) => {
+				// delete all user embeddings from Qdrant
+				await axios({
+					url: `${env.PUBLIC_QDRANT_URL}/collections/${document.id}`,
+					method: 'delete',
+					headers: { 'Content-Type': 'application/json' }
+				});
+			});
+
+			// delete user and all its data from pocketbase
+			await locals.pb.collection('users').delete(locals?.user?.id);
+		} catch (err) {
+			console.error(err);
+			throw error(400, 'Something went wrong deleting your account');
+		}
+
+		throw redirect(303, '/login');
 	}
 };
 
