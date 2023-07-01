@@ -10,6 +10,7 @@ import PyPDF3
 # Importing fastAPI
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 # Importing langchain
 from langchain import LLMChain
@@ -70,6 +71,10 @@ app.add_middleware(
 @app.get("/")
 async def read_root():
     return {"message": "This is the backend for EE Project!"}
+
+@app.get("/favicon.ico")
+async def read_favicon():
+    return FileResponse("favicon.ico", media_type="image/vnd.microsoft.icon")
 
 @app.get("/api")
 async def read_api_root():

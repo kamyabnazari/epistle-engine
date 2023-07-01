@@ -8,6 +8,7 @@
 	import { getDocumentURL } from '$lib/utils';
 	import { env } from '$env/dynamic/public';
 	import axios from 'axios';
+	import { documentStatus } from '$lib/documentStore';
 
 	onMount(async () => {
 		pb.authStore.loadFromCookie(document.cookie);
@@ -37,6 +38,8 @@
 				headers: { 'Content-Type': 'application/json' }
 			});
 			documentList = documentList.filter((document) => document.id !== documentID);
+			// Set the documentStatus to true every time a document is deleted
+			documentStatus.set(true);
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}

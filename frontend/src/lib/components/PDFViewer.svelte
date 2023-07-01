@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, onMount } from 'svelte';
+	import { afterUpdate, onMount, tick } from 'svelte';
 	import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist';
 
 	import type { Record } from 'pocketbase';
@@ -21,22 +21,15 @@
 
 	let isLoading = true;
 
-	let pdfjsWorker: string;
-	import('pdfjs-dist/build/pdf.worker.entry').then((worker) => {
-		pdfjsWorker = URL.createObjectURL(new Blob([worker], { type: 'application/javascript' }));
+	let pdfjsWorkerPromise = import('pdfjs-dist/build/pdf.worker.entry').then((worker) => {
+		let pdfjsWorker = URL.createObjectURL(new Blob([worker], { type: 'application/javascript' }));
 		GlobalWorkerOptions.workerSrc = pdfjsWorker;
+		return pdfjsWorker;
 	});
 
 	afterUpdate(() => {
 		previousDocumentUrl = generatedDocumentURL;
 	});
-
-	$: {
-		if (generatedDocumentURL && generatedDocumentURL !== previousDocumentUrl) {
-			isLoading = true;
-			loadPdf(generatedDocumentURL);
-		}
-	}
 
 	const loadPage = async (pageNumber: number) => {
 		if (!pdf) {
@@ -62,14 +55,14 @@
 	};
 
 	const prevPage = () => {
-		if (currentPageNumber > 1) {
+		if (currentPageNumber > 1 && !isRendering) {
 			currentPageNumber--;
 			loadPage(currentPageNumber);
 		}
 	};
 
 	const nextPage = () => {
-		if (pdf && currentPageNumber < pdf.numPages) {
+		if (pdf && currentPageNumber < pdf.numPages && !isRendering) {
 			currentPageNumber++;
 			loadPage(currentPageNumber);
 		}
@@ -108,6 +101,9 @@
 			return;
 		}
 
+		// Wait for the worker to be ready before loading the PDF
+		await pdfjsWorkerPromise;
+
 		isRendering = true;
 		try {
 			const loadingTask = getDocument(url);
@@ -123,9 +119,18 @@
 
 	onMount(async () => {
 		if (generatedDocumentURL) {
-			loadPdf(generatedDocumentURL);
+			await tick();
 		}
 	});
+
+	$: {
+		if (generatedDocumentURL && generatedDocumentURL !== previousDocumentUrl) {
+			isLoading = true;
+			(async () => {
+				await loadPdf(generatedDocumentURL);
+			})();
+		}
+	}
 </script>
 
 <div class="ring-primary relative z-0">

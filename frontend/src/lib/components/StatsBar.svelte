@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
 	import { currentUser, pb } from '$lib/pocketbase';
+	import { documentStatus } from '$lib/documentStore';
 
 	let stats: Record;
 
@@ -36,6 +37,13 @@
 		}
 		return num;
 	}
+
+	documentStatus.subscribe((value) => {
+		if (value) {
+			fetchStats();
+			documentStatus.set(false);
+		}
+	});
 </script>
 
 <div class="stats bg-base-200 flex-auto flex-nowrap shadow-lg">
