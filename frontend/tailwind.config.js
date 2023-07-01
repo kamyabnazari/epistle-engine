@@ -42,6 +42,6 @@ export default {
 		logs: false,
 		rtl: false,
 		prefix: '',
-		darkTheme: 'lofi'
+		darkTheme: 'business'
 	}
 };
