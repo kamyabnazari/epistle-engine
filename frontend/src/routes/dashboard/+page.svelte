@@ -26,7 +26,6 @@
 		<div class="flex">
 			<ActionCards />
 		</div>
-
 		<div class="flex flex-grow">
 			<FileTable />
 		</div>
