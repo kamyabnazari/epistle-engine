@@ -20,7 +20,7 @@ PUBLIC_QDRANT_URL=http://localhost:6333
 To install the required packages for this plugin and run the service locally, run the following commands:
 
 ```bash
-pip install -r requirements.txt
+pip install --upgrade -r requirements.txt
 
 uvicorn main:app --reload --host 0.0.0.0 --port 5003
 ```

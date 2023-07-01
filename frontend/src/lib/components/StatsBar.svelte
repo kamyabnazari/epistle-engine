@@ -17,18 +17,25 @@
 
 	async function fetchStats() {
 		try {
-			const response = await pb
-				.collection('documents_stats')
-				.getFirstListItem(`owner='${$currentUser?.id}'`);
-			if (response) {
-				stats = response as Record;
+			if ($currentUser) {
+				const response = await pb
+					.collection('documents_stats')
+					.getFirstListItem(`owner='${$currentUser.id}'`);
+				if (response) {
+					stats = response as Record;
+				}
 			}
 		} catch (error) {
-			console.error('Fetch error:', error);
+			stats = {
+				total_created: 0,
+				total_uploaded: 0,
+				total_pages: 0,
+				total_words: 0
+			} as unknown as Record;
 		}
 	}
 
-	function formatNumber(num) {
+	function formatNumber(num: number) {
 		if (num >= 1000000) {
 			return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
 		}

@@ -123,18 +123,18 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
     ]
     cleaned_text_pdf = clean_text(raw_pages, cleaning_functions)
     document_chunks = text_to_docs(cleaned_text_pdf, metadata)
-
-    # Optional: Reduce embedding cost by only using the first 23 pages
-    document_chunks = document_chunks[:70]
-
+    
     # Step 3 + 4: Generate embeddings and store them in DB
     embeddings = OpenAIEmbeddings()
     
     client = QdrantClient(os.getenv('PUBLIC_QDRANT_URL'))
     qdrant = Qdrant(client, documentId, embeddings)
     
+    print(f"Length of document_chunks: {len(document_chunks)}")
+    
     qdrant.from_documents(
         document_chunks,
         embeddings,
         collection_name=documentId,
+        timeout=120
     )

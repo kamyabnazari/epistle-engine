@@ -38,7 +38,6 @@
 				headers: { 'Content-Type': 'application/json' }
 			});
 			documentList = documentList.filter((document) => document.id !== documentID);
-			// Set the documentStatus to true every time a document is deleted
 			documentStatus.set(true);
 		} catch (error) {
 			console.error('Fetch error:', error);
