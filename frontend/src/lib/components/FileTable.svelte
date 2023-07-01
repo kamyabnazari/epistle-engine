@@ -65,11 +65,11 @@
 	<table class="table w-full">
 		<thead>
 			<tr>
-				<th />
-				<th>Name</th>
-				<th>Type</th>
-				<th>Create Date</th>
-				<th>Actions</th>
+				<th class="w-1/12" />
+				<th class="w-4/12">Name</th>
+				<th class="w-2/12">Type</th>
+				<th class="w-3/12">Create Date</th>
+				<th class="w-2/12">Actions</th>
 			</tr>
 		</thead>
 		<tbody class="bg-base-100">

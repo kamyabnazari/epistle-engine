@@ -21,12 +21,11 @@
 			<StatsBar />
 		</div>
 		<div class="flex">
-			<ActionCardStats />
-		</div>
-		<div class="flex">
 			<ActionCards />
 		</div>
-
+		<div class="flex">
+			<ActionCardStats />
+		</div>
 		<div class="flex flex-grow">
 			<FileTable />
 		</div>

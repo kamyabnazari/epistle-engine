@@ -110,10 +110,8 @@
 		{/if}
 		{#if $errors.passwordConfirm}
 			<div class="alert alert-warning">
-				<span>
-					<IconInfo style="font-size: x-large;" class="text-warning-content" />
-					{$errors.passwordConfirm}</span
-				>
+				<IconInfo style="font-size: x-large;" class="text-warning-content" />
+				<span> {$errors.passwordConfirm}</span>
 			</div>
 		{/if}
 	</div>
