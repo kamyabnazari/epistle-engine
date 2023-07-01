@@ -50,7 +50,7 @@
 			>Epistle Engine</a
 		>
 		<a class="btn-link md:hidden" href="/">
-			<img class="h-12 rounded-lg" src="/favicon.png" alt="user avatar" />
+			<img class="h-10 rounded-lg" src="/favicon.png" alt="user avatar" />
 		</a>
 	</div>
 	<div class="flex-none">

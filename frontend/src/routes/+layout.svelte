@@ -7,7 +7,7 @@
 
 <div class="drawer xl:drawer-open">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content flex min-h-screen flex-col">
+	<div class="drawer-content flex min-h-screen flex-col overflow-x-auto">
 		<div class="flex-none">
 			<Navbar />
 		</div>
