@@ -145,10 +145,15 @@
 			</div>
 		</div>
 		<form action="?/deleteAccount" method="POST" use:enhance={submitAction}>
-			<div class="flex flex-1 justify-center">
-				<button class="btn btn-outline btn-warning" type="submit" disabled={loading}
-					>Delete Account</button
-				>
+			<div class="flex flex-col justify-center gap-4">
+				<div class="text-center">
+					<h2>While deleting your account all your files will be deleted!</h2>
+				</div>
+				<div class="self-center">
+					<button class="btn btn-outline btn-warning" type="submit" disabled={loading}
+						>Delete Account</button
+					>
+				</div>
 			</div>
 			<div />
 		</form>
