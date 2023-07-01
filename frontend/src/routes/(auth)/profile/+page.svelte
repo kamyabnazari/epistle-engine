@@ -43,7 +43,7 @@
 					<div class="form-control">
 						<div class="flex flex-col gap-4">
 							<div class="flex justify-center">
-								<h1 class="text-2xl font-bold">Profile</h1>
+								<h1 class="mb-8 text-2xl font-bold">Profile</h1>
 							</div>
 							<div class="flex justify-center">
 								<div class="indicator">
