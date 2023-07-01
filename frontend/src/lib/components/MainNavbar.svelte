@@ -39,9 +39,9 @@
 	}
 </script>
 
-<div class="navbar text-base-content bg-base-200 sticky left-0 top-0 z-50 px-6 py-4 shadow-sm">
+<div class="navbar text-base-content bg-base-200 sticky left-0 top-0 z-10 px-6 py-4 shadow-sm">
 	<div class="me-4 flex-none">
-		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button">
+		<label for="application-drawer" class="btn btn-square btn-ghost drawer-button xl:hidden">
 			<IconMenu style="font-size: x-large" class="text-primary" />
 		</label>
 	</div>
@@ -73,7 +73,7 @@
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul
 						tabindex="0"
-						class="menu dropdown-content bg-base-100 rounded-box mt-2 w-52 p-2 shadow-lg"
+						class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-2 w-52 p-2 shadow-lg"
 					>
 						<li><a href="/profile">Profile</a></li>
 						<li>
@@ -87,7 +87,7 @@
 									};
 								}}
 							>
-								<button class="w-full text-left">Log out</button>
+								<button class="w-40 text-left">Log out</button>
 							</form>
 						</li>
 					</ul>

@@ -61,7 +61,7 @@
 	}
 </script>
 
-<div class="w-full overflow-x-auto rounded-lg shadow-lg">
+<div class="bg-base-200 w-full overflow-x-auto rounded-lg shadow-lg">
 	<table class="table w-full">
 		<thead>
 			<tr>
@@ -72,7 +72,7 @@
 				<th>Actions</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="bg-base-100">
 			{#if documentList === undefined || documentList.length === 0}
 				<tr>
 					<td colspan="5" class="text-center">No files found! Upload some to get started.</td>

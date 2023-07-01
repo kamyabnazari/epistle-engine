@@ -5,22 +5,22 @@
 	import { page } from '$app/stores';
 </script>
 
-<div class="drawer">
+<div class="drawer xl:drawer-open">
 	<input id="application-drawer" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content flex flex-col">
+	<div class="drawer-content flex min-h-screen flex-col">
 		<div class="flex-none">
 			<Navbar />
 		</div>
-		<div class="flex-grow p-4 py-8">
+		<div class="flex-grow p-8 py-16">
 			<slot />
 		</div>
 		<div class="flex-none">
 			<Footer />
 		</div>
 	</div>
-	<div class="drawer-side">
+	<div class="drawer-side z-50">
 		<label for="application-drawer" class="drawer-overlay" />
-		<ul class="menu bg-base-200 text-base-content w-80 gap-2 p-4">
+		<ul class="menu bg-base-200 text-base-content h-full w-80 gap-2 p-4">
 			<li><a href="/dashboard" class:active={$page.url.pathname === '/dashboard'}>Dashboard</a></li>
 			<li>
 				<a href="/documentation" class:active={$page.url.pathname === '/documentation'}
