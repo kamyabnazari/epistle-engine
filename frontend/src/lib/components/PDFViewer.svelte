@@ -84,15 +84,23 @@
 		}
 	};
 
+	function isSafari(): boolean {
+		return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+	}
+
 	const printPdf = () => {
 		if (generatedDocumentURL) {
-			const link = window.document.createElement('a');
-			link.href = generatedDocumentURL;
-			link.target = '_blank';
-			link.rel = 'noopener noreferrer';
-			window.document.body.appendChild(link);
-			link.click();
-			window.document.body.removeChild(link);
+			if (isSafari()) {
+				downloadPdf();
+			} else {
+				const link = window.document.createElement('a');
+				link.href = generatedDocumentURL;
+				link.target = '_blank';
+				link.rel = 'noopener noreferrer';
+				window.document.body.appendChild(link);
+				link.click();
+				window.document.body.removeChild(link);
+			}
 		}
 	};
 

@@ -119,14 +119,5 @@
 				</tr>
 			{/each}
 		</tbody>
-		<tfoot>
-			<tr>
-				<th />
-				<th>Name</th>
-				<th>Type</th>
-				<th>Create Date</th>
-				<th>Actions</th>
-			</tr>
-		</tfoot>
 	</table>
 </div>
