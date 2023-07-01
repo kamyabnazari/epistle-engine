@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
-	import { currentUser, pb } from '$lib/pocketbase';
+	import { pb } from '$lib/pocketbase';
 
 	let stats: Record;
 

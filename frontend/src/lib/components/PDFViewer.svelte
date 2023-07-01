@@ -143,10 +143,10 @@
 
 <div class="ring-primary relative z-0">
 	<div class="flex flex-row justify-center gap-4 p-8">
-		<button class="btn btn-square" on:click={prevPage}
+		<button class="btn btn-square btn-primary" on:click={prevPage}
 			><IconLeftArrow style="font-size: x-large;" /></button
 		>
-		<button class="btn btn-square" on:click={nextPage}>
+		<button class="btn btn-square btn-primary" on:click={nextPage}>
 			<IconRightArrow style="font-size: x-large;" /></button
 		>
 		<button class="btn btn-square btn-success" on:click={() => printPdf()}
