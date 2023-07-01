@@ -4,6 +4,8 @@ import type { Actions } from './$types';
 import axios from 'axios';
 import { env } from '$env/dynamic/public';
 import type { Record } from 'pocketbase';
+import http from 'http';
+import https from 'https';
 
 export const actions: Actions = {
 	updateProfile: async ({ locals, request }) => {
@@ -39,7 +41,9 @@ export const actions: Actions = {
 				await axios({
 					url: `${env.PUBLIC_QDRANT_URL}/collections/${document.id}`,
 					method: 'delete',
-					headers: { 'Content-Type': 'application/json' }
+					headers: { 'Content-Type': 'application/json' },
+					httpAgent: new http.Agent({ family: 4 }), // Force IPv4
+					httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
 				});
 			});
 

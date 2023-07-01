@@ -146,7 +146,9 @@
 		</div>
 		<form action="?/deleteAccount" method="POST" use:enhance={submitAction}>
 			<div class="flex flex-1 justify-center">
-				<button class="btn btn-warning" type="submit" disabled={loading}>Delete Account</button>
+				<button class="btn btn-outline btn-warning" type="submit" disabled={loading}
+					>Delete Account</button
+				>
 			</div>
 			<div />
 		</form>
