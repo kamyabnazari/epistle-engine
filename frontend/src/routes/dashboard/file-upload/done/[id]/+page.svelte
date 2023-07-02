@@ -21,7 +21,7 @@
 			<form action="?/previewDocument" method="GET">
 				<div class="flex flex-col gap-8">
 					<div class="flex flex-row justify-center">
-						<h1 class="text-2xl font-bold">Read a new file</h1>
+						<h1 class="text-2xl font-bold md:text-3xl">Read a new file</h1>
 					</div>
 					<div class="flex w-full flex-row justify-center sm:w-96">
 						<div class="flex-grow">

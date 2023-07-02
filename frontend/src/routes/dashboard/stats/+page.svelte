@@ -13,14 +13,13 @@
 			</a>
 		</div>
 		<div class="self-center">
-			<h1 class="mb-8 text-3xl font-bold md:text-5xl">Visualizations</h1>
-			<h2 class="mb-8 text-xl md:text-3xl">These are your current embedings!</h2>
+			<h1 class="mb-8 text-2xl font-bold md:text-3xl">Visualizations</h1>
 		</div>
 		<div class="flex flex-row justify-center">
-			<div class="tabs">
-				<a href="/dashboard" class="tab tab-lg tab-bordered">All</a>
-				<a href="/dashboard" class="tab tab-lg tab-bordered">Embeddings</a>
-				<a href="/dashboard" class="tab tab-lg tab-bordered tab-active">Categories</a>
+			<div class="tabs tabs-boxed mb-4">
+				<a href="/dashboard" class="tab tab-lg">All</a>
+				<a href="/dashboard" class="tab tab-lg tab-active">Embeddings</a>
+				<a href="/dashboard" class="tab tab-lg">Categories</a>
 			</div>
 		</div>
 		<div class="flex min-h-full items-center justify-center overflow-auto rounded-xl border-2">

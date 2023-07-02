@@ -105,7 +105,7 @@
 		>
 	</a>
 	<div class="self-center">
-		<h1 class="text-3xl font-bold md:text-5xl">Reading Assistant</h1>
+		<h1 class="mb-8 text-2xl font-bold md:text-3xl">Reading Assistant</h1>
 	</div>
 	<div class="flex flex-col-reverse justify-center gap-8 md:flex-row">
 		<div class="bg-base-200 mb-4 flex-1 rounded-lg p-8 shadow-lg md:mb-0">

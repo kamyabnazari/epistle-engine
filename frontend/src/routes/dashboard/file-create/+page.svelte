@@ -27,7 +27,7 @@
 			<form action="?/createDocument" method="POST" use:enhance={submitCreateDocument}>
 				<div class="flex flex-col gap-8">
 					<div class="flex justify-center">
-						<h1 class="text-2xl font-bold">Create a new file</h1>
+						<h1 class="text-2xl font-bold md:text-3xl">Create a new file</h1>
 					</div>
 					<div class="flex justify-center">
 						<div class="flex-grow">
@@ -60,7 +60,7 @@
 								<span class="label-text">What do you want to generate?</span>
 							</label>
 							<textarea
-								class="textarea textarea-bordered border-primary h-48 w-full rounded-md border-2"
+								class="textarea border-primary h-48 w-full rounded-md border-2"
 								placeholder="I want an essay about birds..."
 								id="topic"
 								name="topic"

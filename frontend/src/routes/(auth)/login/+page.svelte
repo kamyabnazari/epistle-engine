@@ -30,7 +30,7 @@
 	<div class="flex flex-col">
 		<div class="hero-content flex-col lg:flex-row-reverse">
 			<div class="text-center lg:text-left">
-				<h1 class="text-3xl font-bold md:text-5xl">Login</h1>
+				<h1 class="text-4xl font-bold md:text-5xl">Login</h1>
 				<p class="py-6">Welcome Back! Log In and Continue Crafting Your Stunning PDFs with Ease!</p>
 			</div>
 			<div class="card bg-base-200 w-full max-w-sm flex-shrink-0 shadow-2xl">
