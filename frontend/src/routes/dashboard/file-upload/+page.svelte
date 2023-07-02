@@ -63,11 +63,9 @@
 						<div class="flex-auto">
 							<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 						</div>
-						<div>
-							<button class="btn btn-primary" class:loading type="submit" disabled={loading}
-								>Upload</button
-							>
-						</div>
+						<button class="btn btn-primary" class:loading type="submit" disabled={loading}
+							>Upload</button
+						>
 					</div>
 				</div>
 			</form>

@@ -4,7 +4,7 @@
 
 <div class="card bg-base-200 flex-1 shadow-lg">
 	<div class="card-body">
-		<h2 class="card-title">Your embeding stats</h2>
+		<h2 class="card-title">Your Visualizations</h2>
 		<p>find out more with specific stats about your data collected!</p>
 		<div class="card-actions justify-end py-4">
 			<a href="/dashboard/stats">

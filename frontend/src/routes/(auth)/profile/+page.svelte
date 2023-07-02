@@ -135,9 +135,7 @@
 								<div class="flex-auto">
 									<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 								</div>
-								<div>
-									<button class="btn btn-primary" type="submit" disabled={loading}>Save</button>
-								</div>
+								<button class="btn btn-primary" type="submit" disabled={loading}>Save</button>
 							</div>
 						</div>
 					</div>

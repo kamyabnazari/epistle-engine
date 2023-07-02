@@ -87,9 +87,7 @@
 					</td>
 					<td>
 						<div class="flex items-center space-x-3">
-							<div>
-								<div class="text-md font-bold">{document.name}</div>
-							</div>
+							<div class="text-md font-bold">{document.name}</div>
 						</div>
 					</td>
 					<td>

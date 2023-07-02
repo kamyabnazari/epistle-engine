@@ -81,9 +81,7 @@
 						<div class="flex-auto">
 							<button class="btn btn-warning btn-outline" on:click={deleteDocument}>Delete</button>
 						</div>
-						<div>
-							<button class="btn btn-primary" on:click|preventDefault={goForward}>Next</button>
-						</div>
+						<button class="btn btn-primary" on:click|preventDefault={goForward}>Next</button>
 					</div>
 				</div>
 			</form>

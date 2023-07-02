@@ -7,7 +7,7 @@
 		<a href="/about-us" class="link link-hover">About us</a>
 		<a href="/contact" class="link link-hover">Contact</a>
 	</div>
-	<div>
+	<div class="grid grid-flow-row gap-2">
 		<p>Copyright © 2023</p>
 		<p>All right reserved</p>
 	</div>

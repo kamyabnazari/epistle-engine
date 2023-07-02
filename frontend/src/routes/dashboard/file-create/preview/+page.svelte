@@ -83,9 +83,7 @@
 								>Retry</button
 							>
 						</div>
-						<div>
-							<button class="btn btn-primary" on:click|preventDefault={goForward}>Save</button>
-						</div>
+						<button class="btn btn-primary" on:click|preventDefault={goForward}>Save</button>
 					</div>
 				</div>
 			</form>

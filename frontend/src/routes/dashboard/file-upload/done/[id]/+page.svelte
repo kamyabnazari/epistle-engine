@@ -36,11 +36,9 @@
 						<h1>You have uploaded a file for reading!</h1>
 					</div>
 					<div class="flex flex-row justify-center">
-						<div>
-							<button class="btn btn-primary" type="submit" on:click|preventDefault={goRead}
-								>Read</button
-							>
-						</div>
+						<button class="btn btn-primary" type="submit" on:click|preventDefault={goRead}
+							>Read</button
+						>
 					</div>
 				</div>
 			</form>
