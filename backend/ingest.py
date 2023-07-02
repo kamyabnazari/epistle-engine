@@ -4,8 +4,6 @@ import re
 import os
 from typing import Callable, List, Tuple, Dict
 
-from topic_extraction import extract_topic
-
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
@@ -60,7 +58,7 @@ def get_candidate_labels_for_chunks():
     "fitness and wellness",
     "social issues"
 ]
-def extract_metadata_from_pdf(file_path: str) -> Tuple(Dict[str, str], str):
+def extract_metadata_from_pdf(file_path: str) -> Tuple[Dict[str, str], str]:
     with open(file_path, "rb") as pdf_file:
         reader = PyPDF3.PdfFileReader(pdf_file) 
         # get the text in one chunk to extract topics from it (how long tho?)
