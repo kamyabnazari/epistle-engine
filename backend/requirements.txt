@@ -14,4 +14,3 @@ qdrant-client
 retry
 tiktoken
 bertopic
-transformers
