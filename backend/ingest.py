@@ -61,6 +61,7 @@ def get_candidate_labels_for_chunks():
 def extract_metadata_from_pdf(file_path: str) -> Tuple[Dict[str, str], str]:
     with open(file_path, "rb") as pdf_file:
         reader = PyPDF3.PdfFileReader(pdf_file) 
+        text = ""
         # get the text in one chunk to extract topics from it (how long tho?)
         for page_num in range(reader.numPages):
             page = reader.getPage(page_num)
