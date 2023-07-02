@@ -1,3 +1,4 @@
 # Pocketbase gitignore file
 
 qd_data/
+*.pem
