@@ -34,6 +34,32 @@ def create_pocketbase_client():
     # If the above code executes successfully, return the PocketBase client
     return pocketbase_client
 
+def get_candidate_labels_for_documents():
+    return ["technology", "science", "politics", "business", "lifestyle", "art", "entertainment", "sports"] 
+
+def get_candidate_labels_for_chunks():
+    return [
+    "technology",
+    "science",
+    "sports",
+    "entertainment",
+    "politics",
+    "business",
+    "health",
+    "education",
+    "environment",
+    "travel",
+    "food and cooking",
+    "fashion",
+    "art and culture",
+    "history",
+    "literature",
+    "music",
+    "film and tv",
+    "gaming",
+    "fitness and wellness",
+    "social issues"
+]
 def extract_metadata_from_pdf(file_path: str) -> Tuple(Dict[str, str], str):
     with open(file_path, "rb") as pdf_file:
         reader = PyPDF3.PdfFileReader(pdf_file) 
@@ -42,7 +68,7 @@ def extract_metadata_from_pdf(file_path: str) -> Tuple(Dict[str, str], str):
             page = reader.getPage(page_num)
             text += page.extract_text()
         # classify the document upon candidate topics
-        classified_topic = classify_topics(text)
+        classified_topic = classify_topics_document(text)
         metadata = reader.getDocumentInfo()
         return {
             "title": metadata.get("/Title", "").strip(),
@@ -50,8 +76,20 @@ def extract_metadata_from_pdf(file_path: str) -> Tuple(Dict[str, str], str):
             "creation_date": metadata.get("/CreationDate", "").strip(),
         }, classified_topic
     
-def classify_topics(text) -> str:
-    candidate_labels = ["technology", "science", "politics", "business", "lifestyle", "art", "entertainment", "sports"]  # Adjust this list to your desired topics
+def classify_topics_document(text) -> str:
+    candidate_labels = get_candidate_labels_for_documents()
+    classifier = pipeline("zero-shot-classification")
+    result = classifier(text, candidate_labels)
+    # find the index of the topic with the highest score
+    highest_score_index = result["scores"].index(max(result["scores"]))
+    # return the topic with the highest score if this score is greater than 0.5
+    if(max(result["scores"])) < 0.5:
+        return None 
+    else:
+        return result["labels"][highest_score_index]
+    
+def classify_topics_chunks(text) -> str:
+    candidate_labels = get_candidate_labels_for_chunks()  # Adjust this list to your desired topics
     classifier = pipeline("zero-shot-classification")
     result = classifier(text, candidate_labels)
     # find the index of the topic with the highest score
@@ -131,14 +169,16 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
             chunk_overlap=200,
         )
         chunks = text_splitter.split_text(page)
-    
+
         for i, chunk in enumerate(chunks):
+            topic = classify_topics_chunks(chunk)
             doc = Document(
                 page_content=chunk,
                 metadata={
                     "page_number": page_num,
                     "chunk": i,
                     "source": f"p{page_num}-{i}",
+                    "topic" : topic, 
                     **metadata,
                 },
             )
