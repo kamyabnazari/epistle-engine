@@ -7,12 +7,3 @@ service:
   grpc_port: 6334
   enable_cors: true
   enable_tls: false
-
-# TLS configuration.
-# Required if either service.enable_tls is true.
-#tls:
-# Server certificate chain file
-#cert: ./tls/cert.pem
-# Server private key file
-#key: ./tls/key.pem
-#cert_ttl: 3600
