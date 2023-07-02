@@ -160,7 +160,7 @@
 						<div class="form-control w-full">
 							<input
 								type="text"
-								class="input input-bordered border-primary h-12 w-full rounded-md border-2"
+								class="input border-primary h-12 w-full rounded-md border-2"
 								placeholder="Ask anything..."
 								id="message"
 								name="message"
@@ -172,7 +172,7 @@
 						<input type="hidden" name="documentId" bind:value={documentID} />
 						<!-- Hidden input field for messagesArray -->
 						<input type="hidden" name="messagesArray" bind:value={messagesArrayString} />
-						<button class="btn btn-primary" class:loading type="submit" disabled={loading}
+						<button class="btn btn-error" class:loading type="submit" disabled={loading}
 							><IconSend style="font-size: x-large;" /></button
 						>
 					</div>
