@@ -7,7 +7,7 @@
 		<h2 class="card-title">Your Visualizations</h2>
 		<p>find out more with specific stats about your data collected!</p>
 		<div class="card-actions justify-end py-4">
-			<a href="/dashboard/stats">
+			<a href="/dashboard/stats/all-docs-chunks">
 				<button class="btn btn-primary gap-4">
 					<IconCharts style="font-size: x-large" class="text-primary-content" />
 					<span class="hidden sm:inline">View</span>

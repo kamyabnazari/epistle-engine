@@ -2,6 +2,7 @@
 	import IconDownload from '~icons/solar/download-square-outline';
 	import IconBin from '~icons/solar/trash-bin-trash-outline';
 	import IconRead from '~icons/solar/chat-unread-outline';
+	import IconStats from '~icons/solar/graph-up-outline';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
 	import { onMount } from 'svelte';
@@ -68,8 +69,9 @@
 				<th class="w-1/12" />
 				<th class="w-4/12">Name</th>
 				<th class="w-2/12">Type</th>
+				<th class="w-2/12">Topic</th>
 				<th class="w-3/12">Create Date</th>
-				<th class="w-2/12">Actions</th>
+				<th class="w-3/12">Actions</th>
 			</tr>
 		</thead>
 		<tbody class="bg-base-100">
@@ -91,8 +93,10 @@
 						</div>
 					</td>
 					<td>
-						<span class="text-sm">{document.type}</span><br />
-						<span class="badge badge-ghost badge-sm">PDF</span>
+						<span class="badge badge-ghost badge-sm">{document.type}</span>
+					</td>
+					<td>
+						<span class="badge badge-sm badge-info">Sports</span>
 					</td>
 					<td>{document.created.slice(0, 19)}</td>
 					<th
@@ -100,6 +104,11 @@
 							<a href={`/dashboard/file-read/${document.id}`}
 								><button class="btn btn-square btn-primary"
 									><IconRead style="font-size: x-large;" /></button
+								></a
+							>
+							<a href="/dashboard/stats/doc-chunks-topics"
+								><button class="btn btn-square btn-success"
+									><IconStats style="font-size: x-large;" /></button
 								></a
 							>
 							<button class="btn btn-square btn-info" on:click={() => downloadDocument(document)}
