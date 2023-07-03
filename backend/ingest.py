@@ -9,8 +9,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Qdrant
 
-from qdrant_client import QdrantClient
-
 from dotenv import load_dotenv
 
 load_dotenv
@@ -129,7 +127,7 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
     
     url = os.getenv('PUBLIC_QDRANT_URL')
     api_key = os.getenv('QDRANT__SERVICE_API_KEY')
-
+    
     qdrant = Qdrant.from_documents(
         document_chunks,
         embedding=embeddings,
