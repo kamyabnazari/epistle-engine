@@ -9,21 +9,33 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Qdrant
 
-from operator import attrgetter
-
 from transformers import pipeline
-
-from qdrant_client import QdrantClient
 
 from pocketbase import PocketBase
 
 from dotenv import load_dotenv
 
-from topic_extraction import visualize_topics
+from retry import retry
+
+import logging
+
+from labels_dictionary import get_candidate_labels_for_documents, get_candidate_labels_for_chunks
+
+logging.basicConfig(level=logging.INFO)
+
 load_dotenv
+
+# Define the maximum number of retries and the delay between retries
+max_retries = 5
+retry_delay = 2
 
 pocketbase_url = os.getenv("PUBLIC_POCKETBASE_URL")
 
+# Empty PocketBase client
+pocketbase_client = None
+
+# Function to create PocketBase client with retries
+@retry(tries=max_retries, delay=retry_delay)
 def create_pocketbase_client():
     pocketbase_client = PocketBase(pocketbase_url)
 
@@ -35,32 +47,6 @@ def create_pocketbase_client():
     # If the above code executes successfully, return the PocketBase client
     return pocketbase_client
 
-def get_candidate_labels_for_documents():
-    return ["technology", "science", "politics", "business", "lifestyle", "art", "entertainment", "sports"] 
-
-def get_candidate_labels_for_chunks():
-    return [
-    "technology",
-    "science",
-    "sports",
-    "entertainment",
-    "politics",
-    "business",
-    "health",
-    "education",
-    "environment",
-    "travel",
-    "food and cooking",
-    "fashion",
-    "art and culture",
-    "history",
-    "literature",
-    "music",
-    "film and tv",
-    "gaming",
-    "fitness and wellness",
-    "social issues"
-]
 def extract_metadata_from_pdf(file_path: str) -> Dict[str, str]:
     with open(file_path, "rb") as pdf_file:
         reader = PyPDF3.PdfFileReader(pdf_file) 
@@ -70,30 +56,42 @@ def extract_metadata_from_pdf(file_path: str) -> Dict[str, str]:
             "author": metadata.get("/Author", "").strip(),
             "creation_date": metadata.get("/CreationDate", "").strip(),
         }
-    
+
+# Load the classifier once at the top of your script
+classifier = pipeline("zero-shot-classification", model="distilbert-base-uncased")
+
 def classify_topics_document(text:str) -> str:
     candidate_labels = get_candidate_labels_for_documents()
-    classifier = pipeline("zero-shot-classification")
     result = classifier(text, candidate_labels)
     # find the index of the topic with the highest score
     highest_score_index = result["scores"].index(max(result["scores"]))
+    # log the labels and their scores
+    logging.info(f"Document Labels: {result['labels']}")
+    logging.info(f"Document Scores: {result['scores']}")
     # return the topic with the highest score if this score is greater than 0.5
     if(max(result["scores"])) < 0.5:
         return None 
     else:
         return result["labels"][highest_score_index]
+
+def classify_topics_chunks(chunks: List[str]) -> List[str]:
+    candidate_labels = get_candidate_labels_for_chunks()
+    results = classifier(chunks, candidate_labels)
+
+    classified_chunks = []
+    for result in results:
+        # find the index of the topic with the highest score
+        highest_score_index = result["scores"].index(max(result["scores"]))
+        # log the labels and their scores
+        logging.info(f"Chunk Labels: {result['labels']}")
+        logging.info(f"Chunk Scores: {result['scores']}")
+        # add the topic with the highest score if this score is greater than 0.5
+        if max(result["scores"]) < 0.5:
+            classified_chunks.append(None)
+        else:
+            classified_chunks.append(result["labels"][highest_score_index])
     
-def classify_topics_chunks(text:str) -> str:
-    candidate_labels = ["technology", "science", "politics", "business", "lifestyle", "art", "entertainment", "sports"]   # Adjust this list to your desired topics
-    classifier = pipeline("zero-shot-classification")
-    result = classifier(text, candidate_labels)
-    # find the index of the topic with the highest score
-    highest_score_index = result["scores"].index(max(result["scores"]))
-    # return the topic with the highest score if this score is greater than 0.5
-    if(max(result["scores"])) < 0.5:
-        return None 
-    else:
-        return result["labels"][highest_score_index]
+    return classified_chunks
 
 def extract_pages_from_pdf(file_path: str) -> List[Tuple[int, str]]:
     """
@@ -156,7 +154,7 @@ def clean_text(
 def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
     """Converts list of strings to a list of Documents with metadata."""
     doc_chunks = []
-
+    all_chunks = []
     for page_num, page in text:
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
@@ -164,20 +162,22 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
             chunk_overlap=200,
         )
         chunks = text_splitter.split_text(page)
+        all_chunks.extend([(page_num, i, chunk) for i, chunk in enumerate(chunks)])
 
-        for i, chunk in enumerate(chunks):
-            #topic = classify_topics_chunks(chunk)
-            #                    "topic" : topic, 
-            doc = Document(
-                page_content=chunk,
-                metadata={
-                    "page_number": page_num,
-                    "chunk": i,
-                    "source": f"p{page_num}-{i}",
-                    **metadata,
-                },
-            )
-            doc_chunks.append(doc)
+    all_topics = classify_topics_chunks([chunk for _, _, chunk in all_chunks])
+    
+    for (page_num, i, chunk), topic in zip(all_chunks, all_topics):
+        doc = Document(
+            page_content=chunk,
+            metadata={
+                "page_number": page_num,
+                "chunk": i,
+                "source": f"p{page_num}-{i}",
+                "topic" : topic,
+                **metadata,
+            },
+        )
+        doc_chunks.append(doc)
 
     return doc_chunks
 
@@ -194,11 +194,6 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
     ]
     cleaned_text_pdf = clean_text(raw_pages, cleaning_functions)
     document_chunks = text_to_docs(cleaned_text_pdf, metadata)
-
-    # visualize the topic for this document and save it in pocketbase 
-    page_contents_list = list(map(attrgetter('page_content'), document_chunks))
-    if(len(page_contents_list) >= 10):
-        visualize_topics(page_contents_list, documentId=documentId)
     
     # Step 3 + 4: Generate embeddings and store them in DB
     embeddings = OpenAIEmbeddings()
