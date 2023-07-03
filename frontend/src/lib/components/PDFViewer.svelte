@@ -21,11 +21,15 @@
 
 	let isLoading = true;
 
-	let pdfjsWorkerPromise = import('pdfjs-dist/build/pdf.worker.entry').then((worker) => {
-		let pdfjsWorker = URL.createObjectURL(new Blob([worker], { type: 'application/javascript' }));
-		GlobalWorkerOptions.workerSrc = pdfjsWorker;
-		return pdfjsWorker;
-	});
+	let pdfjsWorkerPromise = import('pdfjs-dist/build/pdf.worker.entry')
+		.then((worker) => {
+			let pdfjsWorker = URL.createObjectURL(new Blob([worker], { type: 'application/javascript' }));
+			GlobalWorkerOptions.workerSrc = pdfjsWorker;
+			return pdfjsWorker;
+		})
+		.catch((error) => {
+			console.error("Error importing 'pdfjs-dist/build/pdf.worker.entry':", error);
+		});
 
 	afterUpdate(() => {
 		previousDocumentUrl = generatedDocumentURL;

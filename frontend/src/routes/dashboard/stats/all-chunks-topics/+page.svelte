@@ -20,10 +20,6 @@
 	const marginTop = margin; // the top margin, in pixels
 	const marginBottom = margin; // the bottom margin, in pixels
 
-	//update link to the desired address path or remove.
-	const link = (d) =>
-		`https://github.com/prefuse/Flare/blob/master/flare/src/${d.id.replace(/\./g, '/')}.as`;
-
 	// Compute the values.
 	const dVals = data.map((el) => el);
 	const vVals = data.map((el) => el.value);
@@ -79,11 +75,6 @@
 		<div class="flex min-h-full items-center justify-center overflow-auto rounded-xl border-2">
 			<svg {width} {height} viewBox="{-marginLeft} {-marginTop} {width} {height}" fill={textColor}>
 				{#each root.leaves() as leaf, i}
-					<a
-						href={link === null ? null : link(dVals[leaf.data])}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
 						<g class="node" transform="translate({leaf.x},{leaf.y})">
 							<circle
 								id="node-{i}"
@@ -112,7 +103,6 @@
 								{/each}
 							</text>
 						</g>
-					</a>
 				{/each}
 			</svg>
 		</div>

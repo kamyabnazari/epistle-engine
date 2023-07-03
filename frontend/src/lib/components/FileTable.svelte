@@ -34,8 +34,8 @@
 		try {
 			await pb.collection('documents').delete(documentID);
 			await axios({
-				url: `${env.PUBLIC_QDRANT_URL}/collections/${documentID}`,
-				method: 'delete',
+				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentID}/delete_vector_file`,
+				method: 'post',
 				headers: { 'Content-Type': 'application/json' }
 			});
 			documentList = documentList.filter((document) => document.id !== documentID);
@@ -68,16 +68,16 @@
 			<tr>
 				<th class="w-1/12" />
 				<th class="w-4/12">Name</th>
-				<th class="w-2/12">Type</th>
-				<th class="w-2/12">Topic</th>
-				<th class="w-3/12">Create Date</th>
+				<th class="w-1/12">Type</th>
+				<th class="w-1/12">Topic</th>
+				<th class="w-2/12">Create Date</th>
 				<th class="w-3/12">Actions</th>
 			</tr>
 		</thead>
 		<tbody class="bg-base-100">
 			{#if documentList === undefined || documentList.length === 0}
 				<tr>
-					<td colspan="5" class="text-center">No files found! Upload some to get started.</td>
+					<td colspan="6" class="text-center">No files found! Upload some to get started.</td>
 				</tr>
 			{/if}
 			{#each documentList as document, index}
