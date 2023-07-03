@@ -81,7 +81,7 @@ async def read_favicon():
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
 
-@app.get("/api/documents/{document_id}/delete_vector_file")
+@app.post("/api/documents/{document_id}/delete_vector_file")
 async def delete_api_vector_file(document_id: str):
     client = QdrantClient(url=os.getenv('PUBLIC_QDRANT_URL'), prefer_grpc=True, api_key=os.getenv('QDRANT__SERVICE_API_KEY'))
     client.delete_collection(document_id)
