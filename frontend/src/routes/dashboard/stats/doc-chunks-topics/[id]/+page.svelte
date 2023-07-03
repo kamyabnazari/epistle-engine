@@ -1,9 +1,34 @@
-<script>
+<script lang="ts">
 	import IconClose from '~icons/solar/alt-arrow-left-bold';
+	import { onMount } from 'svelte';
 
 	// @ts-ignore
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
-	import data from './stats-doc-chunks-topics-data'; // or pass data to component as prop
+	import { pb } from '$lib/pocketbase';
+	import type { Record } from 'pocketbase';
+	import { page } from '$app/stores';
+
+	import data from './stats-all-chunks-topics-data'; // or pass data to component as prop
+
+	let datas;
+	let document: Record;
+	let documentID: string;
+
+	onMount(async () => {
+		documentID = $page.params.id;
+		await fetchDataFromPocketBase();
+	});
+
+	async function fetchDataFromPocketBase() {
+		try {
+			const response = await pb.collection('documents').getOne(documentID);
+			document = response as Record;
+			datas = document.stats_chunk_topics;
+			console.log(datas);
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
 
 	const width = 700; //the margin top, bottom, left, right margin offset relative to the radius
 	const padding = 3; // the all padding all around each circle, in pixels
@@ -21,9 +46,9 @@
 	const marginBottom = margin; // the bottom margin, in pixels
 
 	// Compute the values.
-	const dVals = data.map((el) => el);
-	const vVals = data.map((el) => el.value);
-	const gVals = data.map((el) => el.id.split('.')[1]);
+	const dVals = data.map((el: any) => el);
+	const vVals = data.map((el: { value: any }) => el.value);
+	const gVals = data.map((el: { id: string }) => el.id.split('.')[1]);
 	const iVals = range(vVals.length).filter((i) => vVals[i] > 0);
 
 	let groups = iVals.map((i) => gVals[i]);
@@ -82,7 +107,7 @@
 						<clipPath id={`${uid}-clip-${leaf.data}`}>
 							<circle r={leaf.r} />
 						</clipPath>
-						<text clip-path={`url(${new URL(`#${uid}-clip-${leaf.data}`, location)})`}>
+						<text clip-path={`url(#${uid}-clip-${leaf.data})`}>
 							{#each `${lVals[leaf.data]}`.split(/\n/g) as subtext, j}
 								<tspan
 									x="0"

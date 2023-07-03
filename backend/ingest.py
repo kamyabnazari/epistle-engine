@@ -1,8 +1,9 @@
+import json
 import pdfplumber
 import PyPDF3
 import re
 import os
-from typing import Callable, List, Tuple, Dict
+from typing import Callable, List, Tuple, Dict, Union
 
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -15,6 +16,8 @@ from transformers import pipeline
 from pocketbase import PocketBase
 
 from dotenv import load_dotenv
+
+from collections import Counter
 
 from retry import retry
 
@@ -165,6 +168,8 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
         all_chunks.extend([(page_num, i, chunk) for i, chunk in enumerate(chunks)])
 
     all_topics = classify_topics_chunks([chunk for _, _, chunk in all_chunks])
+
+    topic_counts = count_topic_occurrences(all_topics)
     
     for (page_num, i, chunk), topic in zip(all_chunks, all_topics):
         doc = Document(
@@ -178,8 +183,12 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
             },
         )
         doc_chunks.append(doc)
+    return doc_chunks, topic_counts
 
-    return doc_chunks
+def count_topic_occurrences(topics: List[str]) -> List[Dict[str, Union[str, int]]]:
+    counter = Counter(topics)
+    result = [{'id': topic, 'value': count} for topic, count in counter.items()]
+    return result
 
 def create_embeddings_from_pdf_file(file_path: str, documentId: str):
     # Step 0: Create Pocketbase client
@@ -206,7 +215,13 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
         remove_multiple_newlines,
     ]
     cleaned_text_pdf = clean_text(raw_pages, cleaning_functions)
-    document_chunks = text_to_docs(cleaned_text_pdf, metadata)
+    document_chunks, topic_counts = text_to_docs(cleaned_text_pdf, metadata)
+    
+    # Step 2.5: Save the topic statistics to PocketBase
+    data = {
+        "stats_chunk_topics": json.dumps(topic_counts)
+    }
+    pocketbase_client.collection('documents').update(documentId, data)
     
     # Step 3 + 4: Generate embeddings and store them in DB
     embeddings = OpenAIEmbeddings()

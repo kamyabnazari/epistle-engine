@@ -1,9 +1,32 @@
-<script>
+<script lang="ts">
 	import IconClose from '~icons/solar/alt-arrow-left-bold';
+	import { onMount } from 'svelte';
 
 	// @ts-ignore
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
-	import data from './stats-all-docs-topics-data'; // or pass data to component as prop
+	import { pb } from '$lib/pocketbase';
+	import type { Record } from 'pocketbase';
+	import { page } from '$app/stores';
+
+	let data;
+	let document: Record;
+	let documentID: string;
+
+	onMount(async () => {
+		pb.authStore.loadFromCookie(document.cookie);
+		documentID = $page.params.id;
+		await fetchDataFromPocketBase();
+	});
+
+	async function fetchDataFromPocketBase() {
+		try {
+			const response = await pb.collection('documents').getOne(documentID);
+			document = response as Record;
+			data = document.stats_chunk_topics;
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
 
 	const width = 700; //the margin top, bottom, left, right margin offset relative to the radius
 	const padding = 3; // the all padding all around each circle, in pixels
@@ -19,7 +42,7 @@
 	const marginRight = margin; // the right margin, in pixels
 	const marginTop = margin; // the top margin, in pixels
 	const marginBottom = margin; // the bottom margin, in pixels
-	
+
 	// Compute the values.
 	const dVals = data.map((el) => el);
 	const vVals = data.map((el) => el.value);
@@ -66,7 +89,7 @@
 		<div class="flex flex-row justify-center">
 			<div class="tabs tabs-boxed mb-4">
 				<a href="/dashboard/stats/all-docs-chunks" class="tab tab-lg">All</a>
-				<a href="/dashboard/stats/all-docs-topics" class="tab tab-lg tab-active">Document Topics</a>
+				<a href="/dashboard/stats/all-docs-topics"  class="tab tab-lg tab-active">Document Topics</a>
 				<a href="/dashboard/stats/all-chunks-topics" class="tab tab-lg">Embeddings Topics</a>
 			</div>
 		</div>
