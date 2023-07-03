@@ -11,6 +11,7 @@ from langchain.vectorstores import Qdrant
 
 from transformers import pipeline
 
+# Importing pocketbase sdk
 from pocketbase import PocketBase
 
 from dotenv import load_dotenv
@@ -23,7 +24,7 @@ from labels_dictionary import get_candidate_labels_for_documents, get_candidate_
 
 logging.basicConfig(level=logging.INFO)
 
-load_dotenv
+load_dotenv()
 
 # Define the maximum number of retries and the delay between retries
 max_retries = 5
@@ -62,21 +63,21 @@ classifier = pipeline("zero-shot-classification", model="distilbert-base-uncased
 
 def classify_topics_document(text:str) -> str:
     candidate_labels = get_candidate_labels_for_documents()
-    result = classifier(text, candidate_labels)
+    result = classifier(text, candidate_labels, multi_label=True)
     # find the index of the topic with the highest score
     highest_score_index = result["scores"].index(max(result["scores"]))
     # log the labels and their scores
     logging.info(f"Document Labels: {result['labels']}")
     logging.info(f"Document Scores: {result['scores']}")
-    # return the topic with the highest score if this score is greater than 0.5
-    if(max(result["scores"])) < 0.5:
-        return None 
+    # return the topic with the highest score if this score is greater than 0.4
+    if(max(result["scores"])) < 0.4:
+        return "Other" 
     else:
         return result["labels"][highest_score_index]
 
 def classify_topics_chunks(chunks: List[str]) -> List[str]:
     candidate_labels = get_candidate_labels_for_chunks()
-    results = classifier(chunks, candidate_labels)
+    results = classifier(chunks, candidate_labels, multi_label=True)
 
     classified_chunks = []
     for result in results:
@@ -85,9 +86,9 @@ def classify_topics_chunks(chunks: List[str]) -> List[str]:
         # log the labels and their scores
         logging.info(f"Chunk Labels: {result['labels']}")
         logging.info(f"Chunk Scores: {result['scores']}")
-        # add the topic with the highest score if this score is greater than 0.5
-        if max(result["scores"]) < 0.5:
-            classified_chunks.append(None)
+        # add the topic with the highest score if this score is greater than 0.4
+        if max(result["scores"]) < 0.4:
+            classified_chunks.append("Other")
         else:
             classified_chunks.append(result["labels"][highest_score_index])
     
@@ -110,7 +111,6 @@ def extract_pages_from_pdf(file_path: str) -> List[Tuple[int, str]]:
             if text.strip():  # Check if extracted text is not empty
                 pages.append((page_num + 1, text))
     return pages
-
 
 def parse_pdf(file_path: str) -> Tuple[List[Tuple[int, str]], Dict[str, str]]:
     """
@@ -157,9 +157,9 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
     all_chunks = []
     for page_num, page in text:
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
+            chunk_size=500,
             separators=["\n\n", "\n", ".", "!", "?", ",", " ", ""],
-            chunk_overlap=200,
+            chunk_overlap=100,
         )
         chunks = text_splitter.split_text(page)
         all_chunks.extend([(page_num, i, chunk) for i, chunk in enumerate(chunks)])
@@ -182,9 +182,22 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
     return doc_chunks
 
 def create_embeddings_from_pdf_file(file_path: str, documentId: str):
+    # Step 0: Create Pocketbase client
+    pocketbase_client = create_pocketbase_client()
     
     # Step 1: Parse PDF
     raw_pages, metadata = parse_pdf(file_path)
+    
+    # Step 1.5: Classify the topic of the whole document
+    whole_document_text = " ".join([text for _, text in raw_pages])
+    document_topic = classify_topics_document(whole_document_text)
+    metadata["document_topic"] = document_topic  # add the document's topic to the metadata
+    
+    # Step 1.75: Update the document's topic in the database
+    data = {
+        "classified_topic": document_topic
+    }
+    pocketbase_client.collection('documents').update(documentId, data)
 
     # Step 2: Create text chunks
     cleaning_functions = [
@@ -220,3 +233,4 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
             collection_name=documentId,
             timeout=120
         )
+    

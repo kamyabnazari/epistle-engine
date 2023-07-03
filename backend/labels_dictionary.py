@@ -40,6 +40,11 @@ def get_candidate_labels_for_documents():
         "Physics",
         "Marketing",
         "Management",
+        "Computer Science",
+        "Data Science",
+        "Statistics",
+        "Machine Learning",
+        "Cheat Sheet",
     ]
 
 def get_candidate_labels_for_chunks():
@@ -85,4 +90,6 @@ def get_candidate_labels_for_chunks():
         "Data Analysis",
         "Research Design",
         "Proposed Solution",
+        "Code",
+        "Results and Discussion",
     ]
