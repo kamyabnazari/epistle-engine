@@ -83,7 +83,15 @@ async def read_api_root():
 
 @app.post("/api/documents/{document_id}/delete_vector_file")
 async def delete_api_vector_file(document_id: str):
-    client = QdrantClient(url=os.getenv('PUBLIC_QDRANT_URL'), prefer_grpc=True, api_key=os.getenv('QDRANT__SERVICE_API_KEY'))
+    
+    url = os.getenv('PUBLIC_QDRANT_URL')
+    api_key = os.getenv('QDRANT__SERVICE_API_KEY')   
+    
+    if api_key:
+        client = QdrantClient(url=url, prefer_grpc=True, api_key=api_key)
+    else:
+        client = QdrantClient(url=url)
+    
     client.delete_collection(document_id)
     return {"message": "Vector file deleted!"}
 
