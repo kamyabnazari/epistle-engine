@@ -18,7 +18,7 @@ def make_chain(documentId:str):
     
     embeddings = OpenAIEmbeddings()
 
-    client = QdrantClient(os.getenv('PUBLIC_QDRANT_URL'))
+    client = QdrantClient(url=os.getenv('PUBLIC_QDRANT_URL'), prefer_grpc=True, api_key=os.getenv('QDRANT__SERVICE_API_KEY'))
     qdrant = Qdrant(client, documentId, embeddings)
     
     return ConversationalRetrievalChain.from_llm(

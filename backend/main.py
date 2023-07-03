@@ -2,6 +2,7 @@ import subprocess
 import pdfkit
 import io
 import os
+from qdrant_client import QdrantClient
 import requests
 
 # Python package for PDF parsing
@@ -79,6 +80,12 @@ async def read_favicon():
 @app.get("/api")
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
+
+@app.get("/api/documents/{document_id}/delete_vector_file")
+async def delete_api_vector_file(document_id: str):
+    client = QdrantClient(url=os.getenv('PUBLIC_QDRANT_URL'), prefer_grpc=True, api_key=os.getenv('QDRANT__SERVICE_API_KEY'))
+    client.delete_collection(document_id)
+    return {"message": "Vector file deleted!"}
 
 @app.post("/api/documents/{document_id}/send_new_message/{user_id}")
 async def read_api_documents_send_new_message(document_id: str, user_id: str, request: Request):
