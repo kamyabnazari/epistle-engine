@@ -1,5 +1,3 @@
-quart
-quart-cors
 langchain
 fastapi
 uvicorn
@@ -13,4 +11,5 @@ pdfplumber
 qdrant-client
 retry
 tiktoken
-bertopic
+transformers
+tensorflow

@@ -1,4 +1,4 @@
-name: Qdrant
+name: Deploy Qdrant
 
 on:
   push:
