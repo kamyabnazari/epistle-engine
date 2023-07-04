@@ -5,8 +5,10 @@
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
 	import type { Record } from 'pocketbase';
 	import { currentUser, pb } from '$lib/pocketbase';
+	import { number } from 'zod';
 
 	let data: any[] = [];
+	let documentList: Record[] = [];
 	let root: { leaves: () => any };
 	let isLoading = true;
 
@@ -41,24 +43,40 @@
 
 	onMount(async () => {
 		isLoading = true;
-		await fetchDataFromPocketBase();
+		await fetchDocuments();
 	});
 
-	async function fetchDataFromPocketBase() {
+	async function fetchDocuments() {
 		try {
-			if ($currentUser) {
-				const response = await pb
-					.collection('documents_stats')
-					.getFirstListItem(`owner='${$currentUser.id}'`);
-				if (response) {
-					data = response.classified_doc_chunks_topics;
+			const response = await pb.collection('documents').getFullList({
+				sort: '-created',
+				filter: `owner='${$currentUser?.id}'`
+			});
+			documentList = response || [];
+
+			const topicCounts: { [key: string]: number } = {}; // New map object to hold topic counts
+
+			documentList.forEach((document) => {
+				if (document.classified_topic in topicCounts) {
+					topicCounts[document.classified_topic]++;
+				} else {
+					topicCounts[document.classified_topic] = 1;
 				}
+			});
+
+			// Convert the topicCounts object to the required format for data
+			for (const topic in topicCounts) {
+				data.push({
+					id: topic,
+					value: topicCounts[topic]
+				});
 			}
+
 			renderChart();
 		} catch (error) {
 			console.error('Fetch error:', error);
 		} finally {
-			//isLoading = false;
+			isLoading = false;
 		}
 	}
 
