@@ -5,7 +5,6 @@
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
 	import type { Record } from 'pocketbase';
 	import { currentUser, pb } from '$lib/pocketbase';
-	import { number } from 'zod';
 
 	let data: any[] = [];
 	let documentList: Record[] = [];
@@ -54,17 +53,33 @@
 			});
 			documentList = response || [];
 
-			const topicCounts: { [key: string]: number } = {}; // New map object to hold topic counts
+			const topicCounts: { [key: string]: number } = {};
 
 			documentList.forEach((document) => {
-				if (document.classified_topic in topicCounts) {
-					topicCounts[document.classified_topic]++;
+				const topic = document.classified_topic;
+
+				// Parse if it's a string, else assume it's an object
+				const chunkTopics =
+					typeof document.classified_doc_chunks_topics === 'string'
+						? JSON.parse(document.classified_doc_chunks_topics)
+						: document.classified_doc_chunks_topics;
+
+				if (topic in topicCounts) {
+					topicCounts[topic]++;
 				} else {
-					topicCounts[document.classified_topic] = 1;
+					topicCounts[topic] = 1;
 				}
+
+				// Loop through chunkTopics and add the counts to topicCounts
+				chunkTopics.forEach((chunkTopic: { id: string; value: number }) => {
+					if (chunkTopic.id in topicCounts) {
+						topicCounts[chunkTopic.id] += chunkTopic.value;
+					} else {
+						topicCounts[chunkTopic.id] = chunkTopic.value;
+					}
+				});
 			});
 
-			// Convert the topicCounts object to the required format for data
 			for (const topic in topicCounts) {
 				data.push({
 					id: topic,
