@@ -137,7 +137,6 @@
 		</div>
 		<div class="flex flex-row justify-center">
 			<div class="tabs tabs-boxed mb-4">
-				<a href="/dashboard/stats/all-docs-chunks" class="tab tab-lg">All</a>
 				<a href="/dashboard/stats/all-docs-topics" class="tab tab-lg tab-active">Document Topics</a>
 				<a href="/dashboard/stats/all-chunks-topics" class="tab tab-lg">Embeddings Topics</a>
 			</div>
