@@ -39,8 +39,8 @@ export const actions: Actions = {
 			documentList.forEach(async (document: Record) => {
 				// delete all user embeddings from Qdrant
 				await axios({
-					url: `${env.PUBLIC_QDRANT_URL}/collections/${document.id}`,
-					method: 'delete',
+					url: `${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/delete_vector_file`,
+					method: 'post',
 					headers: { 'Content-Type': 'application/json' },
 					httpAgent: new http.Agent({ family: 4 }), // Force IPv4
 					httpsAgent: new https.Agent({ family: 4 }) // Force IPv4

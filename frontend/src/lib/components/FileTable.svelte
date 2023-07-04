@@ -34,8 +34,8 @@
 		try {
 			await pb.collection('documents').delete(documentID);
 			await axios({
-				url: `${env.PUBLIC_QDRANT_URL}/collections/${documentID}`,
-				method: 'delete',
+				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentID}/delete_vector_file`,
+				method: 'post',
 				headers: { 'Content-Type': 'application/json' }
 			});
 			documentList = documentList.filter((document) => document.id !== documentID);
