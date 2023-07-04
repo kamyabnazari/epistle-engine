@@ -65,7 +65,7 @@
 		width = 700;
 		padding = 3;
 		margin = 1;
-		textColor = 'black';
+		textColor = 'white';
 		fill = '#ccc';
 		fillOpacity = 0.9;
 		strokeColor = 'none';
@@ -84,7 +84,9 @@
 		groups = iVals.map((i) => gVals[i]);
 		groups = new InternSet(groups);
 
-		colorScale = scaleOrdinal(groups, schemeTableau10);
+		colorScale = scaleOrdinal()
+			.domain(range(data.length)) // Use the index as domain
+			.range(schemeTableau10); // Use your color scheme
 
 		lVals = data.map((el) =>
 			[
@@ -137,7 +139,7 @@
 								stroke={strokeColor}
 								stroke-width={strokeWidth}
 								stroke-opacity={strokeOpacity}
-								fill={gVals ? colorScale(gVals[leaf.data]) : fill == null ? 'none' : fill}
+								fill={colorScale(i)}
 								fill-opacity={fillOpacity}
 								r={leaf.r}
 							>
