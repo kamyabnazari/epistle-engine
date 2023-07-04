@@ -9,6 +9,10 @@ RUN apt-get update && \
 
 WORKDIR /app
 ADD . /app
+
+# Download transformers model
+RUN python -c "from transformers import AutoModel; AutoModel.from_pretrained('distilbert-base-uncased')"
+
 RUN pip install -r requirements.txt --no-cache-dir
 EXPOSE 5003
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5003"]
