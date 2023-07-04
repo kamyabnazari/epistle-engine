@@ -5,11 +5,8 @@
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
 	import { pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
-	import { page } from '$app/stores';
 
 	let data: any[] = [];
-	let document: Record;
-	let documentID: string;
 	let root: { leaves: () => any };
 	let isLoading = true;
 
@@ -43,23 +40,8 @@
 	let groups;
 
 	onMount(async () => {
-		documentID = $page.params.id;
 		isLoading = true;
-		await fetchDataFromPocketBase();
 	});
-
-	async function fetchDataFromPocketBase() {
-		try {
-			const response = await pb.collection('documents').getOne(documentID);
-			document = response as Record;
-			data = document.stats_chunk_topics;
-			renderChart();
-		} catch (error) {
-			console.error('Fetch error:', error);
-		} finally {
-			isLoading = false;
-		}
-	}
 
 	function renderChart() {
 		width = 700;
@@ -116,7 +98,13 @@
 		</div>
 		<div class="self-center">
 			<h1 class="mb-8 text-2xl font-bold md:text-3xl">Visualizations</h1>
-			<h2 class="mb-8 text-lg font-bold md:text-2xl">All you Document Chunks</h2>
+		</div>
+		<div class="flex flex-row justify-center">
+			<div class="tabs tabs-boxed mb-4">
+				<a href="/dashboard/stats/all-docs-chunks" class="tab tab-lg">All</a>
+				<a href="/dashboard/stats/all-docs-topics" class="tab tab-lg tab-active">Document Topics</a>
+				<a href="/dashboard/stats/all-chunks-topics" class="tab tab-lg">Embeddings Topics</a>
+			</div>
 		</div>
 		{#if isLoading}
 			<div class="flex min-h-full items-center justify-center">

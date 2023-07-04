@@ -75,7 +75,7 @@
 		{#if $message}
 			<div class="alert alert-warning">
 				<IconInfo style="font-size: x-large;" class="text-warning-content" />
-				<span> {$message}</span>
+				<span>{$message}</span>
 			</div>
 		{/if}
 	</div>
