@@ -9,7 +9,6 @@ Dockerfile
 *.pyd
 __pycache__/
 *.py[co]
-*.cache/
 *.egg-info/
 dist/
 build/
