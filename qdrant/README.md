@@ -2,14 +2,6 @@
 
 ## Setup
 
-### Environment variables
-
-Create a `.env` file in the root of the backend directory with the following variables:
-
-```
-QDRANT_API_KEY={your qdrant api key}
-```
-
 ### Running Qdrant
 
 Use docker compose to create Qdrant Service:

@@ -96,7 +96,7 @@
 						<span class="badge badge-ghost badge-sm">{document.type}</span>
 					</td>
 					<td>
-						<span class="badge badge-sm badge-info">Sports</span>
+						<span class="badge badge-sm badge-info">{document.classified_topic}</span>
 					</td>
 					<td>{document.created.slice(0, 19)}</td>
 					<th
@@ -106,7 +106,7 @@
 									><IconRead style="font-size: x-large;" /></button
 								></a
 							>
-							<a href="/dashboard/stats/doc-chunks-topics"
+							<a href={`/dashboard/stats/doc-chunks-topics/${document.id}`}
 								><button class="btn btn-square btn-success"
 									><IconStats style="font-size: x-large;" /></button
 								></a

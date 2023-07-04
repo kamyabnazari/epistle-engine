@@ -170,7 +170,7 @@ async def read_api_document_create(user_id: str, request: Request):
         prompt = latex_prompt,
         llm = openai_model  
         )
-
+        #TODO scan text to classify topic of the document
         # Generate LaTeX content using this prompt
         latex_content = llm_chain.run(latex_prompt_value)
         latex_content = "\\documentclass{article}\n\\begin{document}\n" + latex_content + "\n\\end{document}"
@@ -191,7 +191,7 @@ async def read_api_document_create(user_id: str, request: Request):
 
         # Calculate the total number of pages and words in the document
         total_pages = get_pdf_page_count(pdf_file_path)
-        total_words = get_pdf_word_count(pdf_file_path)
+        total_words = get_pdf_word_count(pdf_file_path)        
 
         # Create a new document in the database
         data = {

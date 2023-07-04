@@ -56,6 +56,129 @@
     }
   },
   {
+    "id": "4uw92ioynhexgcz",
+    "name": "documents_stats",
+    "type": "view",
+    "system": false,
+    "schema": [
+      {
+        "id": "0a5dyaiq",
+        "name": "owner",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": true,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "lj8lims3",
+        "name": "total_pages",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "0urchsp5",
+        "name": "total_words",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "3fefn6tl",
+        "name": "total_documents",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "options": {
+          "min": null,
+          "max": null
+        }
+      },
+      {
+        "id": "e50s4gf3",
+        "name": "total_uploaded",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "pswjgzap",
+        "name": "total_created",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "kgxaeib6",
+        "name": "min_created_date",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "nimunns9",
+        "name": "max_created_date",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      }
+    ],
+    "indexes": [],
+    "listRule": "owner.id = @request.auth.id",
+    "viewRule": "owner.id = @request.auth.id",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {
+      "query": "SELECT\n    (ROW_NUMBER() OVER()) as id,\n    documents.owner AS owner,\n    SUM(page_count) AS total_pages,\n    SUM(word_count) AS total_words,\n    COUNT(*) AS total_documents,\n    SUM(CASE WHEN type = 'Uploaded' THEN 1 ELSE 0 END) AS total_uploaded,\n    SUM(CASE WHEN type = 'Created' THEN 1 ELSE 0 END) AS total_created,\n  MIN(created) AS min_created_date,\n  MAX(created) AS max_created_date\nFROM documents\nGROUP BY owner\n"
+    }
+  },
+  {
+    "id": "je0l596w0o6gf22",
+    "name": "documents_total_stats",
+    "type": "view",
+    "system": false,
+    "schema": [
+      {
+        "id": "geddz5zg",
+        "name": "total_documents",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
+        "id": "cqemk738",
+        "name": "total_created",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      }
+    ],
+    "indexes": [],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {
+      "query": "SELECT\n    (ROW_NUMBER() OVER()) as id,\n    SUM(total_documents) AS total_documents,\n    SUM(total_created) AS total_created\nFROM documents_stats\n"
+    }
+  },
+  {
     "id": "8iv79uqtsxbzb7i",
     "name": "documents",
     "type": "base",
@@ -138,6 +261,26 @@
         }
       },
       {
+        "id": "4xrn6pah",
+        "name": "classified_topic",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "qrfkkifz",
+        "name": "classified_doc_chunks_topics",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "options": {}
+      },
+      {
         "id": "gfcbrhw1",
         "name": "chat_history",
         "type": "json",
@@ -153,128 +296,5 @@
     "updateRule": "owner.id = @request.auth.id",
     "deleteRule": "owner.id = @request.auth.id",
     "options": {}
-  },
-  {
-    "id": "4uw92ioynhexgcz",
-    "name": "documents_stats",
-    "type": "view",
-    "system": false,
-    "schema": [
-      {
-        "id": "jix6wp8f",
-        "name": "owner",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": true,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "agml7fsi",
-        "name": "total_pages",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
-        "id": "5tahbxna",
-        "name": "total_words",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
-        "id": "i4sfsbi5",
-        "name": "total_documents",
-        "type": "number",
-        "system": false,
-        "required": false,
-        "options": {
-          "min": null,
-          "max": null
-        }
-      },
-      {
-        "id": "teussqe1",
-        "name": "total_uploaded",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
-        "id": "qnaihbzq",
-        "name": "total_created",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
-        "id": "pctprdsd",
-        "name": "min_created_date",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
-        "id": "dgzw8jue",
-        "name": "max_created_date",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      }
-    ],
-    "indexes": [],
-    "listRule": "owner.id = @request.auth.id",
-    "viewRule": "owner.id = @request.auth.id",
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {
-      "query": "SELECT\n    (ROW_NUMBER() OVER()) as id,\n    documents.owner AS owner,\n    SUM(page_count) AS total_pages,\n    SUM(word_count) AS total_words,\n    COUNT(*) AS total_documents,\n    SUM(CASE WHEN type = 'Uploaded' THEN 1 ELSE 0 END) AS total_uploaded,\n    SUM(CASE WHEN type = 'Created' THEN 1 ELSE 0 END) AS total_created,\n  MIN(created) AS min_created_date,\n  MAX(created) AS max_created_date\nFROM documents\nGROUP BY owner\n"
-    }
-  },
-  {
-    "id": "je0l596w0o6gf22",
-    "name": "documents_total_stats",
-    "type": "view",
-    "system": false,
-    "schema": [
-      {
-        "id": "9eqoozig",
-        "name": "total_documents",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
-        "id": "jzv7unz4",
-        "name": "total_created",
-        "type": "json",
-        "system": false,
-        "required": false,
-        "options": {}
-      }
-    ],
-    "indexes": [],
-    "listRule": "",
-    "viewRule": "",
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {
-      "query": "SELECT\n    (ROW_NUMBER() OVER()) as id,\n    SUM(total_documents) AS total_documents,\n    SUM(total_created) AS total_created\nFROM documents_stats\n"
-    }
   }
 ]

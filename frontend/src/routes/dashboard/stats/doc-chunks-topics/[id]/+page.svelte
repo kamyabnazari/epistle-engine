@@ -3,11 +3,13 @@
 	import { onMount } from 'svelte';
 	// @ts-ignore
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
+	import { pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
-	import { currentUser, pb } from '$lib/pocketbase';
+	import { page } from '$app/stores';
 
 	let data: any[] = [];
-	let documentList: Record[] = [];
+	let document: Record;
+	let documentID: string;
 	let root: { leaves: () => any };
 	let isLoading = true;
 
@@ -41,52 +43,16 @@
 	let groups;
 
 	onMount(async () => {
+		documentID = $page.params.id;
 		isLoading = true;
-		await fetchDocuments();
+		await fetchDataFromPocketBase();
 	});
 
-	async function fetchDocuments() {
+	async function fetchDataFromPocketBase() {
 		try {
-			const response = await pb.collection('documents').getFullList({
-				sort: '-created',
-				filter: `owner='${$currentUser?.id}'`
-			});
-			documentList = response || [];
-
-			const topicCounts: { [key: string]: number } = {};
-
-			documentList.forEach((document) => {
-				const topic = document.classified_topic;
-
-				// Parse if it's a string, else assume it's an object
-				const chunkTopics =
-					typeof document.classified_doc_chunks_topics === 'string'
-						? JSON.parse(document.classified_doc_chunks_topics)
-						: document.classified_doc_chunks_topics;
-
-				if (topic in topicCounts) {
-					topicCounts[topic]++;
-				} else {
-					topicCounts[topic] = 1;
-				}
-
-				// Loop through chunkTopics and add the counts to topicCounts
-				chunkTopics.forEach((chunkTopic: { id: string; value: number }) => {
-					if (chunkTopic.id in topicCounts) {
-						topicCounts[chunkTopic.id] += chunkTopic.value;
-					} else {
-						topicCounts[chunkTopic.id] = chunkTopic.value;
-					}
-				});
-			});
-
-			for (const topic in topicCounts) {
-				data.push({
-					id: topic,
-					value: topicCounts[topic]
-				});
-			}
-
+			const response = await pb.collection('documents').getOne(documentID);
+			document = response as Record;
+			data = document.classified_doc_chunks_topics;
 			renderChart();
 		} catch (error) {
 			console.error('Fetch error:', error);
@@ -152,15 +118,7 @@
 		</div>
 		<div class="self-center">
 			<h1 class="mb-8 text-2xl font-bold md:text-3xl">Visualizations</h1>
-			<h2 class="mb-8 text-lg font-bold md:text-2xl">All you Chunk Topics</h2>
-		</div>
-		<div class="flex flex-row justify-center">
-			<div class="tabs tabs-boxed mb-4">
-				<a href="/dashboard/stats/all-docs-topics" class="tab tab-lg">Document Topics</a>
-				<a href="/dashboard/stats/all-chunks-topics" class="tab tab-lg tab-active"
-					>Embeddings Topics</a
-				>
-			</div>
+			<h2 class="mb-8 text-lg font-bold md:text-2xl">All you Document Chunks</h2>
 		</div>
 		{#if isLoading}
 			<div class="flex min-h-full items-center justify-center">

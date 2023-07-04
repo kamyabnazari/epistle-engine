@@ -1,54 +1,128 @@
-<script>
+<script lang="ts">
 	import IconClose from '~icons/solar/alt-arrow-left-bold';
-
+	import { onMount } from 'svelte';
 	// @ts-ignore
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
-	import data from './stats-all-docs-topics-data'; // or pass data to component as prop
+	import { currentUser, pb } from '$lib/pocketbase';
+	import type { Record } from 'pocketbase';
 
-	const width = 700; //the margin top, bottom, left, right margin offset relative to the radius
-	const padding = 3; // the all padding all around each circle, in pixels
-	const margin = 1; // the all margin all around, in pixels
-	const textColor = 'black'; //the color of the text
-	const fill = '#ccc'; // a static fill color, if no group channel is specified
-	const fillOpacity = 0.9; // the fill opacity of the bubbles
-	const strokeColor = 'none'; // a static stroke around the bubbles
-	const strokeWidth = 1; // the stroke width around the bubbles, if any
-	const strokeOpacity = 1; // the stroke opacity around the bubbles, if any
-	const height = width; // the outer height of the chart, in pixels
-	const marginLeft = margin; // the left margin, in pixels
-	const marginRight = margin; // the right margin, in pixels
-	const marginTop = margin; // the top margin, in pixels
-	const marginBottom = margin; // the bottom margin, in pixels
-	
-	// Compute the values.
-	const dVals = data.map((el) => el);
-	const vVals = data.map((el) => el.value);
-	const gVals = data.map((el) => el.id.split('.')[1]);
-	const iVals = range(vVals.length).filter((i) => vVals[i] > 0);
+	let data: any[] = [];
+	let documentList: Record[] = [];
+	let root: { leaves: () => any };
+	let isLoading = true;
 
-	let groups = iVals.map((i) => gVals[i]);
-	groups = new InternSet(groups);
+	let width: number;
+	let padding;
+	let margin;
+	let textColor: string;
+	let fill: string | null | undefined;
+	let fillOpacity: number;
+	let strokeColor: string;
+	let strokeWidth: number;
+	let strokeOpacity: number;
+	let height: number;
+	let marginLeft: number;
+	let marginRight;
+	let marginTop: number;
+	let marginBottom;
 
-	const colorScale = scaleOrdinal(groups, schemeTableau10);
+	let dVals;
+	let vVals: string | any[];
+	let gVals: string[];
+	let iVals: any[];
 
-	// // Compute labels.
-	const lVals = data.map((el) =>
-		[
-			// @ts-ignore
-			...el.id
-				.split('.')
-				.pop()
-				.split(/(?=[A-Z][a-z])/g),
-			el.value.toLocaleString('en')
-		].join('\n')
-	);
-	const tVals = data.map((el) => `${el.id}\n${el.value.toLocaleString('en')}`);
+	let colorScale: (arg0: string) => string | null | undefined;
 
-	const uid = `O-${Math.random().toString(16).slice(2)}`;
+	let lVals: { [x: string]: any };
+	let tVals: any[];
 
-	const root = pack()
-		.size([width - marginLeft - marginRight, height - marginTop - marginBottom])
-		.padding(padding)(hierarchy({ children: iVals }).sum((i) => vVals[i]));
+	let uid: any;
+
+	let groups;
+
+	onMount(async () => {
+		isLoading = true;
+		await fetchDocuments();
+	});
+
+	async function fetchDocuments() {
+		try {
+			const response = await pb.collection('documents').getFullList({
+				sort: '-created',
+				filter: `owner='${$currentUser?.id}'`
+			});
+			documentList = response || [];
+
+			const topicCounts: { [key: string]: number } = {}; // New map object to hold topic counts
+
+			documentList.forEach((document) => {
+				if (document.classified_topic in topicCounts) {
+					topicCounts[document.classified_topic]++;
+				} else {
+					topicCounts[document.classified_topic] = 1;
+				}
+			});
+
+			// Convert the topicCounts object to the required format for data
+			for (const topic in topicCounts) {
+				data.push({
+					id: topic,
+					value: topicCounts[topic]
+				});
+			}
+
+			renderChart();
+		} catch (error) {
+			console.error('Fetch error:', error);
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	function renderChart() {
+		width = 700;
+		padding = 3;
+		margin = 1;
+		textColor = 'black';
+		fill = '#ccc';
+		fillOpacity = 0.9;
+		strokeColor = 'none';
+		strokeWidth = 1;
+		strokeOpacity = 1;
+		height = width;
+		marginLeft = margin;
+		marginRight = margin;
+		marginTop = margin;
+		marginBottom = margin;
+		dVals = data.map((el: any) => el);
+		vVals = data.map((el: { value: any }) => el.value);
+		gVals = data.map((el: { id: string }) => el.id.split('.')[1]);
+		iVals = range(vVals.length).filter((i) => vVals[i]);
+
+		groups = iVals.map((i) => gVals[i]);
+		groups = new InternSet(groups);
+
+		colorScale = scaleOrdinal()
+			.domain(range(data.length)) // Use the index as domain
+			.range(schemeTableau10); // Use your color scheme
+
+		lVals = data.map((el) =>
+			[
+				...el.id
+					.split('.')
+					.pop()
+					.split(/(?=[A-Z][a-z])/g),
+				el.value.toLocaleString('en')
+			].join('\n')
+		);
+		tVals = data.map((el) => `${el.id}\n${el.value.toLocaleString('en')}`);
+
+		uid = `O-${Math.random().toString(16).slice(2)}`;
+
+		root = pack()
+			.size([width - marginLeft - marginRight, height - marginTop - marginBottom])
+			.padding(padding)(hierarchy({ children: iVals }).sum((i) => vVals[i]));
+	}
 </script>
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
@@ -62,48 +136,59 @@
 		</div>
 		<div class="self-center">
 			<h1 class="mb-8 text-2xl font-bold md:text-3xl">Visualizations</h1>
+			<h2 class="mb-8 text-lg font-bold md:text-2xl">All you Document Topics</h2>
 		</div>
 		<div class="flex flex-row justify-center">
 			<div class="tabs tabs-boxed mb-4">
-				<a href="/dashboard/stats/all-docs-chunks" class="tab tab-lg">All</a>
 				<a href="/dashboard/stats/all-docs-topics" class="tab tab-lg tab-active">Document Topics</a>
 				<a href="/dashboard/stats/all-chunks-topics" class="tab tab-lg">Embeddings Topics</a>
 			</div>
 		</div>
-		<div class="flex min-h-full items-center justify-center overflow-auto rounded-xl border-2">
-			<svg {width} {height} viewBox="{-marginLeft} {-marginTop} {width} {height}" fill={textColor}>
-				{#each root.leaves() as leaf, i}
-					<g class="node" transform="translate({leaf.x},{leaf.y})">
-						<circle
-							id="node-{i}"
-							stroke={strokeColor}
-							stroke-width={strokeWidth}
-							stroke-opacity={strokeOpacity}
-							fill={gVals ? colorScale(gVals[leaf.data]) : fill == null ? 'none' : fill}
-							fill-opacity={fillOpacity}
-							r={leaf.r}
-						>
-							<title>{tVals[i]}</title>
-						</circle>
-						<clipPath id={`${uid}-clip-${leaf.data}`}>
-							<circle r={leaf.r} />
-						</clipPath>
-						<text clip-path={`url(${new URL(`#${uid}-clip-${leaf.data}`, location)})`}>
-							{#each `${lVals[leaf.data]}`.split(/\n/g) as subtext, j}
-								<tspan
-									x="0"
-									y={`${j - `${lVals[leaf.data]}`.split(/\n/g).length / 2 + 0.85}em`}
-									fill-opacity={j === `${lVals[leaf.data]}`.split(/\n/g).length - 1 ? 0.7 : null}
-									font-size={leaf.r * 0.3}
-								>
-									{subtext}
-								</tspan>
-							{/each}
-						</text>
-					</g>
-				{/each}
-			</svg>
-		</div>
+		{#if isLoading}
+			<div class="flex min-h-full items-center justify-center">
+				<span class="loading loading-bars loading-lg" />
+			</div>
+		{:else}
+			<div class="flex min-h-full items-center justify-center overflow-auto rounded-lg border-2">
+				<svg
+					{width}
+					{height}
+					viewBox="{-marginLeft} {-marginTop} {width} {height}"
+					fill={textColor}
+				>
+					{#each root.leaves() as leaf, i}
+						<g class="node" transform="translate({leaf.x},{leaf.y})">
+							<circle
+								id="node-{i}"
+								stroke={strokeColor}
+								stroke-width={strokeWidth}
+								stroke-opacity={strokeOpacity}
+								fill={colorScale(i)}
+								fill-opacity={fillOpacity}
+								r={leaf.r}
+							>
+								<title>{tVals[i]}</title>
+							</circle>
+							<clipPath id={`${uid}-clip-${leaf.data}`}>
+								<circle r={leaf.r} />
+							</clipPath>
+							<text clip-path={`url(#${uid}-clip-${leaf.data})`}>
+								{#each `${lVals[leaf.data]}`.split(/\n/g) as subtext, j}
+									<tspan
+										x="0"
+										y={`${j - `${lVals[leaf.data]}`.split(/\n/g).length / 2 + 0.85}em`}
+										fill-opacity={j === `${lVals[leaf.data]}`.split(/\n/g).length - 1 ? 0.7 : null}
+										font-size={leaf.r * 0.3}
+									>
+										{subtext}
+									</tspan>
+								{/each}
+							</text>
+						</g>
+					{/each}
+				</svg>
+			</div>
+		{/if}
 	</div>
 </div>
 
