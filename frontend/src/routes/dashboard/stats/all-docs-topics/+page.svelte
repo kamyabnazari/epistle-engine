@@ -136,6 +136,7 @@
 		</div>
 		<div class="self-center">
 			<h1 class="mb-8 text-2xl font-bold md:text-3xl">Visualizations</h1>
+			<h2 class="mb-8 text-lg font-bold md:text-2xl">All you Document Topics</h2>
 		</div>
 		<div class="flex flex-row justify-center">
 			<div class="tabs tabs-boxed mb-4">

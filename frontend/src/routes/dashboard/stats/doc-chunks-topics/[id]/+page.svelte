@@ -65,7 +65,7 @@
 		width = 700;
 		padding = 3;
 		margin = 1;
-		textColor = 'white';
+		textColor = 'black';
 		fill = '#ccc';
 		fillOpacity = 0.9;
 		strokeColor = 'none';
