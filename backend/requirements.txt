@@ -13,3 +13,4 @@ pdfplumber
 qdrant-client
 retry
 tiktoken
+bertopic

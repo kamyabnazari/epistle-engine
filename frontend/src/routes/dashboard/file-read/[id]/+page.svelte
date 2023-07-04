@@ -20,7 +20,7 @@
 	let messages = writable([]);
 	let message: string = '';
 	let loading = false;
-	let chatContainer;
+	let chatContainer: HTMLDivElement;
 
 	onMount(async () => {
 		documentID = $page.params.id;
@@ -92,7 +92,7 @@
 	}
 
 	let messagesArray = [];
-	let messagesArrayString;
+	let messagesArrayString: string;
 	messages.subscribe((value) => {
 		messagesArray = value;
 		messagesArrayString = JSON.stringify(value);
