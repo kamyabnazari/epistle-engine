@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	// @ts-ignore
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
-	import { pb } from '$lib/pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
 
 	let data: any[] = [];
@@ -41,7 +41,26 @@
 
 	onMount(async () => {
 		isLoading = true;
+		await fetchDataFromPocketBase();
 	});
+
+	async function fetchDataFromPocketBase() {
+		try {
+			if ($currentUser) {
+				const response = await pb
+					.collection('documents_stats')
+					.getFirstListItem(`owner='${$currentUser.id}'`);
+				if (response) {
+					data = response.classified_doc_chunks_topics;
+				}
+			}
+			renderChart();
+		} catch (error) {
+			console.error('Fetch error:', error);
+		} finally {
+			//isLoading = false;
+		}
+	}
 
 	function renderChart() {
 		width = 700;
@@ -108,7 +127,7 @@
 		</div>
 		{#if isLoading}
 			<div class="flex min-h-full items-center justify-center">
-				<span class="loading loading-spinner loading-lg" />
+				<span class="loading loading-bars loading-lg" />
 			</div>
 		{:else}
 			<div class="flex min-h-full items-center justify-center overflow-auto rounded-lg border-2">

@@ -33,6 +33,7 @@
 
 	afterUpdate(() => {
 		previousDocumentUrl = generatedDocumentURL;
+		isLoading = false;
 	});
 
 	const loadPage = async (pageNumber: number) => {
@@ -160,7 +161,11 @@
 			><IconDownload style="font-size: x-large;" /></button
 		>
 	</div>
-	<div class="ring-primary relative z-0 ring-2 ring-offset-4">
-		<canvas bind:this={canvas} class="w-full" />
-	</div>
+	{#if isLoading}
+		<div class="flex min-h-full items-center justify-center">
+			<span class="loading loading-bars loading-lg" />
+		</div>
+	{:else}
+		<canvas bind:this={canvas} class="ring-primary w-full rounded-sm ring-2" />
+	{/if}
 </div>

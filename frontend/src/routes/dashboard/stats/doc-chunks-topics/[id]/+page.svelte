@@ -52,7 +52,7 @@
 		try {
 			const response = await pb.collection('documents').getOne(documentID);
 			document = response as Record;
-			data = document.stats_chunk_topics;
+			data = document.classified_doc_chunks_topics;
 			renderChart();
 		} catch (error) {
 			console.error('Fetch error:', error);
@@ -120,7 +120,7 @@
 		</div>
 		{#if isLoading}
 			<div class="flex min-h-full items-center justify-center">
-				<span class="loading loading-spinner loading-lg" />
+				<span class="loading loading-bars loading-lg" />
 			</div>
 		{:else}
 			<div class="flex min-h-full items-center justify-center overflow-auto rounded-lg border-2">

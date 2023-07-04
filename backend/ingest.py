@@ -219,7 +219,7 @@ def create_embeddings_from_pdf_file(file_path: str, documentId: str):
     
     # Step 2.5: Save the topic statistics to PocketBase
     data = {
-        "stats_chunk_topics": json.dumps(topic_counts)
+        "classified_doc_chunks_topics": json.dumps(topic_counts)
     }
     pocketbase_client.collection('documents').update(documentId, data)
     
