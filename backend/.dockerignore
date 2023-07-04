@@ -2,11 +2,13 @@
 .dockerignore
 Dockerfile
 .env
+.git
 
 # Ignore Python build / cache files
 *.pyc
 *.pyo
 *.pyd
+*.cache
 __pycache__/
 *.py[co]
 *.egg-info/

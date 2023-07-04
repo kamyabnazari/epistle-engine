@@ -13,8 +13,8 @@ ADD . /app
 # Install python dependencies
 RUN pip install -r requirements.txt --no-cache-dir
 
-# Download transformers model
-RUN python -c "from transformers import AutoModel; AutoModel.from_pretrained('distilbert-base-uncased')"
+# Make sure our start script is executable
+RUN chmod +x /app/start.sh
 
 EXPOSE 5003
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5003"]
+CMD ["./start.sh"]
