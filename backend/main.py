@@ -1,4 +1,3 @@
-import asyncio
 import subprocess
 import pdfkit
 import io
@@ -60,13 +59,6 @@ def create_pocketbase_client():
     # If the above code executes successfully, return the PocketBase client
     return pocketbase_client
 
-# Function to send a ping request every 10 seconds
-async def ping_every_10_seconds():
-    for _ in range(10):
-        response = requests.get(frontend_public_url)
-        print("Ping response: ", response.status_code)
-        await asyncio.sleep(10)
-
 app = FastAPI()
 
 app.add_middleware(
@@ -127,9 +119,7 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     return {"message": answer, "sender": "Epistle Engine"}
 
 @app.post("/api/documents/{document_id}/document_post_process/{user_id}")
-async def read_api_documents_document_post_process(document_id: str, user_id: str):
-    asyncio.create_task(ping_every_10_seconds())  # Start the ping task
-    
+async def read_api_documents_document_post_process(document_id: str, user_id: str):    
     # Create PocketBase client with retries
     pocketbase_client = create_pocketbase_client()
     
@@ -159,8 +149,6 @@ async def read_api_documents_document_post_process(document_id: str, user_id: st
 
 @app.post("/api/documents/create/{user_id}")
 async def read_api_document_create(user_id: str, request: Request):
-    asyncio.create_task(ping_every_10_seconds())  # Start the ping task
-
     # Create PocketBase client with retries
     pocketbase_client = create_pocketbase_client()
     

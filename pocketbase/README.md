@@ -14,6 +14,8 @@ docker-compose up
 
 Navigate to http://localhost:8090/_/ or the Deployed URL and create an admin user if not already created.
 
+Also import pb_schema.json in the admin settings!
+
 It should match your backend admin user credentials in your .env file.
 
 ```bash
