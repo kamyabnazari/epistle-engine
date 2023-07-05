@@ -4,8 +4,8 @@
 			<h1 class="text-4xl font-bold md:text-5xl">Contact</h1>
 			<p class="py-6 text-justify text-base">
 				We believe in the power of open communication, and your input is incredibly valuable to us.
-				If you have any queries, suggestions, or feedback about our application and ChatGPT plugin,
-				we would love to hear from you.
+				If you have any queries, suggestions, or feedback about our application, we would love to
+				hear from you.
 			</p>
 			<p class="py-6 text-justify text-base">Please reach us at</p>
 			<p class="py-6 text-justify text-base">
