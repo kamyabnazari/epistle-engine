@@ -160,9 +160,9 @@ def text_to_docs(text: List[str], metadata: Dict[str, str]) -> List[Document]:
     all_chunks = []
     for page_num, page in text:
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
+            chunk_size=3500,
             separators=["\n\n", "\n", ".", "!", "?", ",", " ", ""],
-            chunk_overlap=100,
+            chunk_overlap=500,
         )
         chunks = text_splitter.split_text(page)
         all_chunks.extend([(page_num, i, chunk) for i, chunk in enumerate(chunks)])
