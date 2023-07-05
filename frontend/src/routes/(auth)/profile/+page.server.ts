@@ -41,6 +41,7 @@ export const actions: Actions = {
 				await axios({
 					url: `${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/delete_vector_file`,
 					method: 'post',
+					timeout: 500000,
 					headers: { 'Content-Type': 'application/json' },
 					httpAgent: new http.Agent({ family: 4 }), // Force IPv4
 					httpsAgent: new https.Agent({ family: 4 }) // Force IPv4

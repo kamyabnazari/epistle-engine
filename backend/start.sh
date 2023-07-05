@@ -5,4 +5,4 @@
 python -c "from transformers import AutoModel; AutoModel.from_pretrained('distilbert-base-uncased')"
 
 # Start the application
-uvicorn main:app --host 0.0.0.0 --port 5003
+uvicorn main:app --host 0.0.0.0 --port 5003 --timeout-keep-alive 360

@@ -40,10 +40,10 @@ export const actions: Actions = {
 		}
 
 		try {
-
 			const response = await axios({
 				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentId}/send_new_message/${locals.user.id}`,
 				method: 'post',
+				timeout: 500000,
 				headers: { 'Content-Type': 'application/json' },
 				data: {
 					message: messageRequested,

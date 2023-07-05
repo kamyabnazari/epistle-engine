@@ -20,6 +20,7 @@ export const actions: Actions = {
 			await axios({
 				url: `${env.PUBLIC_BACKEND_URL}/api/documents/create/${locals.user.id}`,
 				method: 'post',
+				timeout: 500000,
 				headers: { 'Content-Type': 'application/json' },
 				data: {
 					topic: topicRequested,

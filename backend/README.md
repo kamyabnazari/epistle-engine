@@ -23,5 +23,5 @@ To install the required packages for this plugin and run the service locally, ru
 ```bash
 pip install --upgrade -r requirements.txt
 
-uvicorn main:app --reload --host 0.0.0.0 --port 5003
+uvicorn main:app --reload --host 0.0.0.0 --port 5003 --timeout-keep-alive 360
 ```
