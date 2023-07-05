@@ -63,7 +63,7 @@ def create_pocketbase_client():
 # Function to send a ping request every 10 seconds
 async def ping_every_10_seconds():
     for _ in range(10):
-        response = requests.get(pocketbase_url)
+        response = requests.get(frontend_public_url)
         print("Ping response: ", response.status_code)
         await asyncio.sleep(10)
 
