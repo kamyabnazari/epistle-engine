@@ -2,9 +2,6 @@
 
 This is the Repository for the unified services for the Epistle Engine with Github actions and Docker support.
 
-For a live demo visit:
-https://epistleengine.com/
-
 ## Status
 
 [![Test Backend](https://github.com/kamyabnazari/epistle-engine/actions/workflows/test-backend.yml/badge.svg)](https://github.com/kamyabnazari/epistle-engine/actions/workflows/test-backend.yml)
