@@ -1,5 +1,7 @@
 # EE - Epistle Engine
 
+![Banner Image](/readme-screenshot.jpg)
+
 This is the Repository for the unified services for the Epistle Engine with Github actions and Docker support.
 
 ## Status
