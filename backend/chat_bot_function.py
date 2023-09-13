@@ -12,7 +12,7 @@ load_dotenv()
 
 def make_chain(documentId:str):
     model = ChatOpenAI(
-        model_name="gpt-3.5-turbo",
+        model_name="gpt-4",
         temperature="0",
     )
     
