@@ -41,7 +41,7 @@
 		"unplugin-icons": "^0.16.3",
 		"vite": "^4.3.9",
 		"vitest": "^0.32.2",
-		"zod": "^3.21.4"
+		"zod": "^3.22.3"
 	},
 	"type": "module",
 	"dependencies": {
