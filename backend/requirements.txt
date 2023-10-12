@@ -13,3 +13,4 @@ retry
 tiktoken
 transformers
 tensorflow
+prometheus-fastapi-instrumentator

@@ -31,6 +31,9 @@ from ingest import create_embeddings_from_pdf_file
 # Importing chat_bot_function.py 
 from chat_bot_function import chat_bot_funtion
 
+# Observability Tool
+from prometheus_fastapi_instrumentator import Instrumentator
+
 load_dotenv()
 
 from retry import retry
@@ -41,6 +44,7 @@ retry_delay = 2
 
 pocketbase_url = os.getenv("PUBLIC_POCKETBASE_URL")
 frontend_public_url = os.getenv("PUBLIC_FRONTEND_URL")
+prometheus_public_url = os.getenv("PUBLIC_PROMETHEUS_URL")
 apikey = os.getenv("OPENAI_API_KEY")
 
 # Empty PocketBase client
@@ -63,7 +67,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[pocketbase_url, frontend_public_url],
+    allow_origins=[pocketbase_url, frontend_public_url, prometheus_public_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -72,6 +76,12 @@ app.add_middleware(
 @app.get("/")
 async def read_root():
     return {"message": "This is the backend for EE Project!"}
+
+instrumentator = Instrumentator().instrument(app)
+
+@app.on_event("startup")
+async def _startup():
+    instrumentator.expose(app)
 
 @app.get("/favicon.ico")
 async def read_favicon():

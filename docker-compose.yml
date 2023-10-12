@@ -28,8 +28,12 @@ services:
       - "6333:6333"
     volumes:
       - ./qdrant/qd_data:/qdrant/storage
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:6333/api/health || exit 1
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  ee-prometheus:
+    image: ee-prometheus
+    container_name: ee-prometheus
+    restart: unless-stopped
+    build:
+      context: ./prometheus
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
