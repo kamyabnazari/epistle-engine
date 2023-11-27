@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ee-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ee-backend
+  template:
+    metadata:
+      labels:
+        app: ee-backend
+    spec:
+      containers:
+        - name: ee-backend
+          image: registry/app:tag
+          ports:
+            - containerPort: 5003
+          envFrom:
+            - configMapRef:
+                name: ee-backend-config
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ee-backend-secrets
+                  key: OPENAI_API_KEY
+            - name: POCKETBASE_ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: ee-backend-secrets
+                  key: POCKETBASE_ADMIN_EMAIL
+            - name: POCKETBASE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ee-backend-secrets
+                  key: POCKETBASE_ADMIN_PASSWORD
+          resources:
+            limits:
+              cpu: 300m
+              memory: 300Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5003
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5003
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3

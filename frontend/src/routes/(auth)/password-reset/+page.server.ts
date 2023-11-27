@@ -4,6 +4,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { resetPasswordSchema } from '$lib/schemas';
 
+import { base } from '$app/paths';
+
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
 		const form = await superValidate(request, resetPasswordSchema);
@@ -18,7 +20,7 @@ export const actions: Actions = {
 			throw err;
 		}
 
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };
 

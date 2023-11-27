@@ -5,6 +5,7 @@ import { env } from '$env/dynamic/public';
 import axios from 'axios';
 import http from 'http';
 import https from 'https';
+import { base } from '$app/paths';
 
 export const actions: Actions = {
 	createDocument: async ({ locals, request }) => {
@@ -26,20 +27,18 @@ export const actions: Actions = {
 					topic: topicRequested,
 					export_option: exportOption
 				},
-				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
-				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
 			});
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong creating your document');
 		}
 
-		throw redirect(303, '/dashboard/file-create/preview');
+		throw redirect(303, `${base}/dashboard/file-create/preview`);
 	}
 };
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };

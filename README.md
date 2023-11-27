@@ -4,10 +4,20 @@
 
 This is the Repository for the unified services for the Epistle Engine with Github actions and Docker support.
 
+## Important!
+
+You should be using the Chrome/Edge Browser for testing and using the application.
+
+Because in the frontend env file: PUBLIC_SECURE=true to test it. Only if you are need to test it on safari change it to false.
+
+Also On the Cluster it is set to TRUE. So you can only test it with Chrome/Edge.
+
+for init-pocketbase.sh to run, you need the file to be in LF line endings, so please do not edit the file or open it. If you have the error: init-pocketbase.sh not found, edit the file to have LF line endings and not CRLF!
+
 ## Status
 
-[![Test Backend](https://github.com/kamyabnazari/epistle-engine/actions/workflows/test-backend.yml/badge.svg)](https://github.com/kamyabnazari/epistle-engine/actions/workflows/test-backend.yml)
-[![Test Frontend](https://github.com/kamyabnazari/epistle-engine/actions/workflows/test-frontend.yml/badge.svg)](https://github.com/kamyabnazari/epistle-engine/actions/workflows/test-frontend.yml)
+Test Backend
+Test Frontend
 
 ## About the Project
 
@@ -65,6 +75,14 @@ Branch Example: `kn-feature-name-example`
 
 - [Qdrant](https://qdrant.io/) [Vector Search Engine]
 
+### Prometheus
+
+- [Prometheus](https://prometheus.io/) [Obeservation Tool]
+
+### Grafana
+
+- [Grafana](https://grafana.com/) [Dashboard Tool]
+
 ## Getting Started
 
 Install all the prerequisites and follow the instructions in the README.md files of the services.
@@ -90,6 +108,14 @@ These all also have to be installed on the system in order to generate PDFs.
 
 Please create the services after another in order and follow the instructions in the README.md files.
 
+When you run them individually you have to use localhost to access and connect them to each other.
+
+Or Use Docker Compose to create all of it and connect them together.
+
+```bash
+docker-compose up --build
+```
+
 Please setup in the following order:
 
 ### 1. Setup [Pocketbase](pocketbase/README.md)
@@ -99,3 +125,7 @@ Please setup in the following order:
 ### 3. Setup [Backend](backend/README.md)
 
 ### 4. Setup [Frontend](frontend/README.md)
+
+### 5. Setup [Prometheus](prometheus/README.md)
+
+### 6. Setup [Grafana](grafana/README.md)

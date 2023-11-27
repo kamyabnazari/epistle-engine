@@ -2,16 +2,38 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { currentUser, pb } from '$lib/pocketbase';
-	import { getImageURL, showPreview } from '$lib/utils';
+	import { showPreview } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	import IconImageEdit from '~icons/solar/gallery-edit-outline';
+
+	import { base } from '$app/paths';
 
 	let loading = false;
 
 	onMount(() => {
 		pb.authStore.loadFromCookie(document.cookie);
 	});
+
+	let imageUrl: any;
+
+	onMount(async () => {
+		setTimeout(async () => {
+			await fetchUserImage();
+		}, 0);
+	});
+
+	async function fetchUserImage() {
+		try {
+			const response = await fetch(`${base}/api/user-image`);
+			if (response.ok) {
+				const blob = await response.blob();
+				imageUrl = URL.createObjectURL(blob);
+			}
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
 
 	const submitAction = () => {
 		loading = true;
@@ -69,11 +91,7 @@
 										>
 											<img
 												src={$currentUser?.avatar
-													? getImageURL(
-															$currentUser?.collectionId,
-															$currentUser?.id,
-															$currentUser?.avatar
-													  )
+													? imageUrl
 													: `https://ui-avatars.com/api/?name=${$currentUser?.name}`}
 												alt="user avatar"
 												id="avatar-preview-profile"
@@ -114,7 +132,7 @@
 										class="input input-bordered w-full"
 										disabled
 									/>
-									<a href="/email-change"><button class="btn btn-link">Change</button></a>
+									<a href="{base}/email-change"><button class="btn btn-link">Change</button></a>
 								</div>
 							</div>
 							<div class="form-control">
@@ -128,12 +146,12 @@
 										class="input input-bordered w-full"
 										disabled
 									/>
-									<a href="/password-reset"><button class="btn btn-link">Change</button></a>
+									<a href="{base}/password-reset"><button class="btn btn-link">Change</button></a>
 								</div>
 							</div>
 							<div class="flex flex-row justify-center pt-8">
 								<div class="flex-auto">
-									<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
+									<a href="{base}/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 								</div>
 								<button class="btn btn-primary" type="submit" disabled={loading}>Save</button>
 							</div>

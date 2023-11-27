@@ -3,6 +3,7 @@
 	import Navbar from '$lib/components/MainNavbar.svelte';
 	import Footer from '$lib/components/MainFooter.svelte';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 </script>
 
 <div class="drawer xl:drawer-open">
@@ -21,14 +22,24 @@
 	<div class="drawer-side z-50">
 		<label for="application-drawer" class="drawer-overlay" />
 		<ul class="menu bg-base-200 text-base-content h-full w-80 gap-2 p-4">
-			<li><a href="/dashboard" class:active={$page.url.pathname === '/dashboard'}>Dashboard</a></li>
 			<li>
-				<a href="/documentation" class:active={$page.url.pathname === '/documentation'}
+				<a href="{base}/dashboard" class:active={$page.url.pathname === `${base}/dashboard`}
+					>Dashboard</a
+				>
+			</li>
+			<li>
+				<a href="{base}/documentation" class:active={$page.url.pathname === `${base}/documentation`}
 					>Documentation</a
 				>
 			</li>
-			<li><a href="/about-us" class:active={$page.url.pathname === '/about-us'}>About us</a></li>
-			<li><a href="/contact" class:active={$page.url.pathname === '/contact'}>Contact</a></li>
+			<li>
+				<a href="{base}/about-us" class:active={$page.url.pathname === `${base}/about-us`}
+					>About us</a
+				>
+			</li>
+			<li>
+				<a href="{base}/contact" class:active={$page.url.pathname === `${base}/contact`}>Contact</a>
+			</li>
 		</ul>
 	</div>
 </div>

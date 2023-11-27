@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ee-qdrant-pv
+  labels:
+    app: ee-qdrant
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/ee-qdrant"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ee-qdrant-pvc
+  labels:
+    app: ee-qdrant
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

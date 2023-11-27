@@ -6,7 +6,8 @@
 	import IconSun from '~icons/solar/sun-2-outline';
 	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { getImageURL } from '$lib/utils';
+
+	import { base } from '$app/paths';
 
 	const theme = writable('lofi');
 
@@ -27,6 +28,26 @@
 		}
 	});
 
+	let imageUrl: any;
+
+	onMount(async () => {
+		setTimeout(async () => {
+			await fetchUserImage();
+		}, 200);
+	});
+
+	async function fetchUserImage() {
+		try {
+			const response = await fetch(`${base}/api/user-image`);
+			if (response.ok) {
+				const blob = await response.blob();
+				imageUrl = URL.createObjectURL(blob);
+			}
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
+
 	onDestroy(() => {
 		theme.set('business'); // Reset the theme to default on component destruction
 	});
@@ -46,11 +67,11 @@
 		</label>
 	</div>
 	<div class="flex-1">
-		<a class="btn-link hidden text-left text-xl font-bold normal-case md:block" href="/"
+		<a class="btn-link hidden text-left text-xl font-bold normal-case md:block" href="{base}/"
 			>Epistle Engine</a
 		>
-		<a class="btn-link md:hidden" href="/">
-			<img class="h-10 rounded-lg" src="/favicon.png" alt="user avatar" />
+		<a class="btn-link md:hidden" href="{base}/">
+			<img class="h-10 rounded-lg" src="{base}/favicon.png" alt="user avatar" />
 		</a>
 	</div>
 	<div class="flex-none">
@@ -63,7 +84,7 @@
 						<div class="ring-primary ring-offset-base-100 w-8 rounded-sm ring-2 ring-offset-2">
 							<img
 								src={$currentUser?.avatar
-									? getImageURL($currentUser?.collectionId, $currentUser?.id, $currentUser?.avatar)
+									? imageUrl
 									: `https://ui-avatars.com/api/?name=${$currentUser?.name}`}
 								alt="user avatar"
 								id="avatar-preview-navbar"
@@ -75,11 +96,11 @@
 						tabindex="0"
 						class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-2 w-52 p-2 shadow-lg"
 					>
-						<li><a href="/profile">Profile</a></li>
+						<li><a href="{base}/profile">Profile</a></li>
 						<li>
 							<form
 								method="POST"
-								action="/logout"
+								action="{base}/logout"
 								use:enhance={() => {
 									return async ({ result }) => {
 										pb.authStore.clear();
@@ -93,8 +114,9 @@
 					</ul>
 				</div>
 			{:else}
-				<a href="/login"><button class="btn btn-ghost">Login</button></a>
-				<a href="/register"><button class="btn btn-ghost hidden md:block">Register</button></a>
+				<a href="{base}/login"><button class="btn btn-ghost">Login</button></a>
+				<a href="{base}/register"><button class="btn btn-ghost hidden md:block">Register</button></a
+				>
 			{/if}
 		{:catch error}
 			<p>Error loading user data: {error.message}</p>

@@ -1,8 +1,8 @@
 import subprocess
+import time
 import pdfkit
 import io
 import os
-from qdrant_client import QdrantClient
 import requests
 
 # Python package for PDF parsing
@@ -19,6 +19,8 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage
 
+from qdrant_client import QdrantClient
+
 from dotenv import load_dotenv
 
 # Importing pocketbase sdk
@@ -34,44 +36,89 @@ from chat_bot_function import chat_bot_funtion
 # Observability Tool
 from prometheus_fastapi_instrumentator import Instrumentator
 
+import logging
+import requests
+from typing import Tuple, Optional
+
 load_dotenv()
 
 from retry import retry
 
 # Define the maximum number of retries and the delay between retries
 max_retries = 5
-retry_delay = 2
+retry_delay = 5
+initial_delay = 5
 
-pocketbase_url = os.getenv("PUBLIC_POCKETBASE_URL")
-frontend_public_url = os.getenv("PUBLIC_FRONTEND_URL")
-prometheus_public_url = os.getenv("PUBLIC_PROMETHEUS_URL")
-apikey = os.getenv("OPENAI_API_KEY")
+pocketbase_public_url = os.getenv("PUBLIC_POCKETBASE_URL", "http://default-pocketbase-url")
+frontend_public_url = os.getenv("PUBLIC_FRONTEND_URL", "http://default-frontend-url")
+prometheus_public_url = os.getenv("PUBLIC_PROMETHEUS_URL", "http://default-prometheus-url")
+qdrant_public_url = os.getenv('PUBLIC_QDRANT_URL', 'http://default-qdrant-url')
+openai_api_key = os.getenv("OPENAI_API_KEY", 'default-openai-api-key')
 
-# Empty PocketBase client
-pocketbase_client = None
-
-# Function to create PocketBase client with retries
-@retry(tries=max_retries, delay=retry_delay)
-def create_pocketbase_client():
-    pocketbase_client = PocketBase(pocketbase_url)
-
-    # Login as admin
-    pocketbase_client.admins.auth_with_password(
-        os.getenv("POCKETBASE_ADMIN_EMAIL"), os.getenv("POCKETBASE_ADMIN_PASSWORD")
-    )
-
-    # If the above code executes successfully, return the PocketBase client
-    return pocketbase_client
+running_tests_str = os.getenv('RUNNING_TESTS', 'false')
+running_tests_bool = running_tests_str.lower() == 'true'
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[pocketbase_url, frontend_public_url, prometheus_public_url],
+    allow_origins=[pocketbase_public_url, frontend_public_url, prometheus_public_url, qdrant_public_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Function to create PocketBase client with retries
+@retry(tries=max_retries, delay=retry_delay)
+def create_pocketbase_client():
+    if running_tests_bool:
+        print("Skipping client creation during tests.")
+        return None
+
+    time.sleep(initial_delay)
+
+    client = PocketBase(pocketbase_public_url)
+
+    # Login as admin
+    client.admins.auth_with_password(
+        os.getenv("POCKETBASE_ADMIN_EMAIL"), os.getenv("POCKETBASE_ADMIN_PASSWORD")
+    )
+
+    # If the above code executes successfully, return the PocketBase client
+    return client
+
+# Function to create Qdrant client with retries
+@retry(tries=max_retries, delay=retry_delay)
+def create_qdrant_client():
+    if running_tests_bool:
+        print("Skipping client creation during tests.")
+        return None
+    
+    # Create Qdrant client with retries
+    client = QdrantClient(url=qdrant_public_url)
+
+    # If the above code executes successfully, return the Qdrant client
+    return client
+
+def create_openai_model():
+    if running_tests_bool:
+        print("Skipping model creation during tests.")
+        return None
+    
+    # Create OpenAI model with retries
+    model = ChatOpenAI(openai_api_key=openai_api_key, model_name = 'gpt-3.5-turbo')
+
+    # If the above code executes successfully, return the Qdrant client
+    return model
+
+# Create PocketBase client with retries
+pocketbase_client = create_pocketbase_client()
+
+# Create Qdrant client with retries
+qdrant_client = create_qdrant_client()
+
+# use the v LLM   
+openai_model = create_openai_model() 
 
 @app.get("/")
 async def read_root():
@@ -87,22 +134,17 @@ async def _startup():
 async def read_favicon():
     return FileResponse("favicon.ico", media_type="image/vnd.microsoft.icon")
 
+@app.get("/health")
+async def health_check():
+    return {"status": "OK"}
+
 @app.get("/api")
 async def read_api_root():
     return {"message": "Welcome to the EE API!"}
 
 @app.post("/api/documents/{document_id}/delete_vector_file")
-async def delete_api_vector_file(document_id: str):
-    
-    url = os.getenv('PUBLIC_QDRANT_URL')
-    api_key = os.getenv('QDRANT__SERVICE_API_KEY')   
-    
-    if api_key:
-        client = QdrantClient(url=url, prefer_grpc=True, api_key=api_key)
-    else:
-        client = QdrantClient(url=url)
-    
-    client.delete_collection(document_id)
+async def delete_api_vector_file(document_id: str):        
+    qdrant_client.delete_collection(document_id)
     return {"message": "Vector file deleted!"}
 
 @app.post("/api/documents/{document_id}/send_new_message/{user_id}")
@@ -114,14 +156,14 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
     message = body.get('message')
     history = body.get('history')
     chat_history = []
-    #loop through the chat history to create a new chat history array for the chat_bot_function 
+    # loop through the chat history to create a new chat history array for the chat_bot_function 
     for el in history:
         if(el.get('sender') == "person"):
             chat_history.append(HumanMessage(content=el.get('message')))
         else:
             chat_history.append(AIMessage(content=el.get('message')))
 
-    response, new_chat_history = chat_bot_funtion(message, chat_history=chat_history, documentId=document_id)
+    response, new_chat_history = chat_bot_funtion(message, chat_history=chat_history, documentId=document_id, qdrant_client=qdrant_client)
 
     answer = response["answer"]
     source = response["source_documents"]
@@ -130,21 +172,18 @@ async def read_api_documents_send_new_message(document_id: str, user_id: str, re
 
 @app.post("/api/documents/{document_id}/document_post_process/{user_id}")
 async def read_api_documents_document_post_process(document_id: str, user_id: str):    
-    # Create PocketBase client with retries
-    pocketbase_client = create_pocketbase_client()
-    
-    content, recordId = get_file_from_pb(document_id, user_id)
+    content, recordId = get_file_from_pb(document_id, user_id, pocketbase_public_url, pocketbase_client)
 
     # Write content to a file
     pdf_file_name = "created-document.pdf"
     with open(pdf_file_name, "wb") as file:
         file.write(content)
-        file.close
+        file.close()
 
     # Generate a PDF file
     current_dir = os.getcwd()
     pdf_path = os.path.join(current_dir, pdf_file_name)
-    create_embeddings_from_pdf_file(pdf_path, document_id)
+    create_embeddings_from_pdf_file(pdf_path, document_id, pocketbase_client, openai_model)
     os.remove(pdf_path)
 
     total_pages = get_pdf_page_count(io.BytesIO(content))
@@ -155,16 +194,9 @@ async def read_api_documents_document_post_process(document_id: str, user_id: st
         "word_count": total_words
     }
     pocketbase_client.collection('documents').update(recordId, data)
-   
 
 @app.post("/api/documents/create/{user_id}")
-async def read_api_document_create(user_id: str, request: Request):
-    # Create PocketBase client with retries
-    pocketbase_client = create_pocketbase_client()
-    
-    # use the gpt-4 LLM   
-    openai_model = ChatOpenAI(openai_api_key=apikey, model_name = 'gpt-4') 
-    
+async def read_api_document_create(user_id: str, request: Request):     
     # Accessing Request body and converting it to a dictionary
     body = await request.json()
     
@@ -180,7 +212,6 @@ async def read_api_document_create(user_id: str, request: Request):
         prompt = latex_prompt,
         llm = openai_model  
         )
-        #TODO scan text to classify topic of the document
         # Generate LaTeX content using this prompt
         latex_content = llm_chain.run(latex_prompt_value)
         latex_content = "\\documentclass{article}\n\\begin{document}\n" + latex_content + "\n\\end{document}"
@@ -225,7 +256,7 @@ async def read_api_document_create(user_id: str, request: Request):
         # Generate a Embeddings from the PDF file
         current_dir = os.getcwd()
         pdf_path = os.path.join(current_dir, pdf_file_name)
-        create_embeddings_from_pdf_file(pdf_path, documentId)
+        create_embeddings_from_pdf_file(pdf_path, documentId, pocketbase_client, openai_model)
         
         # Delete the generated LaTeX and PDF files
         os.remove(pdf_file_path)
@@ -283,7 +314,7 @@ async def read_api_document_create(user_id: str, request: Request):
         # Generate a Embeddings from the PDF file
         current_dir = os.getcwd()
         pdf_path = os.path.join(current_dir, pdf_file_name)
-        create_embeddings_from_pdf_file(pdf_path, documentId)
+        create_embeddings_from_pdf_file(pdf_path, documentId, pocketbase_client, openai_model)
         
         # Delete the generated HTML and PDF files
         os.remove(html_file_name)
@@ -317,11 +348,12 @@ def get_pdf_word_count(file_content):
     
     return total_words
 
-def get_file_from_pb(document_id: str, user_id: str):
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def get_file_from_pb(document_id: str, user_id: str, pocketbase_public_url: str, pocketbase_client: PocketBase) -> Optional[Tuple[bytes, str]]:
     try:
-        # Create PocketBase client with retries
-        pocketbase_client = create_pocketbase_client()
-    
         # Fetching document from the database by document ID
         response = pocketbase_client.collection("documents").get_one(document_id)
         response_dict = dict(response.__dict__)  # Convert Record object to a dictionary
@@ -341,7 +373,7 @@ def get_file_from_pb(document_id: str, user_id: str):
             size = '0x0'
 
         if owner == user_id:
-            url = f"{pocketbase_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
+            url = f"{pocketbase_public_url}/api/files/{collectionId}/{recordId}/{fileName}?thumb={size}"
             response = requests.get(url)
             response.raise_for_status()
             return response.content, recordId 

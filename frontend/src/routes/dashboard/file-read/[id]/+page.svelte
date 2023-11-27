@@ -1,7 +1,6 @@
 <script lang="ts">
 	import PdfViewer from '$lib/components/PDFViewer.svelte';
-	import { pb, currentUser } from '$lib/pocketbase';
-	import { getDocumentURL, getImageURL } from '$lib/utils';
+	import { currentUser } from '$lib/pocketbase';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
 	import { applyAction, enhance } from '$app/forms';
@@ -13,7 +12,8 @@
 	import { page } from '$app/stores';
 	import { tick } from 'svelte';
 
-	let recentlyAddedDocumentID: string;
+	import { base } from '$app/paths';
+
 	let generatedDocumentURL: string | null = null;
 	let documentID: string;
 	let document: Record;
@@ -22,25 +22,42 @@
 	let loading = false;
 	let chatContainer: HTMLDivElement;
 
+	let imageUrl: any;
+
 	onMount(async () => {
 		documentID = $page.params.id;
 		await fetchOpenedDocument();
+		setTimeout(async () => {
+			await fetchUserImage();
+		}, 200);
 		scrollToBottom();
 	});
 
+	async function fetchUserImage() {
+		try {
+			const response = await fetch(`${base}/api/user-image`);
+			if (response.ok) {
+				const blob = await response.blob();
+				imageUrl = URL.createObjectURL(blob);
+			}
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	}
+
 	async function fetchOpenedDocument() {
 		try {
-			document = await pb.collection('documents').getOne(documentID);
-			recentlyAddedDocumentID = document?.id;
+			const responseDocument = await fetch(`${base}/api/documents/${documentID}`);
+			document = await responseDocument.json();
 
 			// use set method to update the messages store
 			messages.set(document?.chat_history || []);
 
-			generatedDocumentURL = await getDocumentURL(
-				document?.collectionId,
-				document?.id,
-				document?.document
-			);
+			const responseDownload = await fetch(`${base}/api/documents/${documentID}/download`);
+
+			const blob = await responseDownload.blob();
+			const objectURL = window.URL.createObjectURL(blob);
+			generatedDocumentURL = objectURL;
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
@@ -100,7 +117,7 @@
 </script>
 
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8">
-	<a href="/dashboard">
+	<a href="{base}/dashboard">
 		<button class="btn btn-link text-primary"><IconClose style="font-size: x-large;" />close</button
 		>
 	</a>
@@ -128,17 +145,13 @@
 									{#if message.sender === $currentUser?.id}
 										<img
 											src={$currentUser?.avatar
-												? getImageURL(
-														$currentUser?.collectionId,
-														$currentUser?.id,
-														$currentUser?.avatar
-												  )
+												? imageUrl
 												: `https://ui-avatars.com/api/?name=${$currentUser?.name}`}
 											alt="user avatar"
 											id="avatar-preview-navbar"
 										/>
 									{:else}
-										<img src="/favicon.png" alt="ee avatar" />
+										<img src="{base}/favicon.png" alt="ee avatar" />
 									{/if}
 								</div>
 							</div>

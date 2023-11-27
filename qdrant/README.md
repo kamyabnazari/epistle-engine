@@ -6,7 +6,7 @@
 
 Use docker compose to create Qdrant Service:
 
-```bash
+```
 docker-compose up
 ```
 

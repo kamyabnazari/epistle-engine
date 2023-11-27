@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: ee-prometheus-k8s
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: http://ee-prometheus.example-namespace-name:9090/
+    isDefault: true
+    editable: true
+  - name: ee-prometheus-local
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: http://ee-prometheus:9090/
+    isDefault: false
+    editable: true

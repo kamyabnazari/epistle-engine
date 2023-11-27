@@ -2,6 +2,8 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 
+	import { base } from '$app/paths';
+
 	let loading = false;
 
 	const submitUploadDocument = () => {
@@ -61,7 +63,7 @@
 					</div>
 					<div class="flex flex-row justify-center">
 						<div class="flex-auto">
-							<a href="/dashboard"><button class="btn btn-ghost">Cancel</button></a>
+							<a href="{base}/dashboard"><button class="btn btn-ghost">Cancel</button></a>
 						</div>
 						<button class="btn btn-primary" class:loading type="submit" disabled={loading}
 							>Upload</button

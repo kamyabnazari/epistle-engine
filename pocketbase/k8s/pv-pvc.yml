@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ee-pocketbase-pv
+  labels:
+    app: ee-pocketbase
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/ee-pocketbase"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ee-pocketbase-pvc
+  labels:
+    app: ee-pocketbase
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

@@ -8,6 +8,8 @@
 
 	import IconInfo from '~icons/solar/info-square-outline';
 
+	import { base } from '$app/paths';
+
 	export let data: PageData;
 
 	onMount(() => {
@@ -63,7 +65,9 @@
 								bind:value={$form.password}
 								{...$constraints.password}
 							/>
-							<a href="/password-reset" class="label-text-alt link link-hover">Forgot password?</a>
+							<a href="{base}/password-reset" class="label-text-alt link link-hover"
+								>Forgot password?</a
+							>
 							<div class="form-control mt-6">
 								<button class="btn btn-primary">Login</button>
 							</div>

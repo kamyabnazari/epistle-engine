@@ -6,6 +6,7 @@ import { env } from '$env/dynamic/public';
 import type { Record } from 'pocketbase';
 import http from 'http';
 import https from 'https';
+import { base } from '$app/paths';
 
 export const actions: Actions = {
 	updateProfile: async ({ locals, request }) => {
@@ -26,7 +27,7 @@ export const actions: Actions = {
 			throw error(400, 'Something went wrong updating your profile');
 		}
 
-		throw redirect(303, '/dashboard');
+		throw redirect(303, `${base}/dashboard`);
 	},
 	deleteAccount: async ({ locals }) => {
 		try {
@@ -55,12 +56,12 @@ export const actions: Actions = {
 			throw error(400, 'Something went wrong deleting your account');
 		}
 
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };

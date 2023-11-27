@@ -2,29 +2,32 @@
 	import IconDownload from '~icons/solar/download-square-outline';
 	import IconBin from '~icons/solar/trash-bin-trash-outline';
 	import IconRead from '~icons/solar/chat-unread-outline';
-	import IconStats from '~icons/solar/graph-up-outline';
-	import { currentUser, pb } from '$lib/pocketbase';
+	import { pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
 	import { onMount } from 'svelte';
-	import { getDocumentURL } from '$lib/utils';
-	import { env } from '$env/dynamic/public';
-	import axios from 'axios';
 	import { documentStatus } from '$lib/documentStore';
+	import { base } from '$app/paths';
 
 	onMount(async () => {
 		pb.authStore.loadFromCookie(document.cookie);
-		await fetchDocuments();
+		setTimeout(async () => {
+			await fetchDocuments();
+		}, 0);
 	});
 
 	let documentList: Record[] = [];
 
 	async function fetchDocuments() {
 		try {
-			const response = await pb.collection('documents').getFullList({
-				sort: '-created',
-				filter: `owner='${$currentUser?.id}'`
+			const response = await fetch(`${base}/api/documents`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
 			});
-			documentList = response || [];
+			if (response.ok) {
+				documentList = await response.json();
+			} else {
+				console.error('Failed to fetch documents.');
+			}
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
@@ -32,24 +35,21 @@
 
 	async function deleteDocument(documentID: string) {
 		try {
-			await pb.collection('documents').delete(documentID);
-			await axios({
-				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${documentID}/delete_vector_file`,
-				method: 'post',
-				timeout: 500000,
-				headers: { 'Content-Type': 'application/json' }
+			const response = await fetch(`${base}/api/documents/${documentID}/delete`, {
+				method: 'DELETE'
 			});
-			documentList = documentList.filter((document) => document.id !== documentID);
-			documentStatus.set(true);
+			if (response) {
+				documentList = documentList.filter((document) => document.id !== documentID);
+				documentStatus.set(true);
+			}
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
 	}
 
 	async function downloadDocument(document: Record) {
-		const documentURL = getDocumentURL(document?.collectionId, document?.id, document?.document);
+		const response = await fetch(`${base}/api/documents/${document.id}/download`);
 
-		const response = await fetch(documentURL);
 		const blob = await response.blob();
 		const objectURL = window.URL.createObjectURL(blob);
 
@@ -102,14 +102,9 @@
 					<td>{document.created.slice(0, 19)}</td>
 					<th
 						><div class="flex flex-row gap-4">
-							<a href={`/dashboard/file-read/${document.id}`}
+							<a href={`${base}/dashboard/file-read/${document.id}`}
 								><button class="btn btn-square btn-primary"
 									><IconRead style="font-size: x-large;" /></button
-								></a
-							>
-							<a href={`/dashboard/stats/doc-chunks-topics/${document.id}`}
-								><button class="btn btn-square btn-success"
-									><IconStats style="font-size: x-large;" /></button
 								></a
 							>
 							<button class="btn btn-square btn-info" on:click={() => downloadDocument(document)}

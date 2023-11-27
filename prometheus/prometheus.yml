@@ -2,6 +2,10 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'backend_application'
+  - job_name: "backend_service"
     static_configs:
-      - targets: ['host.docker.internal:5003']
+      - targets: ["ee-backend:5003"]
+  - job_name: "frontend_service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["ee-frontend:3000"]

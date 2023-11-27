@@ -7,22 +7,25 @@
 	import type { Record } from 'pocketbase';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { documentStatus } from '$lib/documentStore';
+	import { base } from '$app/paths';
 
 	let stats: Record;
 
 	onMount(async () => {
 		pb.authStore.loadFromCookie(document.cookie);
-		await fetchStats();
+		setTimeout(async () => {
+			await fetchStats();
+		}, 100);
 	});
 
 	async function fetchStats() {
 		try {
 			if ($currentUser) {
-				const response = await pb
-					.collection('documents_stats')
-					.getFirstListItem(`owner='${$currentUser.id}'`);
-				if (response) {
-					stats = response as Record;
+				const response = await fetch(`${base}/api/stats_bar`);
+				if (response.ok) {
+					stats = await response.json();
+				} else {
+					throw new Error('Failed to fetch stats');
 				}
 			}
 		} catch (error) {

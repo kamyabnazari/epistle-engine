@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PdfViewer from '$lib/components/PDFViewer.svelte';
-	import { currentUser, pb } from '$lib/pocketbase';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
-	import { getDocumentURL } from '$lib/utils';
+	import { base } from '$app/paths';
 
 	let recentlyAddedDocumentID: string;
 	let documentList: Record[] = [];
@@ -12,32 +11,35 @@
 	let generatedDocumentURL: string | null = null;
 
 	function goBack() {
-		goto('/dashboard/file-upload');
+		goto(`${base}/dashboard/file-upload`);
 	}
 
 	function goForward() {
-		goto(`/dashboard/file-upload/done/${recentlyAddedDocumentID}`);
+		goto(`${base}/dashboard/file-upload/done/${recentlyAddedDocumentID}`);
 	}
 
 	onMount(async () => {
-		await fetchRecentlyAddedDocument();
+		setTimeout(async () => {
+			await fetchRecentlyAddedDocument();
+		}, 1000);
 	});
 
 	async function fetchRecentlyAddedDocument() {
 		try {
-			const response = await pb.collection('documents').getList(1, 1, {
-				sort: '-created',
-				filter: `owner='${$currentUser?.id}'`
-			});
-			documentList = response.items || [];
-			document = documentList[0];
-			recentlyAddedDocumentID = documentList[0]?.id;
+			const responseDocumentID = await fetch(`${base}/api/documents/recent_document_id`);
+			const data = await responseDocumentID.json();
+			recentlyAddedDocumentID = typeof data === 'string' ? data : data.id;
 
-			generatedDocumentURL = await getDocumentURL(
-				documentList[0]?.collectionId,
-				documentList[0]?.id,
-				documentList[0]?.document
+			const responseDocument = await fetch(`${base}/api/documents/${recentlyAddedDocumentID}`);
+			document = await responseDocument.json();
+
+			const responseDownload = await fetch(
+				`${base}/api/documents/${recentlyAddedDocumentID}/download`
 			);
+
+			const blob = await responseDownload.blob();
+			const objectURL = window.URL.createObjectURL(blob);
+			generatedDocumentURL = objectURL;
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}
@@ -45,9 +47,13 @@
 
 	async function deleteDocument() {
 		try {
-			await pb.collection('documents').delete(recentlyAddedDocumentID);
-			documentList = documentList.filter((document) => document.id !== recentlyAddedDocumentID);
-			goBack();
+			const response = await fetch(`${base}/api/documents/${recentlyAddedDocumentID}/delete`, {
+				method: 'DELETE'
+			});
+			if (response) {
+				documentList = documentList.filter((document) => document.id !== recentlyAddedDocumentID);
+				goBack();
+			}
 		} catch (error) {
 			console.error('Fetch error:', error);
 		}

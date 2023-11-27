@@ -1,0 +1,267 @@
+stages:
+  - test
+  - build
+  - scan
+  - push
+  - deploy
+
+variables:
+  CONTAINER_REGISTRY: "registry.digitalocean.com/htw"
+
+.build_template: &build_definition
+  stage: build
+  tags:
+    - ubuntu-runner
+  script:
+    - cd $CI_PROJECT_DIR/$SERVICE_PATH
+    - docker build -t $SERVICE_NAME:$CI_PIPELINE_ID .
+
+test_backend:
+  stage: test
+  variables:
+    SERVICE_PATH: "./backend"
+    RUNNING_TESTS: "true"
+  tags:
+    - ubuntu-runner
+  script:
+    - export RUNNING_TESTS=${RUNNING_TESTS}
+    - python3.10 -m pip --version || (wget https://bootstrap.pypa.io/get-pip.py && python3.10 get-pip.py --user)
+    - export PATH=$PATH:~/.local/bin
+    - cd $SERVICE_PATH
+    - pip install -r requirements.txt
+    - pytest
+
+test_frontend:
+  stage: test
+  variables:
+    SERVICE_PATH: "./frontend"
+  tags:
+    - ubuntu-runner
+  script:
+    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+    - source ~/.nvm/nvm.sh
+    - nvm install 18
+    - nvm use 18
+    - cd $SERVICE_PATH
+    - npm cache clean --force
+    - npm ci
+    - npm test
+
+.scan_template: &scan_definition
+  stage: scan
+  tags:
+    - ubuntu-runner
+  script:
+    - trivy image --severity HIGH,CRITICAL --no-progress $SERVICE_NAME:$CI_PIPELINE_ID
+
+.push_template: &push_definition
+  stage: push
+  tags:
+    - ubuntu-runner
+  script:
+    - docker tag $SERVICE_NAME:$CI_PIPELINE_ID $CONTAINER_REGISTRY/$SERVICE_NAME:$CI_PIPELINE_ID
+    - docker push $CONTAINER_REGISTRY/$SERVICE_NAME:$CI_PIPELINE_ID
+
+.deploy_template: &deploy_definition
+  stage: deploy
+  tags:
+    - ubuntu-runner
+  script:
+    - export KUBECONFIG=$KUBECONFIG_DATA
+    - kubectl config set-context --current --namespace=example-namespace-name
+    - cd $CI_PROJECT_DIR/$SERVICE_PATH/k8s
+    - if [ -f config.yml ]; then kubectl apply -f config.yml; fi
+    - if [ -f pv-pvc.yml ]; then kubectl apply -f pv-pvc.yml; fi
+    - if [ -f ingress.yml ]; then kubectl apply -f ingress.yml; fi
+    - sed -i "s|registry/app:tag|$CONTAINER_REGISTRY/$SERVICE_NAME:$CI_PIPELINE_ID|g" deployment.yml
+    - kubectl apply -f deployment.yml
+    - kubectl apply -f service.yml
+
+# Frontend Service
+
+build_frontend:
+  <<: *build_definition
+  variables:
+    SERVICE_NAME: "ee-frontend"
+    SERVICE_PATH: "./frontend"
+
+scan_frontend:
+  <<: *scan_definition
+  variables:
+    SERVICE_NAME: "ee-frontend"
+
+push_frontend:
+  <<: *push_definition
+  variables:
+    SERVICE_NAME: "ee-frontend"
+
+deploy_frontend:
+  <<: *deploy_definition
+  variables:
+    SERVICE_NAME: "ee-frontend"
+    SERVICE_PATH: "./frontend"
+
+# Backend Service
+
+build_backend:
+  <<: *build_definition
+  variables:
+    SERVICE_NAME: "ee-backend"
+    SERVICE_PATH: "./backend"
+
+scan_backend:
+  <<: *scan_definition
+  variables:
+    SERVICE_NAME: "ee-backend"
+
+push_backend:
+  <<: *push_definition
+  variables:
+    SERVICE_NAME: "ee-backend"
+
+deploy_backend:
+  stage: deploy
+  tags:
+    - ubuntu-runner
+  variables:
+    SERVICE_NAME: "ee-backend"
+    SERVICE_PATH: "./backend"
+  script:
+    # Custom script steps for the backend deployment
+    - export KUBECONFIG=$KUBECONFIG_DATA
+    - kubectl config set-context --current --namespace=example-namespace-name
+    - |
+      if kubectl get secret ee-backend-secrets &> /dev/null; then
+        kubectl delete secret ee-backend-secrets
+      fi
+      kubectl create secret generic ee-backend-secrets \
+        --from-literal=OPENAI_API_KEY=$OPENAI_API_KEY \
+        --from-literal=POCKETBASE_ADMIN_EMAIL=$POCKETBASE_ADMIN_EMAIL \
+        --from-literal=POCKETBASE_ADMIN_PASSWORD=$POCKETBASE_ADMIN_PASSWORD
+
+    # Deploy definition steps
+    - cd $CI_PROJECT_DIR/$SERVICE_PATH/k8s
+    - if [ -f config.yml ]; then kubectl apply -f config.yml; fi
+    - if [ -f pv-pvc.yml ]; then kubectl apply -f pv-pvc.yml; fi
+    - if [ -f ingress.yml ]; then kubectl apply -f ingress.yml; fi
+    - sed -i "s|registry/app:tag|$CONTAINER_REGISTRY/$SERVICE_NAME:$CI_PIPELINE_ID|g" deployment.yml
+    - kubectl apply -f deployment.yml
+    - kubectl apply -f service.yml
+
+# Qdrant Service
+
+build_qdrant:
+  <<: *build_definition
+  variables:
+    SERVICE_NAME: "ee-qdrant"
+    SERVICE_PATH: "./qdrant"
+
+scan_qdrant:
+  <<: *scan_definition
+  variables:
+    SERVICE_NAME: "ee-qdrant"
+
+push_qdrant:
+  <<: *push_definition
+  variables:
+    SERVICE_NAME: "ee-qdrant"
+
+deploy_qdrant:
+  <<: *deploy_definition
+  variables:
+    SERVICE_NAME: "ee-qdrant"
+    SERVICE_PATH: "./qdrant"
+
+# Pocketbase Service
+
+build_pocketbase:
+  <<: *build_definition
+  variables:
+    SERVICE_NAME: "ee-pocketbase"
+    SERVICE_PATH: "./pocketbase"
+
+scan_pocketbase:
+  <<: *scan_definition
+  variables:
+    SERVICE_NAME: "ee-pocketbase"
+
+push_pocketbase:
+  <<: *push_definition
+  variables:
+    SERVICE_NAME: "ee-pocketbase"
+
+deploy_pocketbase:
+  stage: deploy
+  tags:
+    - ubuntu-runner
+  variables:
+    SERVICE_NAME: "ee-pocketbase"
+    SERVICE_PATH: "./pocketbase"
+  script:
+    # Custom script steps for the pocketbase deployment
+    - export KUBECONFIG=$KUBECONFIG_DATA
+    - kubectl config set-context --current --namespace=example-namespace-name
+    - |
+      if kubectl get secret ee-pocketbase-secrets &> /dev/null; then
+        kubectl delete secret ee-pocketbase-secrets
+      fi
+      kubectl create secret generic ee-pocketbase-secrets \
+        --from-literal=POCKETBASE_ADMIN_EMAIL=$POCKETBASE_ADMIN_EMAIL \
+        --from-literal=POCKETBASE_ADMIN_PASSWORD=$POCKETBASE_ADMIN_PASSWORD
+
+    # Deploy definition steps
+    - cd $CI_PROJECT_DIR/$SERVICE_PATH/k8s
+    - if [ -f config.yml ]; then kubectl apply -f config.yml; fi
+    - if [ -f pv-pvc.yml ]; then kubectl apply -f pv-pvc.yml; fi
+    - if [ -f ingress.yml ]; then kubectl apply -f ingress.yml; fi
+    - sed -i "s|registry/app:tag|$CONTAINER_REGISTRY/$SERVICE_NAME:$CI_PIPELINE_ID|g" deployment.yml
+    - kubectl apply -f deployment.yml
+    - kubectl apply -f service.yml
+
+# Prometheus Service
+
+build_prometheus:
+  <<: *build_definition
+  variables:
+    SERVICE_NAME: "ee-prometheus"
+    SERVICE_PATH: "./prometheus"
+
+scan_prometheus:
+  <<: *scan_definition
+  variables:
+    SERVICE_NAME: "ee-prometheus"
+
+push_prometheus:
+  <<: *push_definition
+  variables:
+    SERVICE_NAME: "ee-prometheus"
+
+deploy_prometheus:
+  <<: *deploy_definition
+  variables:
+    SERVICE_NAME: "ee-prometheus"
+    SERVICE_PATH: "./prometheus"
+
+# Grafana Service
+
+build_grafana:
+  <<: *build_definition
+  variables:
+    SERVICE_NAME: "ee-grafana"
+    SERVICE_PATH: "./grafana"
+
+scan_grafana:
+  <<: *scan_definition
+  variables:
+    SERVICE_NAME: "ee-grafana"
+
+push_grafana:
+  <<: *push_definition
+  variables:
+    SERVICE_NAME: "ee-grafana"
+
+deploy_grafana:
+  <<: *deploy_definition
+  variables:
+    SERVICE_NAME: "ee-grafana"
+    SERVICE_PATH: "./grafana"

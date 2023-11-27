@@ -1,0 +1,9 @@
+.DS_Store
+.git
+.git*
+.vscode
+.env
+.dockeringnore
+docker-compose.yml
+pb-schema.json
+README.md

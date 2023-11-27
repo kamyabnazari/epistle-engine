@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ee-frontend-config
+data:
+  PUBLIC_POCKETBASE_URL: "http://ee-pocketbase:8090"
+  PUBLIC_BACKEND_URL: "http://ee-backend:5003"
+  PUBLIC_SECURE: "true"
+  PUBLIC_HTTPONLY: "false"
+  PUBLIC_SAMESITE: "None"
+  BODY_SIZE_LIMIT: "0"

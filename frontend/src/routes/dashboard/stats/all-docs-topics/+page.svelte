@@ -3,8 +3,9 @@
 	import { onMount } from 'svelte';
 	// @ts-ignore
 	import { InternSet, hierarchy, pack, range, scaleOrdinal, schemeTableau10 } from 'd3';
-	import { currentUser, pb } from '$lib/pocketbase';
 	import type { Record } from 'pocketbase';
+
+	import { base } from '$app/paths';
 
 	let data: any[] = [];
 	let documentList: Record[] = [];
@@ -47,11 +48,11 @@
 
 	async function fetchDocuments() {
 		try {
-			const response = await pb.collection('documents').getFullList({
-				sort: '-created',
-				filter: `owner='${$currentUser?.id}'`
+			const response = await fetch(`${base}/api/documents`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
 			});
-			documentList = response || [];
+			documentList = (await response.json()) || [];
 
 			const topicCounts: { [key: string]: number } = {}; // New map object to hold topic counts
 
@@ -128,7 +129,7 @@
 <div class="mx-auto flex min-h-full max-w-7xl flex-col gap-8 p-8">
 	<div class="text-center">
 		<div class="text-left">
-			<a href="/dashboard">
+			<a href="{base}/dashboard">
 				<button class="btn btn-link text-primary"
 					><IconClose style="font-size: x-large;" />close</button
 				>
@@ -137,12 +138,6 @@
 		<div class="self-center">
 			<h1 class="mb-8 text-2xl font-bold md:text-3xl">Visualizations</h1>
 			<h2 class="mb-8 text-lg font-bold md:text-2xl">All you Document Topics</h2>
-		</div>
-		<div class="flex flex-row justify-center">
-			<div class="tabs tabs-boxed mb-4">
-				<a href="/dashboard/stats/all-docs-topics" class="tab tab-lg tab-active">Document Topics</a>
-				<a href="/dashboard/stats/all-chunks-topics" class="tab tab-lg">Embeddings Topics</a>
-			</div>
 		</div>
 		{#if isLoading}
 			<div class="flex min-h-full items-center justify-center">

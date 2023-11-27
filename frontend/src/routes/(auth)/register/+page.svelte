@@ -8,6 +8,8 @@
 
 	import IconInfo from '~icons/solar/info-square-outline';
 
+	import { base } from '$app/paths';
+
 	export let data: PageData;
 
 	onMount(() => {
@@ -91,7 +93,7 @@
 								bind:value={$form.passwordConfirm}
 								{...$constraints.passwordConfirm}
 							/>
-							<a href="/login" class="label-text-alt link link-hover">Already an account?</a>
+							<a href="{base}/login" class="label-text-alt link link-hover">Already an account?</a>
 							<div class="form-control mt-6">
 								<button class="btn-primary btn">Register</button>
 							</div>

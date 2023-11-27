@@ -12,3 +12,7 @@ def test_read_api_root():
     response = client.get("/api")
     assert response.status_code == 200
     assert response.json() == {"message": "Welcome to the EE API!"}
+
+def test_read_health():
+    response = client.get("/health")
+    assert response.status_code == 200

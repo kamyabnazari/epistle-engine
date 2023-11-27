@@ -1,6 +1,8 @@
 version: "3.8"
 name: ee-application
 services:
+
+# Pocketbase service
   ee-pocketbase:
     image: ee-pocketbase
     container_name: ee-pocketbase
@@ -13,10 +15,17 @@ services:
     volumes:
       - ./pocketbase/pb_data:/pb_data
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      test: wget --no-verbose --tries=1 --spider http://ee-pocketbase:8090/api/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ee-network
+    env_file:
+      - pocketbase/.env
+
+# Qdrant service
+
   ee-qdrant:
     image: ee-qdrant
     container_name: ee-qdrant
@@ -28,6 +37,65 @@ services:
       - "6333:6333"
     volumes:
       - ./qdrant/qd_data:/qdrant/storage
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://ee-qdrant:6333/healthz || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ee-network
+
+# Backend service
+
+  ee-backend:
+    image: ee-backend
+    container_name: ee-backend
+    restart: unless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - ee-pocketbase
+      - ee-qdrant
+    ports:
+      - "5003:5003"
+    healthcheck:
+      test: wget --no-verbose --tries=1 http://ee-backend:5003/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ee-network
+    env_file:
+      - backend/.env
+
+# Frontend service
+
+  ee-frontend:
+    image: ee-frontend
+    container_name: ee-frontend
+    restart: unless-stopped
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - ee-pocketbase
+      - ee-qdrant
+      - ee-backend
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://ee-frontend:3000/ || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ee-network
+    env_file:
+      - frontend/.env
+
+# Prometheus service
+
   ee-prometheus:
     image: ee-prometheus
     container_name: ee-prometheus
@@ -35,5 +103,44 @@ services:
     build:
       context: ./prometheus
       dockerfile: Dockerfile
+    depends_on:
+      - ee-frontend
+      - ee-backend
     ports:
       - "9090:9090"
+    volumes:
+      - ./prometheus/pm_data:/prometheus
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://ee-prometheus:9090/-/healthy || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ee-network
+
+# Grafana service
+
+  ee-grafana:
+    image: ee-grafana
+    container_name: ee-grafana
+    restart: unless-stopped
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    depends_on:
+      - ee-prometheus
+    ports:
+      - "3050:3000"
+    volumes:
+      - ./grafana/gf_data:/var/lib/grafana
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - ee-network
+
+networks:
+  ee-network:
+    driver: bridge

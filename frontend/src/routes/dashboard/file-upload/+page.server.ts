@@ -3,8 +3,7 @@ import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/public';
 import axios from 'axios';
-import http from 'http';
-import https from 'https';
+import { base } from '$app/paths';
 
 export const actions: Actions = {
 	uploadDocument: async ({ locals, request }) => {
@@ -23,26 +22,25 @@ export const actions: Actions = {
 
 		try {
 			const document = await locals.pb.collection('documents').create(data);
-
 			await axios({
 				url: `${env.PUBLIC_BACKEND_URL}/api/documents/${document.id}/document_post_process/${locals.user.id}`,
 				method: 'post',
 				timeout: 500000,
-				headers: { 'Content-Type': 'application/json' },
-				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
-				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
+				headers: {
+					'Content-Type': 'application/json',
+				},
 			});
 		} catch (err) {
 			console.error(err);
 			throw error(400, 'Something went wrong uploading your document');
 		}
 
-		throw redirect(303, '/dashboard/file-upload/preview');
+		throw redirect(303, `${base}/dashboard/file-upload/preview`);
 	}
 };
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };

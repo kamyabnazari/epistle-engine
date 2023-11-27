@@ -4,6 +4,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { changeEmailSchema } from '$lib/schemas';
 
+import { base } from '$app/paths';
+
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
 		const form = await superValidate(request, changeEmailSchema);
@@ -19,13 +21,13 @@ export const actions: Actions = {
 			throw error(400, 'The Email or Password may be wrong, please try again.');
 		}
 
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 
 	const form = await superValidate(changeEmailSchema);

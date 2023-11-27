@@ -3,9 +3,8 @@ import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { env } from '$env/dynamic/public';
 import axios from 'axios';
-import http from 'http';
-import https from 'https';
 import { pb } from '$lib/pocketbase';
+import { base } from '$app/paths';
 
 export const actions: Actions = {
 	sendNewMessage: async ({ locals, request }) => {
@@ -49,8 +48,6 @@ export const actions: Actions = {
 					message: messageRequested,
 					history: chatHistory
 				},
-				httpAgent: new http.Agent({ family: 4 }), // Force IPv4
-				httpsAgent: new https.Agent({ family: 4 }) // Force IPv4
 			});
 
 			if (response.data.message) {
@@ -72,6 +69,6 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		throw redirect(303, `${base}/login`);
 	}
 };

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ee-pocketbase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ee-pocketbase
+  template:
+    metadata:
+      labels:
+        app: ee-pocketbase
+    spec:
+      containers:
+        - name: ee-pocketbase
+          image: registry/app:tag
+          ports:
+            - containerPort: 8090
+          env:
+            - name: POCKETBASE_ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: ee-pocketbase-secrets
+                  key: POCKETBASE_ADMIN_EMAIL
+            - name: POCKETBASE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ee-pocketbase-secrets
+                  key: POCKETBASE_ADMIN_PASSWORD
+          volumeMounts:
+            - name: pb-storage
+              mountPath: /pb_data
+          resources:
+            limits:
+              cpu: 300m
+              memory: 300Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8090
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8090
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+      volumes:
+        - name: pb-storage
+          persistentVolumeClaim:
+            claimName: ee-pocketbase-pvc

@@ -4,6 +4,8 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
+	import { base } from '$app/paths';
+
 	let documentID: string;
 
 	onMount(async () => {
@@ -11,7 +13,7 @@
 	});
 
 	function goRead() {
-		goto(`/dashboard/file-read/${documentID}`);
+		goto(`${base}/dashboard/file-read/${documentID}`);
 	}
 </script>
 

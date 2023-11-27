@@ -6,11 +6,13 @@
     "system": false,
     "schema": [
       {
+        "system": false,
         "id": "users_name",
         "name": "name",
         "type": "text",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {
           "min": null,
           "max": null,
@@ -18,11 +20,13 @@
         }
       },
       {
+        "system": false,
         "id": "users_avatar",
         "name": "avatar",
         "type": "file",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {
           "maxSelect": 1,
           "maxSize": 5242880,
@@ -62,11 +66,13 @@
     "system": false,
     "schema": [
       {
-        "id": "0a5dyaiq",
+        "system": false,
+        "id": "yjkkops1",
         "name": "owner",
         "type": "relation",
-        "system": false,
         "required": true,
+        "presentable": false,
+        "unique": false,
         "options": {
           "collectionId": "_pb_users_auth_",
           "cascadeDelete": true,
@@ -76,62 +82,77 @@
         }
       },
       {
-        "id": "lj8lims3",
+        "system": false,
+        "id": "k4l8o9oj",
         "name": "total_pages",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       },
       {
-        "id": "0urchsp5",
+        "system": false,
+        "id": "4svvazm6",
         "name": "total_words",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       },
       {
-        "id": "3fefn6tl",
+        "system": false,
+        "id": "favnxlq4",
         "name": "total_documents",
         "type": "number",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {
           "min": null,
-          "max": null
+          "max": null,
+          "noDecimal": false
         }
       },
       {
-        "id": "e50s4gf3",
+        "system": false,
+        "id": "7gk1bp4n",
         "name": "total_uploaded",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       },
       {
-        "id": "pswjgzap",
+        "system": false,
+        "id": "spukvdgi",
         "name": "total_created",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       },
       {
-        "id": "kgxaeib6",
+        "system": false,
+        "id": "szjs7ajm",
         "name": "min_created_date",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       },
       {
-        "id": "nimunns9",
+        "system": false,
+        "id": "okvo8gpu",
         "name": "max_created_date",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       }
     ],
@@ -152,19 +173,23 @@
     "system": false,
     "schema": [
       {
-        "id": "geddz5zg",
+        "system": false,
+        "id": "tofuoviz",
         "name": "total_documents",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       },
       {
-        "id": "cqemk738",
+        "system": false,
+        "id": "sv1yug2r",
         "name": "total_created",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       }
     ],
@@ -185,11 +210,13 @@
     "system": false,
     "schema": [
       {
+        "system": false,
         "id": "wril0oaf",
         "name": "owner",
         "type": "relation",
-        "system": false,
         "required": true,
+        "presentable": false,
+        "unique": false,
         "options": {
           "collectionId": "_pb_users_auth_",
           "cascadeDelete": true,
@@ -199,11 +226,13 @@
         }
       },
       {
+        "system": false,
         "id": "u24kgjzx",
         "name": "name",
         "type": "text",
-        "system": false,
         "required": true,
+        "presentable": false,
+        "unique": false,
         "options": {
           "min": null,
           "max": null,
@@ -211,11 +240,13 @@
         }
       },
       {
+        "system": false,
         "id": "kcapcxkb",
         "name": "document",
         "type": "file",
-        "system": false,
         "required": true,
+        "presentable": false,
+        "unique": false,
         "options": {
           "maxSelect": 1,
           "maxSize": 104857600,
@@ -225,11 +256,13 @@
         }
       },
       {
+        "system": false,
         "id": "r04pmvga",
         "name": "type",
         "type": "select",
-        "system": false,
         "required": true,
+        "presentable": false,
+        "unique": false,
         "options": {
           "maxSelect": 1,
           "values": [
@@ -239,33 +272,41 @@
         }
       },
       {
+        "system": false,
         "id": "xjjs1yqp",
         "name": "page_count",
         "type": "number",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {
           "min": null,
-          "max": null
+          "max": null,
+          "noDecimal": false
         }
       },
       {
+        "system": false,
         "id": "e67iynho",
         "name": "word_count",
         "type": "number",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {
           "min": null,
-          "max": null
+          "max": null,
+          "noDecimal": false
         }
       },
       {
+        "system": false,
         "id": "4xrn6pah",
         "name": "classified_topic",
         "type": "text",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {
           "min": null,
           "max": null,
@@ -273,19 +314,13 @@
         }
       },
       {
-        "id": "qrfkkifz",
-        "name": "classified_doc_chunks_topics",
-        "type": "json",
         "system": false,
-        "required": false,
-        "options": {}
-      },
-      {
         "id": "gfcbrhw1",
         "name": "chat_history",
         "type": "json",
-        "system": false,
         "required": false,
+        "presentable": false,
+        "unique": false,
         "options": {}
       }
     ],

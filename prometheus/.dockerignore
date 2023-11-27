@@ -1,0 +1,10 @@
+.DS_Store
+.git
+.git*
+.vscode
+.env
+.dockeringnore
+docker-compose.yml
+fly.toml
+pb-schema.json
+README.md

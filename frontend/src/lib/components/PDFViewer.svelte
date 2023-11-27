@@ -9,6 +9,8 @@
 	import IconLeftArrow from '~icons/solar/square-arrow-left-outline';
 	import IconRightArrow from '~icons/solar/square-arrow-right-outline';
 
+	import { base } from '$app/paths';
+
 	let pdf: PDFDocumentProxy | null = null;
 	let currentPageNumber = 1;
 	let canvas: HTMLCanvasElement;
@@ -74,8 +76,8 @@
 	};
 
 	const downloadPdf = async () => {
-		if (generatedDocumentURL) {
-			const response = await fetch(generatedDocumentURL);
+		if (document.id) {
+			const response = await fetch(`${base}/api/documents/${document.id}/download`);
 			const blob = await response.blob();
 			const objectURL = window.URL.createObjectURL(blob);
 
@@ -93,18 +95,22 @@
 		return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 	}
 
-	const printPdf = () => {
+	const printPdf = async () => {
 		if (generatedDocumentURL) {
 			if (isSafari()) {
 				downloadPdf();
 			} else {
-				const link = window.document.createElement('a');
-				link.href = generatedDocumentURL;
-				link.target = '_blank';
-				link.rel = 'noopener noreferrer';
-				window.document.body.appendChild(link);
-				link.click();
-				window.document.body.removeChild(link);
+				const response = await fetch(`${base}/api/documents/${document.id}/download`);
+				const blob = await response.blob();
+				const objectURL = window.URL.createObjectURL(blob);
+
+				const downloadLink = window.document.createElement('a');
+				downloadLink.href = objectURL;
+				downloadLink.download = document?.name;
+				window.document.body.appendChild(downloadLink);
+				downloadLink.click();
+				window.document.body.removeChild(downloadLink);
+				window.URL.revokeObjectURL(objectURL);
 			}
 		}
 	};
@@ -119,7 +125,11 @@
 
 		isRendering = true;
 		try {
-			const loadingTask = getDocument(url);
+			const response = await fetch(`${base}/api/documents/${document.id}/download`);
+			const blob = await response.blob();
+			const objectURL = window.URL.createObjectURL(blob);
+
+			const loadingTask = getDocument(objectURL);
 			pdf = await loadingTask.promise;
 
 			await loadPage(currentPageNumber);
