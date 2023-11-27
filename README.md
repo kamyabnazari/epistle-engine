@@ -14,11 +14,6 @@ Also On the Cluster it is set to TRUE. So you can only test it with Chrome/Edge.
 
 for init-pocketbase.sh to run, you need the file to be in LF line endings, so please do not edit the file or open it. If you have the error: init-pocketbase.sh not found, edit the file to have LF line endings and not CRLF!
 
-## Status
-
-Test Backend
-Test Frontend
-
 ## About the Project
 
 Our goal is to revolutionize how people interact with documents. We understand the frustrations of traditional document processing methods, where finding information can be time-consuming. That's why we developed a system that allows users to extract valuable insights, ask questions, and receive instant answers from PDF documents.
