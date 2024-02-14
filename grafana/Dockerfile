@@ -12,7 +12,6 @@ COPY datasources/datasource.yml /etc/grafana/provisioning/datasources/
 COPY dashboards/dashboard.yml /etc/grafana/provisioning/dashboards/
 
 # Copy the dashboard JSON files to the created directory
-COPY dashboards/prometheus-dashboard.json /etc/grafana/provisioning/dashboards/
 COPY dashboards/prometheus-dashboard-ee-k8s.json /etc/grafana/provisioning/dashboards/
 COPY dashboards/prometheus-dashboard-ee-local.json /etc/grafana/provisioning/dashboards/
 
