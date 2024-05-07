@@ -49,7 +49,7 @@
 		"axios": "^1.6.0",
 		"d3": "^7.8.5",
 		"dotenv": "^16.3.1",
-		"pdfjs-dist": "^3.11.174",
+		"pdfjs-dist": "^4.2.67",
 		"pocketbase": "^0.15.2",
 		"prom-client": "^15.0.0"
 	}
